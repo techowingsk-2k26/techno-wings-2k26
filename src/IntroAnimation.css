@@ -1,0 +1,62 @@
+/* ============================================================
+   INTRO ROOT
+============================================================ */
+
+.intro-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+
+  overflow: hidden;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #01040a;
+
+  pointer-events: auto;
+
+  isolation: isolate;
+
+  contain: layout paint size;
+}
+
+/* ============================================================
+   GPU OPTIMIZATION
+============================================================ */
+
+.intro-root *,
+.intro-root svg,
+.intro-root path,
+.intro-root g {
+  backface-visibility: hidden;
+}
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 640px) {
+  .intro-root {
+    height: 100dvh;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-root *,
+  .intro-root *::before,
+  .intro-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
