@@ -382,7 +382,7 @@ export default function Register() {
 
   if (!selectedEvent) {
     return (
-      <main className="relative min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-10 text-[#06152e] md:px-8 md:py-16">
+      <main className="site-scale min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-10 text-[#06152e] md:px-8 md:py-16">
         <AerospaceBackground />
 
         <div className="relative z-10 mx-auto max-w-6xl">
@@ -985,7 +985,7 @@ export default function Register() {
 
   if (result?.success) {
     return (
-      <main className="relative min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-12 text-[#06152e] md:px-8 md:py-20">
+      <main className="site-scale min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-12 text-[#06152e] md:px-8 md:py-20">
         <AerospaceBackground />
 
         <div className="relative z-10 mx-auto max-w-3xl">
@@ -1148,7 +1148,7 @@ export default function Register() {
      ========================================================== */
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-8 text-[#06152e] md:px-8 md:py-12">
+    <main className="site-scale min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-8 text-[#06152e] md:px-8 md:py-12">
       <AerospaceBackground />
 
       <div className="relative z-10 mx-auto max-w-5xl">
@@ -1193,7 +1193,7 @@ export default function Register() {
 
           <div className="mt-5 flex flex-wrap items-center gap-3 text-xs font-bold text-slate-500">
             <span className="rounded-full border border-blue-100 bg-white px-3 py-1.5">
-              14th & 15th October 2026
+              15th & 16th October 2026
             </span>
 
             <span className="rounded-full border border-blue-100 bg-white px-3 py-1.5">

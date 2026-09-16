@@ -1141,7 +1141,7 @@ export default function Events() {
   const allEvents = events;
   
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#f5f9ff] text-[#06152e]">
+    <div className="site-scale min-h-screen overflow-x-hidden bg-[#f5f9ff] text-[#06152e]">
       {/* ================================================= */}
       {/* AEROSPACE BACKGROUND */}
       {/* ================================================= */}
@@ -1337,7 +1337,7 @@ export default function Events() {
                     size={14}
                     className="text-blue-600"
                   />
-                  14th & 15th October 2026
+                  15th & 16th October 2026
                 </div>
 
                 <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-500 shadow-sm">
@@ -1462,15 +1462,12 @@ export default function Events() {
                 </p>
 
                 <p className="mt-4 text-sm font-bold text-cyan-400">
-                  In Collaboration with ADATE Club
+                  Organized By ADATE Club
                 </p>
               </div>
 
               {/* ORGANIZER */}
               <div className="max-w-md">
-                <div className="text-sm font-bold uppercase tracking-widest text-white/70">
-                  Organized By
-                </div>
 
                 <div className="mt-3 flex items-start gap-4">
                   <img

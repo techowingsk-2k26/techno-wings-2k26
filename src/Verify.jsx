@@ -110,7 +110,7 @@ export default function Verify() {
      ========================================================== */
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#f5f9ff] text-[#06152e]">
+    <main className="site-scale min-h-screen overflow-hidden bg-[#f5f9ff] text-[#06152e]">
 
       {/* ======================================================
           AEROSPACE BACKGROUND

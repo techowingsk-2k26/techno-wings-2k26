@@ -92,7 +92,7 @@ function CoordinatorCard({ icon, title, coordinators }) {
 
 export default function Contact() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#f5f9ff] text-[#06152e]">
+    <div className="site-scale min-h-screen overflow-x-hidden bg-[#f5f9ff] text-[#06152e]">
 
       {/* ========================================================= */}
       {/* AEROSPACE BACKGROUND */}
@@ -606,7 +606,7 @@ export default function Contact() {
               </p>
 
               <p className="mt-4 text-sm font-semibold text-cyan-400">
-                In Collaboration with ADATE Club
+                Organized By ADATE Club
               </p>
 
             </div>
@@ -615,9 +615,6 @@ export default function Contact() {
 
             <div className="max-w-md">
 
-              <div className="text-sm font-bold uppercase tracking-widest text-white/70">
-                Organized By
-              </div>
 
               <div className="mt-3 flex items-start gap-4">
 

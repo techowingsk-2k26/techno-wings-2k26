@@ -756,7 +756,7 @@ function App() {
 
   useEffect(() => {
     const target = new Date(
-      "2026-10-14T09:00:00"
+      "2026-10-15T09:00:00"
     ).getTime();
 
     const update = () => {
@@ -856,7 +856,7 @@ function App() {
       )}
 
 
-      <div className="min-h-screen overflow-x-hidden bg-[#f5f9ff] text-[#06152e]">
+      <div className="site-scale min-h-screen overflow-x-hidden bg-[#f5f9ff] text-[#06152e]">
 
         {/* =================================================
             TOP PROGRESS
@@ -1507,6 +1507,7 @@ function App() {
               }}
               className="mx-auto mt-7 max-w-xl rounded-2xl border border-blue-200 bg-white/85 px-5 py-3 shadow-[0_15px_45px_rgba(6,21,46,0.08)] backdrop-blur-md sm:rounded-full"
             >
+
               <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
 
                 <img
@@ -1515,14 +1516,19 @@ function App() {
                   className="h-20 w-auto object-contain sm:h-[68px]"
                 />
 
-                <span className="text-sm font-semibold text-[#415a75] sm:text-base">
-                  In Collaboration with{" "}
-                  <span className="font-black text-blue-700">
-                    ADATE CLUB
+                <div className="text-center sm:text-left">
+
+                  <span className="block text-sm font-semibold text-[#415a75] sm:text-base">
+                    Organized by{" "}
+                    <span className="font-black text-blue-700">
+                      ADATE CLUB
+                    </span>
                   </span>
-                </span>
+
+                </div>
 
               </div>
+
             </motion.div>
 
 
@@ -1537,6 +1543,7 @@ function App() {
               }}
               className="mt-7 flex justify-center"
             >
+
               <div className="flex items-center gap-3 text-lg font-black text-blue-700 sm:text-2xl">
 
                 <CalendarDays
@@ -1544,9 +1551,10 @@ function App() {
                   className="text-cyan-500"
                 />
 
-                14th & 15th October 2026
+                15th & 16th October 2026
 
               </div>
+
             </motion.div>
 
 
@@ -1561,17 +1569,17 @@ function App() {
               }}
               className="mt-6"
             >
+
               <p className="text-xs font-black uppercase tracking-[0.35em] text-[#637b96]">
-                Organized By
+                From the Department of
               </p>
-
               <p className="mt-2 text-lg font-black text-blue-700 sm:text-2xl md:text-3xl">
-                Department of Aeronautical Engineering
+                Aeronautical Engineering
               </p>
-
               <p className="mt-1 text-sm font-medium text-[#506a84] sm:text-base md:text-lg">
                 Annasaheb Dange College of Engineering & Technology
               </p>
+
             </motion.div>
 
 
@@ -1732,6 +1740,7 @@ function App() {
               }}
               className="mx-auto mt-10 flex w-fit flex-col items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-[#7890a9]"
             >
+
               Scroll to explore
 
               <motion.span
@@ -2169,7 +2178,49 @@ function App() {
           </div>
         </section>
 
+        {/* =================================================
+            KEYNOTE TALKS HIGHLIGHT
+        ================================================= */}
 
+        <section className="relative overflow-hidden border-y border-cyan-200/80 bg-gradient-to-r from-cyan-50/70 via-white/90 to-blue-50/70 px-6 py-9 shadow-[0_8px_35px_rgba(37,99,235,0.08)] sm:py-10">
+
+          {/* Subtle aerospace decoration */}
+          <div className="pointer-events-none absolute left-0 top-1/2 h-px w-24 bg-gradient-to-r from-transparent to-cyan-300 opacity-70 sm:w-40" />
+
+          <div className="pointer-events-none absolute right-0 top-1/2 h-px w-24 bg-gradient-to-l from-transparent to-blue-300 opacity-70 sm:w-40" />
+
+          <motion.div
+            {...motionProps}
+            variants={reveal}
+            transition={{
+              duration: 0.7,
+            }}
+            className="relative z-10 mx-auto flex max-w-6xl flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-5"
+          >
+
+            {/* Icon */}
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cyan-300 bg-white text-cyan-600 shadow-[0_0_22px_rgba(6,182,212,0.18)]">
+              <Sparkles size={19} />
+            </div>
+
+            {/* Content */}
+            <div>
+
+              <p className="bg-gradient-to-r from-blue-700 via-cyan-500 to-blue-600 bg-clip-text text-xs font-black uppercase tracking-[0.3em] text-transparent sm:text-sm">
+                Keynote Talks
+              </p>
+
+              <p className="mt-1.5 text-sm font-semibold leading-6 text-[#506a84] sm:text-base">
+                Eminent professionals and industry experts from leading
+                Aerospace & Defence organizations will share their
+                knowledge, experiences and insights during Techno Wings 2K26.
+              </p>
+
+            </div>
+
+          </motion.div>
+
+        </section>
         {/* =================================================
             EVENTS SECTION
         ================================================= */}
@@ -2809,7 +2860,7 @@ function App() {
         ================================================= */}
 
         <section
-          id="sponsors"
+          id="association"
           className="relative overflow-hidden bg-white/80 px-6 py-24"
         >
 
@@ -2824,7 +2875,7 @@ function App() {
             >
 
               <p className="text-xs font-black uppercase tracking-[0.35em] text-cyan-600">
-                Proudly Sponsored By
+                In Association With
               </p>
 
               <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
@@ -3069,7 +3120,7 @@ function App() {
                 </p>
 
                 <p className="mt-4 text-sm font-bold text-cyan-400">
-                  In Collaboration with ADATE Club
+                  Organized by ADATE Club
                 </p>
 
               </div>
@@ -3079,9 +3130,6 @@ function App() {
 
               <div className="max-w-md">
 
-                <div className="text-xs font-black uppercase tracking-[0.2em] text-[#71839a]">
-                  Organized By
-                </div>
 
                 <div className="mt-4 flex items-start gap-4">
 
