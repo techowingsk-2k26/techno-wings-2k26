@@ -1,79 +1,91 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
+  ArrowRight,
   Check,
   CheckCircle2,
   Clipboard,
   CreditCard,
   Lock,
   Send,
+  ShieldCheck,
   User,
   Users,
   XCircle,
+  Sparkles,
 } from "lucide-react";
+import { motion } from "motion/react";
 
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwW0uZ29XSb6vksrZ2DofEmr043FStn1VB8ygRzG6e1V9araV-XHIl8rbGP6cvGt-J4/exec";
+
+/* ============================================================
+   EVENT CONFIGURATION
+   ============================================================ */
 
 const events = {
   "chuck-glider": {
     name: "Chuck Glider",
     teamAllowed: true,
     maxTeamSize: 2,
-    feeIndividual: 100,
-    feeTeam: 200,
+    participationType: "Team",
+    fee: 200,
   },
 
-  "flight-simulator": {
-    name: "RC Simulator",
+  "Flight-simulator": {
+    name: "Flight Simulator",
     teamAllowed: false,
     maxTeamSize: 1,
-    feeIndividual: 100,
-    feeTeam: 100,
+    participationType: "Individual",
+    fee: 100,
   },
 
   "cad-master": {
     name: "CAD Master",
     teamAllowed: false,
     maxTeamSize: 1,
-    feeIndividual: 100,
-    feeTeam: 100,
+    participationType: "Individual",
+    fee: 100,
   },
 
   "water-rocket": {
     name: "Water Rocket",
     teamAllowed: true,
     maxTeamSize: 2,
-    feeIndividual: 100,
-    feeTeam: 200,
+    participationType: "Team",
+    fee: 200,
   },
 
   "paper-presentation": {
     name: "Paper Presentation",
     teamAllowed: true,
     maxTeamSize: 2,
-    feeIndividual: 100,
-    feeTeam: 200,
+    participationType: "Team",
+    fee: 200,
   },
 
   "reasoning-rumble": {
     name: "Reasoning Rumble",
     teamAllowed: true,
     maxTeamSize: 2,
-    feeIndividual: 100,
-    feeTeam: 200,
+    participationType: "Team",
+    fee: 200,
   },
 
   "drone-expo": {
     name: "Drone Expo",
     teamAllowed: true,
-    maxTeamSize: 3,
-    feeIndividual: 0,
-    feeTeam: 0,
+    maxTeamSize: 2,
+    participationType: "Team",
+    fee: 0,
     free: true,
   },
 };
+
+/* ============================================================
+   EMPTY MEMBER
+   ============================================================ */
 
 const emptyMember = {
   fullName: "",
@@ -84,6 +96,35 @@ const emptyMember = {
   year: "",
   rollNumber: "",
 };
+
+/* ============================================================
+   DECORATIVE BACKGROUND
+   ============================================================ */
+
+function AerospaceBackground() {
+  return (
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      <div className="absolute inset-0 bg-[#f5f9ff]" />
+
+      <div className="absolute left-[-180px] top-[10%] h-[420px] w-[420px] rounded-full border border-blue-500/10" />
+      <div className="absolute left-[-130px] top-[15%] h-[320px] w-[320px] rounded-full border border-cyan-400/10" />
+
+      <div className="absolute right-[-180px] top-[45%] h-[500px] w-[500px] rounded-full border border-blue-500/10" />
+      <div className="absolute right-[-120px] top-[51%] h-[380px] w-[380px] rounded-full border border-cyan-400/10" />
+
+      <div className="absolute left-0 top-[28%] h-px w-full bg-gradient-to-r from-transparent via-blue-400/10 to-transparent" />
+      <div className="absolute left-0 top-[70%] h-px w-full bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent" />
+
+      <div className="absolute left-[8%] top-[20%] h-2 w-2 rounded-full bg-cyan-400/30" />
+      <div className="absolute right-[12%] top-[30%] h-1.5 w-1.5 rounded-full bg-blue-500/30" />
+      <div className="absolute left-[18%] bottom-[18%] h-1.5 w-1.5 rounded-full bg-blue-500/20" />
+    </div>
+  );
+}
+
+/* ============================================================
+   INPUT FIELD
+   ============================================================ */
 
 function InputField({
   label,
@@ -99,9 +140,9 @@ function InputField({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-sm font-semibold text-blue-100">
+      <label className="mb-2 block text-sm font-bold text-[#17345f]">
         {label}
-        {required && <span className="text-cyan-400"> *</span>}
+        {required && <span className="ml-1 text-blue-600">*</span>}
       </label>
 
       <input
@@ -114,34 +155,37 @@ function InputField({
         inputMode={inputMode}
         maxLength={maxLength}
         autoComplete={autoComplete}
-        className="w-full rounded-xl border border-blue-300/15 bg-[#07172f] px-4 py-3.5 text-white outline-none transition duration-200 placeholder:text-slate-500 focus:border-cyan-400/60 focus:bg-[#0a1d3d] focus:ring-2 focus:ring-cyan-400/10"
+        className="w-full rounded-xl border border-[#c9d8ec] bg-white px-4 py-3.5 text-[#06152e] outline-none shadow-sm transition duration-200 placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
       />
     </div>
   );
 }
 
-function MemberFields({ number, member, onChange, optional = false }) {
+/* ============================================================
+   MEMBER FIELDS
+   ============================================================ */
+
+function MemberFields({ number, member, onChange }) {
   return (
-    <div className="mt-6 rounded-2xl border border-blue-300/10 bg-[#041126] p-5 md:p-6">
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.4 }}
+      className="mt-6 rounded-2xl border border-blue-100 bg-[#f8fbff] p-5 md:p-6"
+    >
       <div className="mb-5 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-400/10">
-          <User size={19} className="text-cyan-300" />
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600/10">
+          <User size={19} className="text-blue-600" />
         </div>
 
         <div>
-          <h4 className="font-bold text-cyan-300">
+          <h4 className="font-black text-[#06152e]">
             Team Member {String(number).padStart(2, "0")}
-            {optional && (
-              <span className="ml-2 text-xs font-semibold text-slate-500">
-                OPTIONAL
-              </span>
-            )}
           </h4>
 
           <p className="text-xs text-slate-500">
-            {optional
-              ? "Add a third member if your team has one."
-              : "Enter the details of your team member."}
+            Enter the details of your team member.
           </p>
         </div>
       </div>
@@ -153,7 +197,6 @@ function MemberFields({ number, member, onChange, optional = false }) {
           value={member.fullName}
           onChange={onChange}
           placeholder="Enter full name"
-          required={!optional}
         />
 
         <InputField
@@ -163,7 +206,6 @@ function MemberFields({ number, member, onChange, optional = false }) {
           value={member.email}
           onChange={onChange}
           placeholder="Enter email"
-          required={!optional}
         />
 
         <InputField
@@ -175,7 +217,6 @@ function MemberFields({ number, member, onChange, optional = false }) {
           placeholder="10-digit mobile number"
           inputMode="numeric"
           maxLength={10}
-          required={!optional}
         />
 
         <InputField
@@ -184,7 +225,6 @@ function MemberFields({ number, member, onChange, optional = false }) {
           value={member.collegeName}
           onChange={onChange}
           placeholder="Enter college name"
-          required={!optional}
         />
 
         <InputField
@@ -193,7 +233,6 @@ function MemberFields({ number, member, onChange, optional = false }) {
           value={member.department}
           onChange={onChange}
           placeholder="e.g. Aeronautical Engineering"
-          required={!optional}
         />
 
         <InputField
@@ -202,7 +241,6 @@ function MemberFields({ number, member, onChange, optional = false }) {
           value={member.year}
           onChange={onChange}
           placeholder="e.g. 2nd Year"
-          required={!optional}
         />
 
         <InputField
@@ -211,39 +249,71 @@ function MemberFields({ number, member, onChange, optional = false }) {
           value={member.rollNumber}
           onChange={onChange}
           placeholder="Enter Roll No. / PRN"
-          required={!optional}
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
+
+/* ============================================================
+   SECTION HEADER
+   ============================================================ */
 
 function SectionHeader({ number, title, description }) {
   return (
     <div className="mb-7">
       <div className="flex items-center gap-3">
-        <span className="text-sm font-black tracking-widest text-cyan-400">
+        <span className="rounded-lg bg-blue-600/10 px-2.5 py-1 text-xs font-black tracking-widest text-blue-600">
           {number}
         </span>
 
-        <div className="h-px flex-1 bg-gradient-to-r from-cyan-400/20 to-transparent" />
+        <div className="h-px flex-1 bg-gradient-to-r from-blue-200 to-transparent" />
       </div>
 
-      <h2 className="mt-2 text-2xl font-black text-white">{title}</h2>
+      <h2 className="mt-4 text-2xl font-black text-[#06152e] md:text-3xl">
+        {title}
+      </h2>
 
       {description && (
-        <p className="mt-2 text-sm text-slate-400">{description}</p>
+        <p className="mt-2 text-sm leading-6 text-slate-500">
+          {description}
+        </p>
       )}
     </div>
   );
 }
 
+/* ============================================================
+   FORM CARD
+   ============================================================ */
+
+function FormCard({ children, className = "" }) {
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.45 }}
+      className={`rounded-3xl border border-[#dbe6f4] bg-white p-6 shadow-[0_15px_45px_rgba(20,60,120,0.07)] md:p-8 ${className}`}
+    >
+      {children}
+    </motion.section>
+  );
+}
+
+/* ============================================================
+   REGISTER COMPONENT
+   ============================================================ */
+
 export default function Register() {
   const [searchParams] = useSearchParams();
-  const eventSlug = searchParams.get("event");
 
-  const eventKey = searchParams.get("event") || "drone-expo";
+  const eventSlug = searchParams.get("event");
   const selectedEvent = eventSlug ? events[eventSlug] : null;
+
+  /* ==========================================================
+     FORM
+     ========================================================== */
 
   const [form, setForm] = useState({
     fullName: "",
@@ -255,10 +325,16 @@ export default function Register() {
     year: "",
     rollNumber: "",
     city: "",
-    participationType: "Individual",
+
+    participationType:
+      selectedEvent?.participationType || "Individual",
+
     teamName: "",
-    member2: { ...emptyMember },
-    member3: { ...emptyMember },
+
+    member2: {
+      ...emptyMember,
+    },
+
     declarationAccepted: false,
   });
 
@@ -266,101 +342,158 @@ export default function Register() {
   const [result, setResult] = useState(null);
   const [copied, setCopied] = useState(false);
 
-  const fee = useMemo(() => {
-    if (!selectedEvent || selectedEvent.free) return 0;
+  /* ==========================================================
+     AUTOMATIC PARTICIPATION TYPE
+     ========================================================== */
 
-    return form.participationType === "Team"
-      ? selectedEvent.feeTeam
-      : selectedEvent.feeIndividual;
-  }, [selectedEvent, form.participationType]);
+  useEffect(() => {
+    if (!selectedEvent) return;
+
+    setForm((prev) => ({
+      ...prev,
+
+      participationType: selectedEvent.teamAllowed
+        ? "Team"
+        : "Individual",
+
+      teamName: selectedEvent.teamAllowed
+        ? prev.teamName
+        : "",
+
+      member2: selectedEvent.teamAllowed
+        ? prev.member2
+        : { ...emptyMember },
+    }));
+  }, [eventSlug]);
+
+  /* ==========================================================
+     FEE
+     ========================================================== */
+
+  const fee = useMemo(() => {
+    if (!selectedEvent) return 0;
+
+    return selectedEvent.fee || 0;
+  }, [selectedEvent]);
+
+  /* ==========================================================
+     EVENT NOT FOUND
+     ========================================================== */
 
   if (!selectedEvent) {
     return (
-      <div className="min-h-screen bg-[#020817] px-4 py-10 text-white">
-        <div className="mx-auto max-w-5xl">
+      <main className="relative min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-10 text-[#06152e] md:px-8 md:py-16">
+        <AerospaceBackground />
 
-          <div className="mb-10 text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400">
+        <div className="relative z-10 mx-auto max-w-6xl">
+          <Link
+            to="/events"
+            className="mb-10 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition hover:text-blue-600"
+          >
+            <ArrowLeft size={17} />
+            Back to Events
+          </Link>
+
+          <div className="mb-12 text-center">
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-black uppercase tracking-[0.25em] text-blue-600">
+              <Sparkles size={14} />
               Techno Wings 2K26
-            </p>
+            </div>
 
-            <h1 className="mt-3 text-3xl font-black sm:text-5xl">
+            <h1 className="mt-5 text-4xl font-black tracking-tight md:text-6xl">
               Select Your Event
             </h1>
 
-            <p className="mx-auto mt-4 max-w-2xl text-white/60">
+            <p className="mx-auto mt-4 max-w-2xl text-slate-500">
               Choose the event you want to participate in to continue with
               registration.
             </p>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {Object.entries(events).map(([slug, event]) => {
+            {Object.entries(events).map(([slug, event], index) => {
               const isFree = event.free === true;
 
               return (
-                <button
+                <motion.button
                   key={slug}
                   type="button"
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.06,
+                  }}
+                  whileHover={{ y: -6 }}
                   onClick={() => {
                     window.location.href = `/register?event=${slug}`;
                   }}
-                  className="group rounded-3xl border border-white/10 bg-white/[0.04] p-6 text-left transition hover:-translate-y-1 hover:border-cyan-400/40 hover:bg-cyan-400/[0.06]"
+                  className="group rounded-3xl border border-[#dbe6f4] bg-white p-6 text-left shadow-[0_12px_35px_rgba(20,60,120,0.06)] transition hover:border-blue-300 hover:shadow-[0_20px_45px_rgba(20,80,180,0.12)]"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-widest text-cyan-400">
-                        TECHNICAL EVENT
+                      <p className="text-xs font-black uppercase tracking-widest text-blue-600">
+                        Technical Event
                       </p>
 
-                      <h2 className="mt-3 text-xl font-black">
+                      <h2 className="mt-3 text-xl font-black text-[#06152e]">
                         {event.name}
                       </h2>
                     </div>
 
                     <span
-                      className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold ${
+                      className={`shrink-0 rounded-full px-3 py-1 text-xs font-black ${
                         isFree
-                          ? "bg-green-400/10 text-green-300"
-                          : "bg-blue-400/10 text-blue-300"
+                          ? "bg-emerald-50 text-emerald-600"
+                          : "bg-blue-50 text-blue-600"
                       }`}
                     >
-                      {isFree
-                        ? "FREE"
-                        : event.teamAllowed
-                          ? "₹100 / ₹200"
-                          : "₹100"}
+                      {isFree ? "FREE" : `₹${event.fee}`}
                     </span>
                   </div>
 
-                  <div className="mt-5 space-y-2 text-sm text-white/60">
+                  <div className="mt-6 space-y-2 text-sm text-slate-500">
                     <p>
-                      <span className="text-white/80">Participation:</span>{" "}
+                      <span className="font-bold text-[#17345f]">
+                        Participation:
+                      </span>{" "}
                       {event.teamAllowed
-                        ? "Individual / Team"
+                        ? "Team Only"
                         : "Individual Only"}
                     </p>
 
                     <p>
-                      <span className="text-white/80">Team Size:</span>{" "}
-                      {event.maxTeamSize}{" "}
-                      {event.maxTeamSize === 1 ? "Member" : "Members"}
+                      <span className="font-bold text-[#17345f]">
+                        {event.teamAllowed
+                          ? "Team Size:"
+                          : "Participation:"}
+                      </span>{" "}
+                      {event.teamAllowed
+                        ? "Exactly 2 Members"
+                        : "Individual"}
                     </p>
                   </div>
 
-                  <div className="mt-6 text-sm font-bold text-cyan-300">
-                    Select Event →
+                  <div className="mt-7 flex items-center gap-2 text-sm font-black text-blue-600">
+                    Select Event
+                    <ArrowRight
+                      size={16}
+                      className="transition group-hover:translate-x-1"
+                    />
                   </div>
-                </button>
+                </motion.button>
               );
             })}
           </div>
-
         </div>
-      </div>
+      </main>
     );
-}
+  }
 
+  /* ==========================================================
+     MAIN FIELD UPDATE
+     ========================================================== */
 
   function updateMainField(e) {
     const { name, value } = e.target;
@@ -371,8 +504,14 @@ export default function Register() {
     }));
   }
 
+  /* ==========================================================
+     MOBILE UPDATE
+     ========================================================== */
+
   function updateMobileField(e) {
-    const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    const value = e.target.value
+      .replace(/\D/g, "")
+      .slice(0, 10);
 
     setForm((prev) => ({
       ...prev,
@@ -380,15 +519,22 @@ export default function Register() {
     }));
   }
 
+  /* ==========================================================
+     MEMBER UPDATE
+     ========================================================== */
+
   function updateMember(memberName, field, value) {
     let cleanValue = value;
 
     if (field === "mobile") {
-      cleanValue = value.replace(/\D/g, "").slice(0, 10);
+      cleanValue = value
+        .replace(/\D/g, "")
+        .slice(0, 10);
     }
 
     setForm((prev) => ({
       ...prev,
+
       [memberName]: {
         ...prev[memberName],
         [field]: cleanValue,
@@ -396,89 +542,147 @@ export default function Register() {
     }));
   }
 
-  function handleParticipationChange(e) {
-    const value = e.target.value;
-
-    setForm((prev) => ({
-      ...prev,
-      participationType: value,
-      teamName: value === "Individual" ? "" : prev.teamName,
-      member2:
-        value === "Individual" ? { ...emptyMember } : prev.member2,
-      member3:
-        value === "Individual" ? { ...emptyMember } : prev.member3,
-    }));
-  }
+  /* ==========================================================
+     FORM SUBMIT
+     ========================================================== */
 
   async function handleSubmit(e) {
     e.preventDefault();
 
+    /* --------------------------------------------------------
+       DECLARATION
+       -------------------------------------------------------- */
+
     if (!form.declarationAccepted) {
       setResult({
         success: false,
-        message: "Please accept the declaration before submitting.",
+        message:
+          "Please accept the declaration before submitting.",
       });
+
       return;
     }
+
+    /* --------------------------------------------------------
+       MAIN PARTICIPANT MOBILE
+       -------------------------------------------------------- */
 
     if (!/^[6-9][0-9]{9}$/.test(form.mobile)) {
       setResult({
         success: false,
-        message: "Please enter a valid 10-digit mobile number.",
+        message:
+          "Please enter a valid 10-digit mobile number.",
       });
+
       return;
     }
 
-    if (
-      form.participationType === "Team" &&
-      !form.teamName.trim()
-    ) {
-      setResult({
-        success: false,
-        message: "Please enter your team name.",
-      });
-      return;
+    /* --------------------------------------------------------
+       TEAM VALIDATION
+       -------------------------------------------------------- */
+
+    if (selectedEvent.teamAllowed) {
+      if (!form.teamName.trim()) {
+        setResult({
+          success: false,
+          message: "Please enter your team name.",
+        });
+
+        return;
+      }
+
+      if (!form.member2.fullName.trim()) {
+        setResult({
+          success: false,
+          message: "Please enter Member 2 full name.",
+        });
+
+        return;
+      }
+
+      if (!form.member2.email.trim()) {
+        setResult({
+          success: false,
+          message:
+            "Please enter Member 2 email address.",
+        });
+
+        return;
+      }
+
+      if (
+        !/^[6-9][0-9]{9}$/.test(
+          form.member2.mobile
+        )
+      ) {
+        setResult({
+          success: false,
+          message:
+            "Please enter a valid mobile number for Member 2.",
+        });
+
+        return;
+      }
+
+      if (!form.member2.collegeName.trim()) {
+        setResult({
+          success: false,
+          message:
+            "Please enter Member 2 college name.",
+        });
+
+        return;
+      }
+
+      if (!form.member2.department.trim()) {
+        setResult({
+          success: false,
+          message:
+            "Please enter Member 2 department.",
+        });
+
+        return;
+      }
+
+      if (!form.member2.year.trim()) {
+        setResult({
+          success: false,
+          message:
+            "Please enter Member 2 year of study.",
+        });
+
+        return;
+      }
+
+      if (!form.member2.rollNumber.trim()) {
+        setResult({
+          success: false,
+          message:
+            "Please enter Member 2 roll number / PRN.",
+        });
+
+        return;
+      }
     }
 
-    if (
-      form.participationType === "Team" &&
-      !/^[6-9][0-9]{9}$/.test(form.member2.mobile)
-    ) {
-      setResult({
-        success: false,
-        message: "Please enter a valid mobile number for Member 2.",
-      });
-      return;
-    }
-
-    if (
-      form.participationType === "Team" &&
-      selectedEvent.maxTeamSize === 3 &&
-      form.member3.fullName.trim() &&
-      !/^[6-9][0-9]{9}$/.test(form.member3.mobile)
-    ) {
-      setResult({
-        success: false,
-        message: "Please enter a valid mobile number for Member 3.",
-      });
-      return;
-    }
+    /* --------------------------------------------------------
+       START SUBMISSION
+       -------------------------------------------------------- */
 
     setSubmitting(true);
     setResult(null);
 
-    let teamSize = 1;
+    /* --------------------------------------------------------
+       TEAM SIZE
+       -------------------------------------------------------- */
 
-    if (form.participationType === "Team") {
-      teamSize = 2;
+    const teamSize = selectedEvent.teamAllowed
+      ? 2
+      : 1;
 
-      if (
-        selectedEvent.maxTeamSize === 3 &&
-        form.member3.fullName.trim()
-      ) {
-        teamSize = 3;
-      }
-    }
+    /* --------------------------------------------------------
+       PAYLOAD
+       -------------------------------------------------------- */
 
     const payload = {
       fullName: form.fullName,
@@ -492,135 +696,101 @@ export default function Register() {
       city: form.city,
 
       event: selectedEvent.name,
-      participationType: form.participationType,
 
-      teamName:
-        form.participationType === "Team"
-          ? form.teamName
-          : "",
+      participationType: selectedEvent.teamAllowed
+        ? "Team"
+        : "Individual",
+
+      teamName: selectedEvent.teamAllowed
+        ? form.teamName
+        : "",
 
       teamSize,
 
-      member2Name:
-        form.participationType === "Team"
-          ? form.member2.fullName
-          : "",
+      member2Name: selectedEvent.teamAllowed
+        ? form.member2.fullName
+        : "",
 
-      member2Email:
-        form.participationType === "Team"
-          ? form.member2.email
-          : "",
+      member2Email: selectedEvent.teamAllowed
+        ? form.member2.email
+        : "",
 
-      member2Mobile:
-        form.participationType === "Team"
-          ? form.member2.mobile
-          : "",
+      member2Mobile: selectedEvent.teamAllowed
+        ? form.member2.mobile
+        : "",
 
-      member2College:
-        form.participationType === "Team"
-          ? form.member2.collegeName
-          : "",
+      member2College: selectedEvent.teamAllowed
+        ? form.member2.collegeName
+        : "",
 
-      member2Department:
-        form.participationType === "Team"
-          ? form.member2.department
-          : "",
+      member2Department: selectedEvent.teamAllowed
+        ? form.member2.department
+        : "",
 
-      member2Year:
-        form.participationType === "Team"
-          ? form.member2.year
-          : "",
+      member2Year: selectedEvent.teamAllowed
+        ? form.member2.year
+        : "",
 
-      member2RollNumber:
-        form.participationType === "Team"
-          ? form.member2.rollNumber
-          : "",
-
-      member3Name:
-        form.participationType === "Team" &&
-        selectedEvent.maxTeamSize === 3
-          ? form.member3.fullName
-          : "",
-
-      member3Email:
-        form.participationType === "Team" &&
-        selectedEvent.maxTeamSize === 3
-          ? form.member3.email
-          : "",
-
-      member3Mobile:
-        form.participationType === "Team" &&
-        selectedEvent.maxTeamSize === 3
-          ? form.member3.mobile
-          : "",
-
-      member3College:
-        form.participationType === "Team" &&
-        selectedEvent.maxTeamSize === 3
-          ? form.member3.collegeName
-          : "",
-
-      member3Department:
-        form.participationType === "Team" &&
-        selectedEvent.maxTeamSize === 3
-          ? form.member3.department
-          : "",
-
-      member3Year:
-        form.participationType === "Team" &&
-        selectedEvent.maxTeamSize === 3
-          ? form.member3.year
-          : "",
-
-      member3RollNumber:
-        form.participationType === "Team" &&
-        selectedEvent.maxTeamSize === 3
-          ? form.member3.rollNumber
-          : "",
+      member2RollNumber: selectedEvent.teamAllowed
+        ? form.member2.rollNumber
+        : "",
 
       registrationFee: fee,
 
       declarationAccepted:
-        form.declarationAccepted ? "Yes" : "No",
+        form.declarationAccepted
+          ? "Yes"
+          : "No",
     };
 
-    try {
-      // ============================================
-      // STEP 1: CREATE REGISTRATION / RAZORPAY ORDER
-      // ============================================
+    /* ========================================================
+       API REQUEST
+       ======================================================== */
 
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
+    try {
+      /* ------------------------------------------------------
+         STEP 1: CREATE REGISTRATION / RAZORPAY ORDER
+         ------------------------------------------------------ */
+
+      const response = await fetch(
+        GOOGLE_SCRIPT_URL,
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+        }
+      );
 
       const data = await response.json();
 
       if (!data.success) {
         throw new Error(
-          data.message || "Registration failed."
+          data.message ||
+            "Registration failed."
         );
       }
 
-      // ============================================
-      // FREE EVENT
-      // ============================================
+      /* ------------------------------------------------------
+         FREE EVENT
+         ------------------------------------------------------ */
 
       if (!data.paymentRequired) {
         setResult({
           success: true,
-          registrationId: data.registrationId,
-          paymentStatus: data.paymentStatus,
-          registrationStatus: data.registrationStatus,
+          registrationId:
+            data.registrationId,
+          paymentStatus:
+            data.paymentStatus,
+          registrationStatus:
+            data.registrationStatus,
         });
 
         setSubmitting(false);
         return;
       }
 
-      // ============================================
-      // PAID EVENT
-      // ============================================
+      /* ------------------------------------------------------
+         PAID EVENT
+         ------------------------------------------------------ */
 
       if (!window.Razorpay) {
         throw new Error(
@@ -640,7 +810,8 @@ export default function Register() {
         description:
           `${selectedEvent.name} Registration`,
 
-        order_id: data.razorpay.orderId,
+        order_id:
+          data.razorpay.orderId,
 
         prefill: {
           name: form.fullName,
@@ -649,37 +820,54 @@ export default function Register() {
         },
 
         notes: {
-          registration_id: data.registrationId,
+          registration_id:
+            data.registrationId,
+
           event: selectedEvent.name,
+
+          participationType:
+            selectedEvent.teamAllowed
+              ? "Team"
+              : "Individual",
+
+          teamSize: String(teamSize),
         },
 
         theme: {
-          color: "#22d3ee",
+          color: "#2563eb",
         },
 
-        handler: async function (paymentResponse) {
+        /* ----------------------------------------------------
+           PAYMENT SUCCESS
+           ---------------------------------------------------- */
+
+        handler: async function (
+          paymentResponse
+        ) {
           try {
             setSubmitting(true);
 
-            const verifyResponse = await fetch(
-              GOOGLE_SCRIPT_URL,
-              {
-                method: "POST",
+            const verifyResponse =
+              await fetch(
+                GOOGLE_SCRIPT_URL,
+                {
+                  method: "POST",
 
-                body: JSON.stringify({
-                  action: "verifyPayment",
+                  body: JSON.stringify({
+                    action:
+                      "verifyPayment",
 
-                  razorpay_order_id:
-                    paymentResponse.razorpay_order_id,
+                    razorpay_order_id:
+                      paymentResponse.razorpay_order_id,
 
-                  razorpay_payment_id:
-                    paymentResponse.razorpay_payment_id,
+                    razorpay_payment_id:
+                      paymentResponse.razorpay_payment_id,
 
-                  razorpay_signature:
-                    paymentResponse.razorpay_signature,
-                }),
-              }
-            );
+                    razorpay_signature:
+                      paymentResponse.razorpay_signature,
+                  }),
+                }
+              );
 
             const verifyData =
               await verifyResponse.json();
@@ -687,7 +875,7 @@ export default function Register() {
             if (!verifyData.success) {
               throw new Error(
                 verifyData.message ||
-                "Payment verification failed."
+                  "Payment verification failed."
               );
             }
 
@@ -700,7 +888,8 @@ export default function Register() {
 
               paymentStatus: "Paid",
 
-              registrationStatus: "Confirmed",
+              registrationStatus:
+                "Confirmed",
             });
           } catch (error) {
             setResult({
@@ -714,6 +903,10 @@ export default function Register() {
             setSubmitting(false);
           }
         },
+
+        /* ----------------------------------------------------
+           PAYMENT MODAL DISMISS
+           ---------------------------------------------------- */
 
         modal: {
           ondismiss: function () {
@@ -731,6 +924,10 @@ export default function Register() {
 
       const razorpay =
         new window.Razorpay(options);
+
+      /* ------------------------------------------------------
+         PAYMENT FAILED
+         ------------------------------------------------------ */
 
       razorpay.on(
         "payment.failed",
@@ -760,6 +957,10 @@ export default function Register() {
     }
   }
 
+  /* ==========================================================
+     COPY REGISTRATION ID
+     ========================================================== */
+
   async function copyRegistrationId() {
     if (!result?.registrationId) return;
 
@@ -778,57 +979,66 @@ export default function Register() {
     }
   }
 
-  // ============================================
-  // SUCCESS SCREEN
-  // ============================================
+  /* ==========================================================
+     SUCCESS SCREEN
+     ========================================================== */
 
   if (result?.success) {
     return (
-      <main className="relative min-h-screen overflow-hidden bg-[#020817] px-5 py-12 text-white md:px-8 md:py-20">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute left-1/2 top-20 h-80 w-80 -translate-x-1/2 rounded-full bg-cyan-400/10 blur-3xl" />
-        </div>
+      <main className="relative min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-12 text-[#06152e] md:px-8 md:py-20">
+        <AerospaceBackground />
 
-        <div className="relative mx-auto max-w-2xl">
-          <div className="text-center">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-cyan-400/30 bg-cyan-400/10">
+        <div className="relative z-10 mx-auto max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
+            className="text-center"
+          >
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 shadow-lg shadow-emerald-900/5">
               <CheckCircle2
-                size={48}
-                className="text-cyan-300"
+                size={52}
+                className="text-emerald-500"
               />
             </div>
 
-            <p className="mt-7 text-xs font-black uppercase tracking-[0.35em] text-cyan-400">
+            <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-black uppercase tracking-[0.25em] text-emerald-600">
+              <ShieldCheck size={15} />
               Registration Confirmed
-            </p>
+            </div>
 
-            <h1 className="mt-3 text-4xl font-black md:text-5xl">
+            <h1 className="mt-5 text-4xl font-black tracking-tight md:text-6xl">
               You're Officially Registered!
             </h1>
 
-            <p className="mx-auto mt-5 max-w-xl text-slate-400">
+            <p className="mx-auto mt-5 max-w-xl text-slate-500">
               Your registration for{" "}
-              <span className="font-bold text-white">
+              <span className="font-black text-[#06152e]">
                 {selectedEvent.name}
               </span>{" "}
               has been successfully confirmed.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="mt-10 rounded-3xl border border-cyan-400/20 bg-[#07172f] p-6 shadow-2xl shadow-cyan-950/20 md:p-8">
-            <div className="text-center">
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-500">
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.15 }}
+            className="mt-10 overflow-hidden rounded-3xl border border-[#dbe6f4] bg-white shadow-[0_20px_60px_rgba(20,60,120,0.1)]"
+          >
+            <div className="border-b border-blue-100 bg-gradient-to-r from-blue-50 via-white to-cyan-50 p-7 text-center md:p-9">
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-slate-500">
                 Your Registration ID
               </p>
 
-              <p className="mt-4 break-all text-3xl font-black tracking-wider text-cyan-300 md:text-4xl">
+              <p className="mt-4 break-all text-3xl font-black tracking-wider text-blue-600 md:text-4xl">
                 {result.registrationId}
               </p>
 
               <button
                 type="button"
                 onClick={copyRegistrationId}
-                className="mt-5 inline-flex items-center gap-2 rounded-xl border border-cyan-400/20 bg-cyan-400/10 px-4 py-2.5 text-sm font-bold text-cyan-300 transition hover:bg-cyan-400/20"
+                className="mt-5 inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-black text-blue-600 transition hover:bg-blue-100"
               >
                 {copied ? (
                   <>
@@ -844,55 +1054,69 @@ export default function Register() {
               </button>
             </div>
 
-            <div className="my-8 h-px bg-blue-300/10" />
+            <div className="p-6 md:p-8">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="rounded-2xl border border-blue-100 bg-[#f8fbff] p-5">
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Event
+                  </p>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-blue-300/10 bg-[#041126] p-5">
-                <p className="text-xs uppercase tracking-widest text-slate-500">
-                  Event
-                </p>
+                  <p className="mt-2 font-black text-[#06152e]">
+                    {selectedEvent.name}
+                  </p>
+                </div>
 
-                <p className="mt-2 font-bold text-white">
-                  {selectedEvent.name}
-                </p>
-              </div>
+                <div className="rounded-2xl border border-blue-100 bg-[#f8fbff] p-5">
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Participation
+                  </p>
 
-              <div className="rounded-2xl border border-blue-300/10 bg-[#041126] p-5">
-                <p className="text-xs uppercase tracking-widest text-slate-500">
-                  Participation
-                </p>
+                  <p className="mt-2 font-black text-[#06152e]">
+                    {selectedEvent.teamAllowed
+                      ? "Team"
+                      : "Individual"}
+                  </p>
+                </div>
 
-                <p className="mt-2 font-bold text-white">
-                  {form.participationType}
-                </p>
-              </div>
+                <div className="rounded-2xl border border-blue-100 bg-[#f8fbff] p-5">
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Team Size
+                  </p>
 
-              <div className="rounded-2xl border border-blue-300/10 bg-[#041126] p-5">
-                <p className="text-xs uppercase tracking-widest text-slate-500">
-                  Payment
-                </p>
+                  <p className="mt-2 font-black text-[#06152e]">
+                    {selectedEvent.teamAllowed
+                      ? "2 Members"
+                      : "1 Participant"}
+                  </p>
+                </div>
 
-                <p className="mt-2 flex items-center gap-2 font-bold text-cyan-300">
-                  <Check size={17} />
-                  {result.paymentStatus}
-                </p>
-              </div>
+                <div className="rounded-2xl border border-blue-100 bg-[#f8fbff] p-5">
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    Payment
+                  </p>
 
-              <div className="rounded-2xl border border-blue-300/10 bg-[#041126] p-5">
-                <p className="text-xs uppercase tracking-widest text-slate-500">
-                  Status
-                </p>
+                  <p className="mt-2 flex items-center gap-2 font-black text-emerald-600">
+                    <Check size={17} />
+                    {result.paymentStatus}
+                  </p>
+                </div>
 
-                <p className="mt-2 flex items-center gap-2 font-bold text-cyan-300">
-                  <Check size={17} />
-                  {result.registrationStatus}
-                </p>
+                <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 md:col-span-2">
+                  <p className="text-xs font-bold uppercase tracking-widest text-emerald-600/70">
+                    Registration Status
+                  </p>
+
+                  <p className="mt-2 flex items-center gap-2 font-black text-emerald-600">
+                    <CheckCircle2 size={18} />
+                    {result.registrationStatus}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="mt-8 rounded-2xl border border-blue-300/10 bg-[#03112a] p-5 text-center">
-            <p className="text-sm leading-6 text-slate-400">
+          <div className="mt-7 rounded-2xl border border-blue-100 bg-white p-5 text-center shadow-sm">
+            <p className="text-sm leading-6 text-slate-500">
               Please save your Registration ID. You will need it
               to verify your registration later.
             </p>
@@ -901,14 +1125,15 @@ export default function Register() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               to="/verify"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3.5 font-black text-slate-950 transition hover:bg-cyan-300"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 font-black text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700"
             >
               Verify Registration
+              <ArrowRight size={17} />
             </Link>
 
             <Link
               to="/"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-blue-300/15 px-6 py-3.5 font-bold text-white transition hover:border-cyan-400/30 hover:text-cyan-300"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#cbd9eb] bg-white px-6 py-3.5 font-black text-[#17345f] transition hover:-translate-y-0.5 hover:border-blue-300 hover:text-blue-600"
             >
               Back to Home
             </Link>
@@ -918,39 +1143,74 @@ export default function Register() {
     );
   }
 
-  return (
-    <main className="relative min-h-screen overflow-hidden bg-[#020817] px-5 py-8 text-white md:px-8 md:py-12">
-      {/* Background glow */}
-      <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-cyan-400/5 blur-3xl" />
+  /* ==========================================================
+     REGISTRATION FORM
+     ========================================================== */
 
-      <div className="relative mx-auto max-w-5xl">
-        {/* Back */}
+  return (
+    <main className="relative min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-8 text-[#06152e] md:px-8 md:py-12">
+      <AerospaceBackground />
+
+      <div className="relative z-10 mx-auto max-w-5xl">
+        {/* ==================================================
+            BACK
+            ================================================== */}
+
         <Link
           to="/events"
-          className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-400 transition hover:text-cyan-300"
+          className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition hover:text-blue-600"
         >
           <ArrowLeft size={17} />
           Back to Events
         </Link>
 
-        {/* Header */}
-        <header className="mb-10">
-          <p className="text-xs font-black uppercase tracking-[0.35em] text-cyan-400">
-            Techno Wings 2K26
-          </p>
+        {/* ==================================================
+            HEADER
+            ================================================== */}
 
-          <h1 className="mt-3 text-4xl font-black md:text-5xl">
-            Register for Techno Wings 2K26
+        <motion.header
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-10"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-black uppercase tracking-[0.3em] text-blue-600">
+            <Sparkles size={14} />
+            Techno Wings 2K26
+          </div>
+
+          <h1 className="mt-5 text-4xl font-black tracking-tight md:text-6xl">
+            Register for{" "}
+            <span className="text-blue-600">
+              Techno Wings 2K26
+            </span>
           </h1>
 
-          <p className="mt-4 max-w-2xl text-slate-400">
+          <p className="mt-4 max-w-2xl text-base leading-7 text-slate-500">
             Secure your spot and take part in an exciting
-            aerospace challenge.
+            aerospace and technical challenge.
           </p>
-        </header>
 
-        {/* Progress */}
-        <div className="mb-8 overflow-x-auto rounded-2xl border border-blue-300/10 bg-[#03112a]/80 p-4">
+          <div className="mt-5 flex flex-wrap items-center gap-3 text-xs font-bold text-slate-500">
+            <span className="rounded-full border border-blue-100 bg-white px-3 py-1.5">
+              14th & 15th October 2026
+            </span>
+
+            <span className="rounded-full border border-blue-100 bg-white px-3 py-1.5">
+              Aeronautical Engineering
+            </span>
+
+            <span className="rounded-full border border-blue-100 bg-white px-3 py-1.5">
+              ADCET, Ashta
+            </span>
+          </div>
+        </motion.header>
+
+        {/* ==================================================
+            PROGRESS
+            ================================================== */}
+
+        <div className="mb-8 overflow-x-auto rounded-2xl border border-[#dbe6f4] bg-white p-4 shadow-sm">
           <div className="flex min-w-[620px] items-center justify-between">
             {[
               ["01", "Participant"],
@@ -963,46 +1223,53 @@ export default function Register() {
                 className="flex flex-1 items-center"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-cyan-400/30 bg-cyan-400/10 text-xs font-black text-cyan-300">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-xs font-black text-blue-600">
                     {number}
                   </div>
 
-                  <span className="text-sm font-bold text-slate-300">
+                  <span className="text-sm font-bold text-[#17345f]">
                     {title}
                   </span>
                 </div>
 
                 {index < 3 && (
-                  <div className="mx-4 h-px flex-1 bg-blue-300/10" />
+                  <div className="mx-4 h-px flex-1 bg-blue-100" />
                 )}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Selected Event */}
-        <div className="mb-8 overflow-hidden rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-[#07172f] to-[#041126] p-6 md:p-8">
+        {/* ==================================================
+            SELECTED EVENT
+            ================================================== */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-8 overflow-hidden rounded-3xl border border-blue-200 bg-gradient-to-br from-[#06152e] via-[#0b2550] to-[#0b4c72] p-6 text-white shadow-[0_20px_55px_rgba(10,50,110,0.18)] md:p-8"
+        >
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-cyan-400">
+              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-widest text-cyan-300">
+                <Sparkles size={13} />
                 Selected Event
-              </p>
+              </div>
 
-              <h2 className="mt-2 text-3xl font-black">
+              <h2 className="mt-4 text-3xl font-black md:text-4xl">
                 {selectedEvent.name}
               </h2>
 
-              <p className="mt-2 text-sm text-slate-400">
-                {selectedEvent.free
-                  ? "Individual or Team • Up to 3 members"
-                  : selectedEvent.teamAllowed
-                  ? `Individual or Team • Maximum ${selectedEvent.maxTeamSize} members`
+              <p className="mt-2 text-sm text-blue-100/70">
+                {selectedEvent.teamAllowed
+                  ? "Team participation • Exactly 2 members"
                   : "Individual participation only"}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 px-6 py-4 text-center">
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+            <div className="rounded-2xl border border-white/15 bg-white/10 px-7 py-5 text-center backdrop-blur-sm">
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-100/60">
                 Entry Fee
               </p>
 
@@ -1013,15 +1280,33 @@ export default function Register() {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <form onSubmit={handleSubmit} className="space-y-7">
-          {/* Participant Details */}
-          <section className="rounded-3xl border border-blue-300/10 bg-[#03112a]/80 p-6 md:p-8">
+        {/* ==================================================
+            FORM
+            ================================================== */}
+
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-7"
+        >
+          {/* ==================================================
+              PARTICIPANT / MEMBER 1
+              ================================================== */}
+
+          <FormCard>
             <SectionHeader
               number="01"
-              title="Participant Details"
-              description="Enter your personal and academic information."
+              title={
+                selectedEvent.teamAllowed
+                  ? "Team Member 01"
+                  : "Participant Details"
+              }
+              description={
+                selectedEvent.teamAllowed
+                  ? "Enter the details of the first team member."
+                  : "Enter your personal and academic information."
+              }
             />
 
             <div className="grid gap-5 md:grid-cols-2">
@@ -1044,10 +1329,13 @@ export default function Register() {
                 autoComplete="email"
               />
 
+              {/* Mobile */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-blue-100">
+                <label className="mb-2 block text-sm font-bold text-[#17345f]">
                   Mobile Number
-                  <span className="text-cyan-400"> *</span>
+                  <span className="ml-1 text-blue-600">
+                    *
+                  </span>
                 </label>
 
                 <input
@@ -1060,13 +1348,17 @@ export default function Register() {
                   maxLength={10}
                   pattern="[6-9][0-9]{9}"
                   placeholder="10-digit mobile number"
-                  className="w-full rounded-xl border border-blue-300/15 bg-[#07172f] px-4 py-3.5 text-white outline-none transition duration-200 placeholder:text-slate-500 focus:border-cyan-400/60 focus:bg-[#0a1d3d] focus:ring-2 focus:ring-cyan-400/10"
+                  className="w-full rounded-xl border border-[#c9d8ec] bg-white px-4 py-3.5 text-[#06152e] outline-none shadow-sm transition duration-200 placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                 />
               </div>
 
+              {/* Gender */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-blue-100">
-                  Gender <span className="text-cyan-400">*</span>
+                <label className="mb-2 block text-sm font-bold text-[#17345f]">
+                  Gender
+                  <span className="ml-1 text-blue-600">
+                    *
+                  </span>
                 </label>
 
                 <select
@@ -1074,12 +1366,23 @@ export default function Register() {
                   value={form.gender}
                   onChange={updateMainField}
                   required
-                  className="w-full rounded-xl border border-blue-300/15 bg-[#07172f] px-4 py-3.5 text-white outline-none transition focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/10"
+                  className="w-full rounded-xl border border-[#c9d8ec] bg-white px-4 py-3.5 text-[#06152e] outline-none shadow-sm transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                 >
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
+                  <option value="">
+                    Select Gender
+                  </option>
+
+                  <option value="Male">
+                    Male
+                  </option>
+
+                  <option value="Female">
+                    Female
+                  </option>
+
+                  <option value="Other">
+                    Other
+                  </option>
                 </select>
               </div>
 
@@ -1123,177 +1426,74 @@ export default function Register() {
                 placeholder="Enter city"
               />
             </div>
-          </section>
+          </FormCard>
 
-          {/* Participation */}
-          <section className="rounded-3xl border border-blue-300/10 bg-[#03112a]/80 p-6 md:p-8">
+          {/* ==================================================
+              PARTICIPATION
+              ================================================== */}
+
+          <FormCard>
             <SectionHeader
               number="02"
               title="Participation"
-              description="Choose how you want to participate in this event."
+              description={
+                selectedEvent.teamAllowed
+                  ? "This event requires a team of exactly 2 members."
+                  : "This event is for individual participants only."
+              }
             />
 
-            {selectedEvent.teamAllowed ? (
-              <div className="grid gap-4 md:grid-cols-2">
-                {/* Individual */}
-                <label
-                  className={`group cursor-pointer rounded-2xl border p-6 transition duration-200 ${
-                    form.participationType === "Individual"
-                      ? "border-cyan-400/60 bg-cyan-400/10 shadow-lg shadow-cyan-950/20"
-                      : "border-blue-300/10 bg-[#07172f] hover:border-cyan-400/30"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="participationType"
-                    value="Individual"
-                    checked={
-                      form.participationType === "Individual"
-                    }
-                    onChange={handleParticipationChange}
-                    className="sr-only"
-                  />
-
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-4">
-                      <div
-                        className={`flex h-12 w-12 items-center justify-center rounded-xl ${
-                          form.participationType === "Individual"
-                            ? "bg-cyan-400/20"
-                            : "bg-blue-300/5"
-                        }`}
-                      >
-                        <User
-                          size={23}
-                          className={
-                            form.participationType === "Individual"
-                              ? "text-cyan-300"
-                              : "text-slate-400"
-                          }
-                        />
-                      </div>
-
-                      <div>
-                        <p className="font-black">
-                          Individual
-                        </p>
-
-                        <p className="mt-1 text-sm text-slate-400">
-                          Participate independently
-                        </p>
-                      </div>
-                    </div>
-
-                    {form.participationType === "Individual" && (
-                      <Check
-                        size={20}
-                        className="text-cyan-300"
-                      />
-                    )}
-                  </div>
-
-                  <p className="mt-6 text-xl font-black text-cyan-300">
-                    {selectedEvent.free
-                      ? "FREE"
-                      : `₹${selectedEvent.feeIndividual}`}
-                  </p>
-                </label>
-
-                {/* Team */}
-                <label
-                  className={`group cursor-pointer rounded-2xl border p-6 transition duration-200 ${
-                    form.participationType === "Team"
-                      ? "border-cyan-400/60 bg-cyan-400/10 shadow-lg shadow-cyan-950/20"
-                      : "border-blue-300/10 bg-[#07172f] hover:border-cyan-400/30"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="participationType"
-                    value="Team"
-                    checked={
-                      form.participationType === "Team"
-                    }
-                    onChange={handleParticipationChange}
-                    className="sr-only"
-                  />
-
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-4">
-                      <div
-                        className={`flex h-12 w-12 items-center justify-center rounded-xl ${
-                          form.participationType === "Team"
-                            ? "bg-cyan-400/20"
-                            : "bg-blue-300/5"
-                        }`}
-                      >
-                        <Users
-                          size={23}
-                          className={
-                            form.participationType === "Team"
-                              ? "text-cyan-300"
-                              : "text-slate-400"
-                          }
-                        />
-                      </div>
-
-                      <div>
-                        <p className="font-black">
-                          Team
-                        </p>
-
-                        <p className="mt-1 text-sm text-slate-400">
-                          Compete together
-                        </p>
-                      </div>
-                    </div>
-
-                    {form.participationType === "Team" && (
-                      <Check
-                        size={20}
-                        className="text-cyan-300"
-                      />
-                    )}
-                  </div>
-
-                  <p className="mt-6 text-xl font-black text-cyan-300">
-                    {selectedEvent.free
-                      ? "FREE"
-                      : `₹${selectedEvent.feeTeam}`}
-                  </p>
-                </label>
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan-400/10">
+            {/* AUTOMATIC PARTICIPATION */}
+            <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50 p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600/10">
+                  {selectedEvent.teamAllowed ? (
+                    <Users
+                      size={23}
+                      className="text-blue-600"
+                    />
+                  ) : (
                     <User
                       size={23}
-                      className="text-cyan-300"
+                      className="text-blue-600"
                     />
+                  )}
+                </div>
+
+                <div className="flex-1">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="font-black text-[#06152e]">
+                        {selectedEvent.teamAllowed
+                          ? "Team Participation"
+                          : "Individual Participation"}
+                      </p>
+
+                      <p className="mt-1 text-sm leading-6 text-slate-500">
+                        {selectedEvent.teamAllowed
+                          ? "This event requires exactly 2 members."
+                          : "You are registering individually for this event."}
+                      </p>
+                    </div>
+
+                    <span className="inline-flex w-fit rounded-full border border-blue-200 bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-blue-600">
+                      {selectedEvent.teamAllowed
+                        ? "TEAM"
+                        : "INDIVIDUAL"}
+                    </span>
                   </div>
 
-                  <div>
-                    <p className="font-black">
-                      Individual Participation Only
-                    </p>
-
-                    <p className="mt-1 text-sm leading-6 text-slate-400">
-                      This event is available only for individual
-                      participants.
-                    </p>
-
-                    <p className="mt-3 font-black text-cyan-300">
-                      {selectedEvent.free
-                        ? "FREE ENTRY"
-                        : `₹${selectedEvent.feeIndividual}`}
-                    </p>
-                  </div>
+                  <p className="mt-4 font-black text-blue-600">
+                    {selectedEvent.free
+                      ? "FREE ENTRY"
+                      : `₹${fee}`}
+                  </p>
                 </div>
               </div>
-            )}
+            </div>
 
-            {form.participationType === "Team" && (
+            {/* TEAM FIELDS */}
+            {selectedEvent.teamAllowed && (
               <div className="mt-7">
                 <InputField
                   label="Team Name"
@@ -1301,11 +1501,12 @@ export default function Register() {
                   value={form.teamName}
                   onChange={updateMainField}
                   placeholder="Enter your team name"
+                  required
                 />
 
-                <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">
+                <div className="mt-3 flex items-center gap-2 text-xs font-semibold text-slate-500">
                   <Users size={14} />
-                  Maximum {selectedEvent.maxTeamSize} members
+                  Exactly 2 members required
                 </div>
 
                 <MemberFields
@@ -1319,27 +1520,15 @@ export default function Register() {
                     )
                   }
                 />
-
-                {selectedEvent.maxTeamSize === 3 && (
-                  <MemberFields
-                    number={3}
-                    member={form.member3}
-                    optional
-                    onChange={(e) =>
-                      updateMember(
-                        "member3",
-                        e.target.name,
-                        e.target.value
-                      )
-                    }
-                  />
-                )}
               </div>
             )}
-          </section>
+          </FormCard>
 
-          {/* Payment */}
-          <section className="rounded-3xl border border-blue-300/10 bg-[#03112a]/80 p-6 md:p-8">
+          {/* ==================================================
+              PAYMENT
+              ================================================== */}
+
+          <FormCard>
             <SectionHeader
               number="03"
               title="Payment"
@@ -1350,53 +1539,66 @@ export default function Register() {
               }
             />
 
-            <div className="overflow-hidden rounded-2xl border border-blue-300/10 bg-[#07172f]">
+            <div className="overflow-hidden rounded-2xl border border-blue-100 bg-[#f8fbff]">
               <div className="flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600/10">
                     <CreditCard
                       size={23}
-                      className="text-cyan-300"
+                      className="text-blue-600"
                     />
                   </div>
 
                   <div>
-                    <p className="font-black">
+                    <p className="font-black text-[#06152e]">
                       Registration Fee
                     </p>
 
-                    <p className="mt-1 text-sm text-slate-400">
+                    <p className="mt-1 text-sm text-slate-500">
                       {selectedEvent.name} •{" "}
-                      {form.participationType}
+                      {selectedEvent.teamAllowed
+                        ? "Team"
+                        : "Individual"}
                     </p>
                   </div>
                 </div>
 
-                <p className="text-3xl font-black text-cyan-300">
-                  {fee === 0 ? "FREE" : `₹${fee}`}
+                <p className="text-3xl font-black text-blue-600">
+                  {fee === 0
+                    ? "FREE"
+                    : `₹${fee}`}
                 </p>
               </div>
 
-              <div className="border-t border-blue-300/10 bg-[#041126] px-6 py-4">
-                <div className="flex items-center gap-2 text-xs text-slate-500">
+              <div className="border-t border-blue-100 bg-white px-6 py-4">
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
                   {selectedEvent.free ? (
                     <>
-                      <Check size={14} className="text-cyan-400" />
+                      <Check
+                        size={14}
+                        className="text-emerald-500"
+                      />
                       No payment required
                     </>
                   ) : (
                     <>
-                      <Lock size={14} className="text-cyan-400" />
+                      <Lock
+                        size={14}
+                        className="text-blue-600"
+                      />
                       Secure payment powered by Razorpay
                     </>
                   )}
                 </div>
               </div>
             </div>
-          </section>
+          </FormCard>
 
-          {/* Declaration */}
-          <section className="rounded-3xl border border-blue-300/10 bg-[#03112a]/80 p-6 md:p-8">
+          {/* ==================================================
+              DECLARATION
+              ================================================== */}
+
+          <FormCard>
             <SectionHeader
               number="04"
               title="Declaration"
@@ -1406,61 +1608,84 @@ export default function Register() {
             <label
               className={`flex cursor-pointer gap-4 rounded-2xl border p-5 transition ${
                 form.declarationAccepted
-                  ? "border-cyan-400/30 bg-cyan-400/5"
-                  : "border-blue-300/10 bg-[#07172f]"
+                  ? "border-blue-300 bg-blue-50"
+                  : "border-blue-100 bg-[#f8fbff]"
               }`}
             >
               <input
                 type="checkbox"
-                checked={form.declarationAccepted}
+                checked={
+                  form.declarationAccepted
+                }
                 onChange={(e) =>
                   setForm((prev) => ({
                     ...prev,
+
                     declarationAccepted:
                       e.target.checked,
                   }))
                 }
-                className="mt-1 h-5 w-5 shrink-0 accent-cyan-400"
+                className="mt-1 h-5 w-5 shrink-0 accent-blue-600"
               />
 
-              <span className="text-sm leading-6 text-slate-300">
+              <span className="text-sm leading-6 text-slate-600">
                 I confirm that all the information provided by me
                 is correct and complete, and I agree to follow the
                 rules and regulations of Techno Wings 2K26.
               </span>
             </label>
-          </section>
+          </FormCard>
 
-          {/* Error */}
+          {/* ==================================================
+              ERROR
+              ================================================== */}
+
           {result?.success === false && (
-            <div className="flex items-start gap-3 rounded-2xl border border-red-400/20 bg-red-400/10 p-5 text-red-300">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-5 text-red-600"
+            >
               <XCircle
                 size={21}
                 className="mt-0.5 shrink-0"
               />
 
               <div>
-                <p className="font-bold">
+                <p className="font-black">
                   Unable to complete registration
                 </p>
 
-                <p className="mt-1 text-sm leading-6 text-red-200/70">
+                <p className="mt-1 text-sm leading-6 text-red-500/80">
                   {result.message}
                 </p>
               </div>
-            </div>
+            </motion.div>
           )}
 
-          {/* Submit */}
-          <div className="pb-6">
-            <button
+          {/* ==================================================
+              SUBMIT
+              ================================================== */}
+
+          <div className="pb-8">
+            <motion.button
               type="submit"
               disabled={submitting}
-              className="flex w-full items-center justify-center gap-3 rounded-2xl bg-cyan-400 px-6 py-4 text-lg font-black text-slate-950 shadow-lg shadow-cyan-950/20 transition duration-200 hover:bg-cyan-300 hover:shadow-cyan-950/30 disabled:cursor-not-allowed disabled:opacity-60"
+              whileHover={
+                !submitting
+                  ? { y: -2, scale: 1.005 }
+                  : {}
+              }
+              whileTap={
+                !submitting
+                  ? { scale: 0.995 }
+                  : {}
+              }
+              className="flex w-full items-center justify-center gap-3 rounded-2xl bg-blue-600 px-6 py-4 text-lg font-black text-white shadow-xl shadow-blue-600/20 transition duration-200 hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {submitting ? (
                 <>
-                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-slate-950/30 border-t-slate-950" />
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                   Processing...
                 </>
               ) : selectedEvent.free ? (
@@ -1474,13 +1699,18 @@ export default function Register() {
                   <Lock size={18} />
                 </>
               )}
-            </button>
+            </motion.button>
 
-            <p className="mt-4 text-center text-xs text-slate-500">
+            <div className="mt-4 flex items-center justify-center gap-2 text-xs font-semibold text-slate-500">
+              <ShieldCheck
+                size={14}
+                className="text-blue-600"
+              />
+
               {selectedEvent.free
                 ? "Your registration will be confirmed immediately."
                 : "You will be redirected to Razorpay's secure checkout."}
-            </p>
+            </div>
           </div>
         </form>
       </div>

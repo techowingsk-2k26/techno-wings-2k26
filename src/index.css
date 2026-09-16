@@ -1,13 +1,25 @@
 @import "tailwindcss";
 
+/* =========================================================
+   TECHNO WINGS 2K26 — GLOBAL THEME
+   ========================================================= */
+
 :root {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+
   color: #ffffff;
   background: #020817;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* =========================================================
+   GLOBAL RESET
+   ========================================================= */
 
 * {
   box-sizing: border-box;
@@ -15,15 +27,287 @@
 
 html {
   scroll-behavior: smooth;
+  background: #020817;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  min-height: 100vh;
   background: #020817;
+  overflow-x: hidden;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 button,
 a {
-  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  background: rgba(37, 99, 235, 0.35);
+  color: #ffffff;
+}
+
+/* =========================================================
+   SCROLLBAR — DARK AEROSPACE STYLE
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020817;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    #2563eb,
+    #06b6d4
+  );
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    to bottom,
+    #3b82f6,
+    #22d3ee
+  );
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #020817;
+}
+
+/* =========================================================
+   GLOBAL PAGE TRANSITIONS
+   ========================================================= */
+
+a {
+  transition:
+    color 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+button {
+  transition:
+    color 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    opacity 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+/* =========================================================
+   AEROSPACE BACKGROUND ATMOSPHERE
+   ========================================================= */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(37, 99, 235, 0.07),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(6, 182, 212, 0.055),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 50% 90%,
+      rgba(59, 130, 246, 0.045),
+      transparent 32%
+    );
+
+  opacity: 1;
+}
+
+/* =========================================================
+   SUBTLE TECH GRID
+   ========================================================= */
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(59, 130, 246, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(59, 130, 246, 0.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 80px 80px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 90%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 90%
+  );
+}
+
+/* =========================================================
+   CONTENT LAYER
+   Keeps website content above global atmosphere
+   ========================================================= */
+
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* =========================================================
+   GLASS / HUD EFFECTS
+   ========================================================= */
+
+.tw-glass {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(96, 165, 250, 0.14);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.tw-glass-light {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* =========================================================
+   AEROSPACE GLOW UTILITIES
+   ========================================================= */
+
+.tw-blue-glow {
+  box-shadow:
+    0 0 25px rgba(37, 99, 235, 0.18),
+    0 0 60px rgba(6, 182, 212, 0.07);
+}
+
+.tw-text-glow {
+  text-shadow:
+    0 0 18px rgba(59, 130, 246, 0.35),
+    0 0 40px rgba(6, 182, 212, 0.12);
+}
+
+/* =========================================================
+   FOCUS STATES
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   INPUT PLACEHOLDER
+   ========================================================= */
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(100, 116, 139, 0.75);
+}
+
+/* =========================================================
+   NUMBER / COUNTER SMOOTHNESS
+   ========================================================= */
+
+.tw-counter {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* =========================================================
+   PREVENT ACCIDENTAL HORIZONTAL OVERFLOW
+   ========================================================= */
+
+section,
+header,
+footer,
+main {
+  max-width: 100%;
+}
+
+/* =========================================================
+   REDUCED MOTION — ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
+   MOBILE OPTIMIZATION
+   ========================================================= */
+
+@media (max-width: 640px) {
+  body::after {
+    background-size: 55px 55px;
+    opacity: 0.7;
+  }
+
+  body::before {
+    opacity: 0.8;
+  }
 }

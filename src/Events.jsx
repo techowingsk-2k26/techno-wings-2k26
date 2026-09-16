@@ -8,6 +8,12 @@ import {
   Sparkles,
   Users,
   X,
+  Trophy,
+  ShieldCheck,
+  Cpu,
+  Target,
+  FileText,
+  Rocket,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -19,6 +25,7 @@ import cadMasterImage from "./assets/cad-master.jpg";
 import waterRocketImage from "./assets/water-rocket.jpg";
 import paperPresentationImage from "./assets/paper-presentation.jpg";
 import reasoningRumbleImage from "./assets/reasoning-rumble.jpg";
+import collegeLogo from "./assets/college-logo.png";
 
 // =====================================================
 // EVENTS DATA
@@ -35,8 +42,8 @@ const events = [
     image: droneExpoImage,
     slug: "drone-expo",
 
-    participation: "Individual or Team",
-    teamSize: "Up to 3 Members",
+    participation: "Team Only",
+    teamSize: "Exactly 2 Members",
     registrationFee: "FREE ENTRY",
     prizePool: "Not Applicable",
 
@@ -45,6 +52,8 @@ const events = [
 
     studentCoordinator: "Prathmesh Patil",
     studentPhone: "+91 84849 84499",
+
+    rules: null,
   },
 
   {
@@ -57,38 +66,93 @@ const events = [
     image: chuckGliderImage,
     slug: "chuck-glider",
 
-    participation: "Individual or Team",
-    teamSize: "Up to 2 Members",
-    registrationFee: "₹100 Individual / ₹200 Team",
-    prizePool: "₹10,000/-",
+    participation: "Team Only",
+    teamSize: "Exactly 2 Members",
+    registrationFee: "₹200 Per Team",
+    prizePool: "₹6,000/-",
 
     facultyCoordinator: "Dr. Sendhil Kumar S",
     facultyPhone: "+91 94861 72845",
 
     studentCoordinator: "Chanchal Shelar",
     studentPhone: "+91 70570 04239",
+
+    rules: {
+      registration: [
+        "Each team must have exactly 2 members and both members must be registered.",
+        "Only registered teams may participate and participants must report on time.",
+      ],
+
+      competition: [
+        "The event includes a glider-making workshop followed by a flying competition.",
+        "Gliders must be non-powered, hand-launched chuck gliders made using thermocol and permitted materials.",
+        "Motors, batteries, propellers, rubber bands and external launching devices are not allowed.",
+        "Each team gets 3 attempts; the best valid flight distance will be considered.",
+        "Distance is measured from the launch line to the point where the glider first touches the ground.",
+      ],
+
+      disqualification: [
+        "Use of prohibited materials, propulsion or launching aids may result in disqualification.",
+        "Cheating, interference, unsafe behavior or disobeying officials may result in disqualification.",
+      ],
+
+      conduct: [
+        "Only the team whose turn it is may enter the flying area.",
+        "Repairs or modifications are allowed only in the designated area.",
+        "Judges' and organizers' decisions are final.",
+      ],
+    },
   },
 
   {
-    title: "RC Simulator",
+    title: "Flight Simulator",
     description:
       "Experience aviation through an immersive flight simulation challenge.",
     icon: "◈",
     category: "Aerospace Challenges",
     categoryKey: "aerospace",
     image: simulatorImage,
-    slug: "flight-simulator",
+    slug: "Flight-simulator",
 
     participation: "Individual Only",
     teamSize: "Individual",
     registrationFee: "₹100",
-    prizePool: "₹10,000/-",
+    prizePool: "₹6,000/-",
 
     facultyCoordinator: "Mr. Mohammed Hashim Y.",
     facultyPhone: "+91 90612 93705",
 
-    studentCoordinator: "Om Jadhav",
-    studentPhone: "+91 79720 75476",
+    studentCoordinator: "Samarth Lomate",
+    studentPhone: "+91 9022161641",
+
+    rules: {
+      familiarization: [
+        "Each participant gets 2 minutes of familiarization before the competition.",
+        "The coordinator will explain basic controller operation, take-off and flight control.",
+        "Familiarization time is not included in the competition time or score.",
+      ],
+
+      round1: [
+        "Round 1: Basic Flight — 3 minutes, Ground View.",
+        "Complete controlled take-off → flight/basic maneuvers → safe runway landing.",
+        "Only a landing on the designated runway counts as valid.",
+        "A crash, loss of control or significant aircraft damage makes the flight cycle invalid.",
+        "Complete the maximum possible valid flight cycles; each valid cycle earns 1 point.",
+        "Highest-scoring participants qualify for Round 2.",
+      ],
+
+      round2: [
+        "Round 2: Cockpit View & Aerobatics — 3 minutes.",
+        "Complete take-off → required aerobatic maneuver(s), such as loops/rolls → runway landing.",
+        "A cycle is invalid if the aircraft lands outside the runway, crashes, is significantly damaged or the required maneuver is not completed.",
+        "Each valid cycle earns 1 point; the participant with the highest score wins.",
+      ],
+
+      tiebreaker: [
+        "In case of a tie, a tie-breaker flight will be conducted.",
+        "The tie-breaker conditions and task will be decided by the event coordinator.",
+      ],
+    },
   },
 
   {
@@ -104,13 +168,45 @@ const events = [
     participation: "Individual Only",
     teamSize: "Individual",
     registrationFee: "₹100",
-    prizePool: "₹10,000/-",
+    prizePool: "₹6,000/-",
 
     facultyCoordinator: "Mr. Arun Nema",
     facultyPhone: "+91 70222 97404",
 
     studentCoordinator: "Mandar Ghodake",
     studentPhone: "+91 96995 32950",
+
+    rules: {
+      registration: [
+        "Registration must be completed before the deadline. Late entries will not be accepted.",
+        "CAD Master is an individual participation event.",
+        "Participants must mention their CAD software during registration.",
+      ],
+
+      design: [
+        "The design must be created live during the competition. Pre-existing models, templates or downloaded components are not allowed unless provided by the organizers.",
+        "Only the approved or provided CAD software and systems may be used.",
+        "Internet access is strictly prohibited during the active designing round.",
+        "Final submission must include the CAD part/assembly files and a 2D drafting sheet in PDF format with necessary views and dimensions.",
+        "Rendering should be provided only if specifically required by the organizers.",
+      ],
+
+      disqualification: [
+        "Use of pre-built models, external files, copying or unauthorized design resources may lead to disqualification.",
+        "Use of unauthorized websites, communication or outside assistance is prohibited.",
+        "Taking design assistance from another participant or person is not allowed.",
+        "Late or incomplete submission may result in disqualification.",
+        "Inappropriate or disrespectful behavior may lead to disqualification.",
+      ],
+
+      conduct: [
+        "Participants must carry a valid institute ID.",
+        "Mobile phones must be switched off or kept silent and away from the workspace during the competition.",
+        "Report any technical issue to the coordinator immediately.",
+        "Participants must follow all instructions given by the coordinator and judges.",
+        "The decision of the organizing committee and judges will be final.",
+      ],
+    },
   },
 
   {
@@ -123,16 +219,56 @@ const events = [
     image: waterRocketImage,
     slug: "water-rocket",
 
-    participation: "Individual or Team",
-    teamSize: "Up to 2 Members",
-    registrationFee: "₹100 Individual / ₹200 Team",
-    prizePool: "₹10,000/-",
+    participation: "Team Only",
+    teamSize: "Exactly 2 Members",
+    registrationFee: "₹200 Per Team",
+    prizePool: "₹6,000/-",
 
     facultyCoordinator: "Mr. Sanoj P. Suresh",
     facultyPhone: "+91 97866 79867",
 
     studentCoordinator: "Shivani Nangre",
     studentPhone: "+91 85912 55289",
+
+    rules: {
+      eligibility: [
+        "Maximum 2 members per team.",
+        "A participant may be part of only one team and must complete registration before the event.",
+      ],
+
+      specifications: [
+        "Use a PET plastic bottle as the main pressure vessel; maximum bottle capacity is 2 litres.",
+        "Bottle must be in good condition and free from cracks or serious damage.",
+        "Maximum total rocket length is 80 cm, including fins and nose cone.",
+        "Only lightweight fins and a lightweight nose cone are permitted.",
+      ],
+
+      safety: [
+        "Only water and compressed atmospheric air may be used for propulsion.",
+        "Water quantity must be 25–50% of bottle capacity.",
+        "Maximum launch pressure is 60 PSI and must never be exceeded.",
+        "The organizer-provided launcher and launch procedure must be followed.",
+        "Safety goggles are compulsory during launching.",
+        "Only authorized officials may operate the launcher and pressure system.",
+        "Stay behind the safety line and never approach a pressurized rocket.",
+      ],
+
+      attempts: [
+        "Each team gets 2 official attempts; the better valid attempt is used for ranking.",
+        "The objective is maximum horizontal distance, measured to the rocket's first point of ground contact.",
+        "In case of a tie, the better second attempt is used as the tie-breaker.",
+      ],
+
+      invalid: [
+        "An attempt may be invalid for exceeding the pressure limit, using prohibited materials/propulsion, an unsafe rocket or failure to follow the launch procedure.",
+        "Serious or repeated safety violations, launcher tampering, unauthorized propulsion or dangerous misconduct may lead to disqualification.",
+      ],
+
+      authority: [
+        "Organizers may reject an unsafe rocket, stop a launch or modify the procedure when necessary for safety or technical reasons.",
+        "The decision of authorized judges/organizers is final.",
+      ],
+    },
   },
 
   {
@@ -145,80 +281,93 @@ const events = [
     image: paperPresentationImage,
     slug: "paper-presentation",
 
-    participation: "Individual or Team",
-    teamSize: "Up to 2 Members",
-    registrationFee: "₹100 Individual / ₹200 Team",
-    prizePool: "₹10,000/-",
+    participation: "Team Only",
+    teamSize: "Exactly 2 Members",
+    registrationFee: "₹200 Per Team",
+    prizePool: "₹6,000/-",
 
     facultyCoordinator: "Dr. T. Anand",
     facultyPhone: "+91 97862 92925",
 
     studentCoordinator: "Shweta Raut",
     studentPhone: "+91 78229 16824",
+
+    rules: {
+      eligibility: [
+        "The event is open to eligible students as specified by the organizing committee.",
+        "Participation is limited to a team of exactly 2 members.",
+        "Both team members must complete registration.",
+      ],
+
+      paper: [
+        "The paper must cover a technical, engineering, research, innovation or emerging-technology topic.",
+        "Interdisciplinary topics are allowed when they have clear technical relevance.",
+        "The topic must be submitted for approval before final paper submission.",
+        "Plagiarism is strictly prohibited; proper references are required for external information, figures and data.",
+      ],
+
+      submission: [
+        "Submit the paper and presentation within the deadline given by the organizing committee.",
+        "Follow the prescribed paper format and page limit.",
+        "Prepare the presentation from the submitted paper and ensure the presentation file works correctly.",
+      ],
+
+      presentation: [
+        "Complete the presentation within the allotted time.",
+        "Exceeding the prescribed time may attract an evaluation penalty.",
+        "Be present at the venue before the allotted presentation slot.",
+        "Judges may ask questions about the topic, methodology, results, applications and technical concepts.",
+      ],
+
+      conduct: [
+        "Maintain discipline and proper decorum throughout the event.",
+        "The judging panel's decision is final.",
+      ],
+    },
   },
 
   {
     title: "Reasoning Rumble",
-    description:
-      "Challenge your analytical thinking, logic and problem-solving ability.",
+    description: 
+      "Challenge your logical thinking, observation, analytical ability and problem-solving skills through three exciting rounds.",
     icon: "✦",
     category: "Knowledge & Innovation",
     categoryKey: "knowledge",
     image: reasoningRumbleImage,
     slug: "reasoning-rumble",
 
-    participation: "Individual or Team",
-    teamSize: "Up to 2 Members",
-    registrationFee: "₹100 Individual / ₹200 Team",
-    prizePool: "₹10,000/-",
+    participation: "Team Only",
+    teamSize: "Exactly 2 Members",
+    registrationFee: "₹200 Per Team",
+    prizePool: "₹6,000/-",
 
     facultyCoordinator: "Mr. Yogesh Kumbhar",
     facultyPhone: "+91 70587 00724",
 
     studentCoordinator: "Aznaan Shaikh",
     studentPhone: "+91 87937 77579",
+
+    rules: {
+      rounds: [
+        "Round 1: MCQ-based reasoning challenge testing logical and analytical thinking.",
+        "Round 2: Visual and rebus puzzle challenge testing observation and problem-solving skills.",
+        "Round 3: Mystery-based final challenge involving clues and logical problem-solving.",
+        "Participants qualify for the next round based on their performance."
+      ],
+
+      general: [
+        "Each round will have a specified time limit and scoring system, announced before the round begins.",
+        "Participants must attempt all questions and challenges independently within the allotted time.",
+        "Mobile phones, smartwatches, calculators and other unauthorized assistance are not permitted.",
+        "Cheating, malpractice or communication with other participants may result in immediate disqualification.",
+        "Participants must report on time and follow all instructions given by the event coordinators.",
+        "In case of a tie, a tie-breaker challenge may be conducted.",
+        "The decision of the event coordinators and judges will be final and binding."
+      ]
+    },
   },
 ];
 
-// =====================================================
-// CATEGORIES
-// =====================================================
-
-const categories = [
-  {
-    key: "aerospace",
-    label: "Aerospace Challenges",
-  },
-  {
-    key: "design",
-    label: "Design & Build",
-  },
-  {
-    key: "knowledge",
-    label: "Knowledge & Innovation",
-  },
-  {
-    key: "drone",
-    label: "Drone Expo",
-  },
-];
-
-// =====================================================
-// GET CATEGORY FROM URL
-// =====================================================
-
-const getInitialCategory = () => {
-  const params = new URLSearchParams(window.location.search);
-  const category = params.get("category");
-
-  if (
-    ["aerospace", "design", "knowledge", "drone"].includes(category)
-  ) {
-    return category;
-  }
-
-  return "aerospace";
-};
 
 // =====================================================
 // INFO ROW
@@ -228,52 +377,22 @@ function InfoRow({ icon, label, children, last = false }) {
   return (
     <div
       className={`flex items-start gap-3 py-3 ${
-        !last ? "border-b border-white/10" : ""
+        !last ? "border-b border-slate-200" : ""
       }`}
     >
-      <div className="mt-0.5 shrink-0 text-cyan-400">
+      <div className="mt-0.5 shrink-0 text-blue-600">
         {icon}
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="text-xs font-medium uppercase tracking-wider text-white/35">
+        <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
           {label}
         </div>
 
-        <div className="mt-1 text-sm font-semibold text-white/85">
+        <div className="mt-1 text-sm font-semibold text-slate-700">
           {children}
         </div>
       </div>
-    </div>
-  );
-}
-
-// =====================================================
-// COORDINATOR
-// =====================================================
-
-function Coordinator({
-  label,
-  name,
-  phone,
-}) {
-  return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.025] p-3">
-      <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-400">
-        {label}
-      </div>
-
-      <div className="mt-1 text-sm font-semibold text-white">
-        {name}
-      </div>
-
-      <a
-        href={`tel:${phone.replace(/\s/g, "")}`}
-        className="mt-1.5 inline-flex items-center gap-1.5 text-xs text-white/45 transition hover:text-cyan-300"
-      >
-        <Phone size={12} />
-        {phone}
-      </a>
     </div>
   );
 }
@@ -284,66 +403,94 @@ function Coordinator({
 
 function EventCard({ event, index, onViewDetails }) {
   const isFree = event.slug === "drone-expo";
+  const isTeam = event.participation === "Team Only";
 
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.45,
-        delay: index * 0.06,
+      initial={{
+        opacity: 0,
+        y: 35,
+        scale: 0.97,
       }}
-      whileHover={{ y: -7 }}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#07142d]/90 shadow-[0_15px_50px_rgba(0,0,0,0.25)] transition-all duration-300 hover:border-cyan-400/30 hover:shadow-[0_20px_60px_rgba(14,165,233,0.14)]"
+      animate={{
+        opacity: 1,
+        y: 0,
+        scale: 1,
+      }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.08,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      whileHover={{
+        y: -8,
+      }}
+      className="group relative flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-[0_15px_45px_rgba(15,23,42,0.08)] transition-all duration-300 hover:border-blue-200 hover:shadow-[0_25px_65px_rgba(37,99,235,0.16)]"
     >
+      {/* TOP ACCENT */}
+      <div className="absolute left-0 right-0 top-0 z-10 h-1 bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-600 opacity-80" />
+
       {/* IMAGE */}
-      <div className="relative h-52 w-full overflow-hidden">
+      <div className="relative h-56 w-full overflow-hidden">
         <img
           src={event.image}
           alt={event.title}
-          className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020817] via-[#020817]/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#06152e]/80 via-[#06152e]/10 to-transparent" />
 
-        <div className="absolute left-4 top-4 rounded-full border border-cyan-400/30 bg-[#020817]/75 px-3 py-1.5 text-[11px] font-semibold text-cyan-300 backdrop-blur-md">
+        {/* CATEGORY */}
+        <div className="absolute left-4 top-4 rounded-full border border-white/30 bg-[#06152e]/70 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-md">
           {event.category}
         </div>
 
+        {/* FREE BADGE */}
         {isFree && (
-          <div className="absolute bottom-4 right-4 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5 text-[11px] font-bold text-emerald-300 backdrop-blur-md">
+          <div className="absolute right-4 top-4 rounded-full border border-emerald-300/40 bg-emerald-500/90 px-3 py-1.5 text-[10px] font-extrabold tracking-wider text-white shadow-lg backdrop-blur-md">
             FREE ENTRY
           </div>
         )}
+
+        {/* EVENT NUMBER */}
+        <div className="absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/15 text-xs font-bold text-white backdrop-blur-md">
+          {String(index + 1).padStart(2, "0")}
+        </div>
       </div>
 
       {/* CONTENT */}
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
         {/* TITLE */}
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-400/20 bg-cyan-400/10 text-xl">
+          <motion.div
+            whileHover={{
+              rotate: 8,
+              scale: 1.08,
+            }}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-xl shadow-sm"
+          >
             {event.icon}
-          </div>
+          </motion.div>
 
           <div className="min-w-0">
-            <h3 className="text-xl font-extrabold leading-tight tracking-tight text-white">
+            <h3 className="text-xl font-black leading-tight tracking-tight text-[#06152e]">
               {event.title}
             </h3>
 
-            <p className="mt-1 text-xs font-medium text-cyan-400/70">
+            <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.15em] text-blue-600">
               {event.category}
             </p>
           </div>
         </div>
 
         {/* DESCRIPTION */}
-        <p className="mt-4 min-h-[66px] text-sm leading-6 text-white/55">
+        <p className="mt-4 min-h-[66px] text-sm leading-6 text-slate-500">
           {event.description}
         </p>
 
-        {/* EVENT INFORMATION */}
-        <div className="mt-4 border-t border-white/10">
+        {/* INFORMATION */}
+        <div className="mt-4 border-t border-slate-200">
           <InfoRow
             icon={<Users size={16} />}
             label="Participation"
@@ -359,14 +506,18 @@ function EventCard({ event, index, onViewDetails }) {
           </InfoRow>
 
           <InfoRow
-            icon={<span className="text-sm font-bold">₹</span>}
+            icon={
+              <span className="text-sm font-bold">
+                ₹
+              </span>
+            }
             label="Registration Fee"
           >
             <span
               className={
                 isFree
-                  ? "text-emerald-300"
-                  : "text-cyan-300"
+                  ? "font-extrabold text-emerald-600"
+                  : "font-extrabold text-blue-600"
               }
             >
               {event.registrationFee}
@@ -374,7 +525,7 @@ function EventCard({ event, index, onViewDetails }) {
           </InfoRow>
 
           <InfoRow
-            icon={<span className="text-sm">🏆</span>}
+            icon={<Trophy size={16} />}
             label="Prize Pool"
             last
           >
@@ -382,24 +533,45 @@ function EventCard({ event, index, onViewDetails }) {
           </InfoRow>
         </div>
 
+        {/* PARTICIPATION BADGE */}
+        <div className="mt-4 flex items-center gap-2">
+          <div
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider ${
+              isTeam
+                ? "bg-indigo-50 text-indigo-700"
+                : "bg-cyan-50 text-cyan-700"
+            }`}
+          >
+            {isTeam ? (
+              <Users size={13} />
+            ) : (
+              <Target size={13} />
+            )}
+
+            {isTeam
+              ? "2 Member Team"
+              : "Individual Event"}
+          </div>
+        </div>
+
         {/* COORDINATORS */}
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          <div className="rounded-xl border border-white/10 bg-white/[0.025] p-3">
-            <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-400">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div className="text-[9px] font-extrabold uppercase tracking-[0.15em] text-blue-600">
               Faculty Coordinator
             </div>
 
-            <div className="mt-1 text-sm font-semibold text-white">
+            <div className="mt-1 text-xs font-bold text-slate-700">
               {event.facultyCoordinator}
             </div>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-white/[0.025] p-3">
-            <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-400">
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+            <div className="text-[9px] font-extrabold uppercase tracking-[0.15em] text-blue-600">
               Student Coordinator
             </div>
 
-            <div className="mt-1 text-sm font-semibold text-white">
+            <div className="mt-1 text-xs font-bold text-slate-700">
               {event.studentCoordinator}
             </div>
           </div>
@@ -407,24 +579,96 @@ function EventCard({ event, index, onViewDetails }) {
 
         {/* BUTTONS */}
         <div className="mt-auto flex gap-3 pt-5">
-          <a
+          <motion.a
             href={`/register?event=${event.slug}`}
-            className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-700 to-indigo-600 px-3 py-3 text-xs font-bold text-white shadow-[0_0_25px_rgba(37,99,235,0.18)] transition hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(99,102,241,0.35)]"
+            whileHover={{
+              scale: 1.02,
+            }}
+            whileTap={{
+              scale: 0.98,
+            }}
+            className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-3 text-xs font-extrabold tracking-wide text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] transition hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]"
           >
             REGISTER
-            <ArrowRight size={15} className="ml-2" />
-          </a>
+            <ArrowRight
+              size={15}
+              className="ml-2 transition-transform group-hover:translate-x-1"
+            />
+          </motion.a>
 
-          <button
+          <motion.button
             type="button"
             onClick={() => onViewDetails(event)}
-            className="flex flex-1 items-center justify-center rounded-xl border border-white/15 bg-white/[0.03] px-3 py-3 text-xs font-bold text-white/80 transition hover:border-cyan-400/30 hover:bg-cyan-400/5 hover:text-cyan-300"
+            whileHover={{
+              scale: 1.02,
+            }}
+            whileTap={{
+              scale: 0.98,
+            }}
+            className="flex flex-1 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs font-extrabold tracking-wide text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
           >
             DETAILS
-          </button>
+          </motion.button>
         </div>
       </div>
     </motion.article>
+  );
+}
+
+// =====================================================
+// RULE SECTION
+// =====================================================
+
+function RuleSection({
+  number,
+  title,
+  icon,
+  rules,
+}) {
+  if (!rules?.length) return null;
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 12,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.3,
+      }}
+      className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5"
+    >
+      <div className="flex items-start gap-3">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-[0_6px_18px_rgba(37,99,235,0.2)]">
+          {icon}
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <h4 className="font-extrabold text-[#06152e]">
+            <span className="mr-1 text-blue-600">
+              {number}.
+            </span>
+            {title}
+          </h4>
+
+          <ul className="mt-3 space-y-2.5">
+            {rules.map((rule, index) => (
+              <li
+                key={index}
+                className="flex items-start gap-2.5 text-sm leading-6 text-slate-600"
+              >
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-500" />
+                <span>{rule}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -436,21 +680,28 @@ function EventDetailsModal({ event, onClose }) {
   if (!event) return null;
 
   const isFree = event.slug === "drone-expo";
+  const isTeam = event.participation === "Team Only";
 
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 px-4 py-6 backdrop-blur-md"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-[#020817]/65 px-4 py-5 backdrop-blur-md sm:py-8"
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+        }}
+        exit={{
+          opacity: 0,
+        }}
         onClick={onClose}
       >
         <motion.div
           initial={{
             opacity: 0,
             scale: 0.94,
-            y: 20,
+            y: 25,
           }}
           animate={{
             opacity: 1,
@@ -460,25 +711,26 @@ function EventDetailsModal({ event, onClose }) {
           exit={{
             opacity: 0,
             scale: 0.94,
-            y: 20,
+            y: 25,
           }}
           transition={{
-            duration: 0.25,
+            duration: 0.3,
+            ease: [0.22, 1, 0.36, 1],
           }}
           onClick={(e) => e.stopPropagation()}
-          className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-cyan-400/20 bg-[#06122a] shadow-[0_30px_100px_rgba(0,0,0,0.65)]"
+          className="relative max-h-[92vh] w-full max-w-4xl overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_35px_120px_rgba(2,8,23,0.4)]"
         >
-          {/* CLOSE BUTTON */}
+          {/* CLOSE */}
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white/70 backdrop-blur-md transition hover:border-cyan-400/40 hover:bg-cyan-400/10 hover:text-cyan-300"
+            className="absolute right-4 top-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-[#06152e]/70 text-white backdrop-blur-md transition hover:bg-blue-600"
             aria-label="Close event details"
           >
             <X size={20} />
           </button>
 
-          {/* IMAGE */}
+          {/* HERO IMAGE */}
           <div className="relative h-56 overflow-hidden sm:h-72">
             <img
               src={event.image}
@@ -486,10 +738,16 @@ function EventDetailsModal({ event, onClose }) {
               className="h-full w-full object-cover"
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-[#06122a] via-[#06122a]/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#06152e] via-[#06152e]/35 to-transparent" />
 
-            <div className="absolute bottom-5 left-5 right-5 sm:left-7 sm:right-7">
-              <div className="mb-2 inline-flex items-center rounded-full border border-cyan-400/30 bg-[#020817]/75 px-3 py-1.5 text-xs font-semibold text-cyan-300 backdrop-blur-md">
+            {/* TECHNICAL LINES */}
+            <div className="absolute left-5 top-5 h-16 w-16 border-l border-t border-cyan-300/40" />
+
+            <div className="absolute bottom-5 right-5 h-16 w-16 border-b border-r border-cyan-300/40" />
+
+            <div className="absolute bottom-5 left-5 right-16 sm:left-7 sm:right-20">
+              <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-cyan-200 backdrop-blur-md">
+                <Sparkles size={13} />
                 {event.category}
               </div>
 
@@ -500,102 +758,141 @@ function EventDetailsModal({ event, onClose }) {
           </div>
 
           {/* MODAL CONTENT */}
-          <div className="p-5 sm:p-7">
+          <div className="max-h-[calc(92vh-18rem)] overflow-y-auto p-5 sm:p-7">
             {/* DESCRIPTION */}
-            <div>
-              <p className="text-sm leading-7 text-white/60 sm:text-base">
+            <div className="rounded-2xl border border-blue-100 bg-blue-50/60 p-4 sm:p-5">
+              <p className="text-sm leading-7 text-slate-600 sm:text-base">
                 {event.description}
               </p>
             </div>
 
             {/* QUICK INFORMATION */}
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/35">
-                  <Users size={15} className="text-cyan-400" />
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                  <Users
+                    size={15}
+                    className="text-blue-600"
+                  />
                   Participation
                 </div>
 
-                <p className="mt-2 text-sm font-bold text-white">
+                <p className="mt-2 text-sm font-extrabold text-[#06152e]">
                   {event.participation}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/35">
-                  <Users size={15} className="text-cyan-400" />
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                  <Users
+                    size={15}
+                    className="text-blue-600"
+                  />
                   Team Size
                 </div>
 
-                <p className="mt-2 text-sm font-bold text-white">
+                <p className="mt-2 text-sm font-extrabold text-[#06152e]">
                   {event.teamSize}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                <div className="text-xs font-bold uppercase tracking-wider text-white/35">
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
                   Registration Fee
                 </div>
 
                 <p
-                  className={`mt-2 text-sm font-bold ${
+                  className={`mt-2 text-sm font-extrabold ${
                     isFree
-                      ? "text-emerald-300"
-                      : "text-cyan-300"
+                      ? "text-emerald-600"
+                      : "text-blue-600"
                   }`}
                 >
                   {event.registrationFee}
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                <div className="text-xs font-bold uppercase tracking-wider text-white/35">
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
                   Prize Pool
                 </div>
 
-                <p className="mt-2 text-sm font-bold text-white">
+                <p className="mt-2 text-sm font-extrabold text-[#06152e]">
                   {event.prizePool}
                 </p>
               </div>
             </div>
 
+            {/* EVENT TYPE */}
+            <div className="mt-4">
+              <div
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold ${
+                  isTeam
+                    ? "bg-indigo-50 text-indigo-700"
+                    : "bg-cyan-50 text-cyan-700"
+                }`}
+              >
+                {isTeam ? (
+                  <Users size={14} />
+                ) : (
+                  <Target size={14} />
+                )}
+
+                {isTeam
+                  ? "Team participation — exactly 2 members"
+                  : "Individual participation only"}
+              </div>
+            </div>
+
             {/* COORDINATORS */}
             <div className="mt-7">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-white/40">
-                Event Coordinators
-              </h3>
+              <div className="mb-4 flex items-center gap-3">
+                <div className="h-7 w-1 rounded-full bg-blue-600" />
 
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-cyan-400">
+                <h3 className="text-lg font-black text-[#06152e]">
+                  Event Coordinators
+                </h3>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {/* FACULTY */}
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-blue-600">
                     Faculty Coordinator
                   </p>
 
-                  <p className="mt-2 font-bold text-white">
+                  <p className="mt-2 font-extrabold text-[#06152e]">
                     {event.facultyCoordinator}
                   </p>
 
                   <a
-                    href={`tel:${event.facultyPhone.replace(/\s/g, "")}`}
-                    className="mt-2 inline-flex items-center gap-2 text-sm text-white/45 transition hover:text-cyan-300"
+                    href={`tel:${event.facultyPhone.replace(
+                      /\s/g,
+                      ""
+                    )}`}
+                    className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
                   >
                     <Phone size={14} />
                     {event.facultyPhone}
                   </a>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-cyan-400">
+                {/* STUDENT */}
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-blue-600">
                     Student Coordinator
                   </p>
 
-                  <p className="mt-2 font-bold text-white">
+                  <p className="mt-2 font-extrabold text-[#06152e]">
                     {event.studentCoordinator}
                   </p>
 
                   <a
-                    href={`tel:${event.studentPhone.replace(/\s/g, "")}`}
-                    className="mt-2 inline-flex items-center gap-2 text-sm text-white/45 transition hover:text-cyan-300"
+                    href={`tel:${event.studentPhone.replace(
+                      /\s/g,
+                      ""
+                    )}`}
+                    className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
                   >
                     <Phone size={14} />
                     {event.studentPhone}
@@ -603,43 +900,225 @@ function EventDetailsModal({ event, onClose }) {
                 </div>
               </div>
             </div>
+            {/* RULES */}
+            {event.rules && (
+              <div className="mt-8">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="h-7 w-1 rounded-full bg-blue-600" />
 
-            {/* RULES PLACEHOLDER */}
-            <div className="mt-7 rounded-2xl border border-cyan-400/10 bg-cyan-400/[0.025] p-4">
-              <div className="flex items-start gap-3">
-                <CheckCircle2
-                  size={19}
-                  className="mt-0.5 shrink-0 text-cyan-400"
-                />
+                  <div>
+                    <h3 className="text-lg font-black text-[#06152e]">
+                      Rules & Regulations
+                    </h3>
 
-                <div>
-                  <h3 className="text-sm font-bold text-white">
-                    Event Information
-                  </h3>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Please read all event guidelines before participating.
+                    </p>
+                  </div>
+                </div>
 
-                  <p className="mt-1 text-xs leading-6 text-white/45 sm:text-sm">
-                    Official event rules, schedule and
-                    participation guidelines will be provided
-                    by the event coordinators.
-                  </p>
+                <div className="space-y-3">
+                  {[
+                    /* REGISTRATION */
+                    event.rules.registration && {
+                      title: "Registration",
+                      icon: <CheckCircle2 size={17} />,
+                      rules: event.rules.registration,
+                    },
+
+                    /* ELIGIBILITY */
+                    event.rules.eligibility && {
+                      title: "Eligibility & Participation",
+                      icon: <Users size={17} />,
+                      rules: event.rules.eligibility,
+                    },
+
+                    /* REASONING RUMBLE — ROUNDS */
+                    event.rules.rounds && {
+                      title: "Event Rounds",
+                      icon: <Target size={17} />,
+                      rules: event.rules.rounds,
+                    },
+
+                    /* FAMILIARIZATION */
+                    event.rules.familiarization && {
+                      title: "Participant Familiarization",
+                      icon: <Plane size={17} />,
+                      rules: event.rules.familiarization,
+                    },
+
+                    /* CHUCK GLIDER — COMPETITION */
+                    event.rules.competition && {
+                      title: "Competition & Flying Guidelines",
+                      icon: <Plane size={17} />,
+                      rules: event.rules.competition,
+                    },
+
+                    /* FLIGHT SIMULATOR — ROUND 1 */
+                    event.rules.round1 && {
+                      title: "Round 1 — Basic Flight",
+                      icon: <Target size={17} />,
+                      rules: event.rules.round1,
+                    },
+
+                    /* FLIGHT SIMULATOR — ROUND 2 */
+                    event.rules.round2 && {
+                      title: "Round 2 — Cockpit View & Aerobatics",
+                      icon: <Plane size={17} />,
+                      rules: event.rules.round2,
+                    },
+
+                    /* TIE BREAKER */
+                    event.rules.tiebreaker && {
+                      title: "Tie-Breaker",
+                      icon: <Trophy size={17} />,
+                      rules: event.rules.tiebreaker,
+                    },
+
+                    /* PAPER */
+                    event.rules.paper && {
+                      title: "Paper & Topic Guidelines",
+                      icon: <FileText size={17} />,
+                      rules: event.rules.paper,
+                    },
+
+                    /* SUBMISSION */
+                    event.rules.submission && {
+                      title: "Submission & Presentation File",
+                      icon: <FileText size={17} />,
+                      rules: event.rules.submission,
+                    },
+
+                    /* PRESENTATION */
+                    event.rules.presentation && {
+                      title: "Presentation & Evaluation",
+                      icon: <Target size={17} />,
+                      rules: event.rules.presentation,
+                    },
+
+                    /* WATER ROCKET — SPECIFICATIONS */
+                    event.rules.specifications && {
+                      title: "Rocket Specifications",
+                      icon: <Rocket size={17} />,
+                      rules: event.rules.specifications,
+                    },
+
+                    /* SAFETY */
+                    event.rules.safety && {
+                      title: "Safety Rules",
+                      icon: <ShieldCheck size={17} />,
+                      rules: event.rules.safety,
+                    },
+
+                    /* ATTEMPTS */
+                    event.rules.attempts && {
+                      title: "Attempts & Scoring",
+                      icon: <Target size={17} />,
+                      rules: event.rules.attempts,
+                    },
+
+                    /* INVALID */
+                    event.rules.invalid && {
+                      title: "Invalid Attempt & Disqualification",
+                      icon: <ShieldCheck size={17} />,
+                      rules: event.rules.invalid,
+                    },
+
+                    /* DESIGN */
+                    event.rules.design && {
+                      title: "Design Guidelines",
+                      icon: <Cpu size={17} />,
+                      rules: event.rules.design,
+                    },
+
+                    /* DISQUALIFICATION */
+                    event.rules.disqualification && {
+                      title: "Disqualification",
+                      icon: <ShieldCheck size={17} />,
+                      rules: event.rules.disqualification,
+                    },
+
+                    /* CONDUCT */
+                    event.rules.conduct && {
+                      title: "General Conduct",
+                      icon: <CheckCircle2 size={17} />,
+                      rules: event.rules.conduct,
+                    },
+
+                    /* REASONING RUMBLE — GENERAL RULES */
+                    event.rules.general && {
+                      title: "General Rules & Regulations",
+                      icon: <ShieldCheck size={17} />,
+                      rules: event.rules.general,
+                    },
+
+                    /* AUTHORITY */
+                    event.rules.authority && {
+                      title: "Final Authority",
+                      icon: <ShieldCheck size={17} />,
+                      rules: event.rules.authority,
+                    },
+                  ]
+                    .filter(Boolean)
+                    .map((section, index) => (
+                      <RuleSection
+                        key={`${section.title}-${index}`}
+                        number={index + 1}
+                        title={section.title}
+                        icon={section.icon}
+                        rules={section.rules}
+                      />
+                    ))}
                 </div>
               </div>
-            </div>
+            )}
+
+            {/* NO RULES */}
+            {!event.rules && (
+              <div className="mt-7 rounded-2xl border border-blue-100 bg-blue-50/60 p-4">
+                <div className="flex items-start gap-3">
+                  <CheckCircle2
+                    size={19}
+                    className="mt-0.5 shrink-0 text-blue-600"
+                  />
+
+                  <div>
+                    <h3 className="text-sm font-extrabold text-[#06152e]">
+                      Rules & Regulations
+                    </h3>
+
+                    <p className="mt-1 text-xs leading-6 text-slate-500 sm:text-sm">
+                      Event rules and participation guidelines
+                      will be added by the organizing committee.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* ACTIONS */}
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <a
+            <div className="mt-7 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row">
+              <motion.a
                 href={`/register?event=${event.slug}`}
-                className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-700 to-indigo-600 px-5 py-3.5 text-sm font-bold text-white shadow-[0_0_30px_rgba(37,99,235,0.2)] transition hover:scale-[1.01]"
+                whileHover={{
+                  scale: 1.01,
+                }}
+                whileTap={{
+                  scale: 0.99,
+                }}
+                className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3.5 text-sm font-extrabold tracking-wide text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] transition hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]"
               >
                 REGISTER NOW
-                <ArrowRight size={17} className="ml-2" />
-              </a>
+                <ArrowRight
+                  size={17}
+                  className="ml-2"
+                />
+              </motion.a>
 
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-xl border border-white/15 bg-white/[0.03] px-6 py-3.5 text-sm font-bold text-white/70 transition hover:border-cyan-400/30 hover:text-cyan-300"
+                className="rounded-xl border border-slate-200 bg-slate-50 px-6 py-3.5 text-sm font-extrabold text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
               >
                 CLOSE
               </button>
@@ -656,341 +1135,383 @@ function EventDetailsModal({ event, onClose }) {
 // =====================================================
 
 export default function Events() {
-  const [selectedCategory, setSelectedCategory] =
-    useState(getInitialCategory);
+  const [selectedEvent, setSelectedEvent] =
+    useState(null);
 
-  const [selectedEvent, setSelectedEvent] = useState(null);
-
-  const filteredEvents = events.filter(
-    (event) => event.categoryKey === selectedCategory
-  );
-
-  const selectedCategoryName =
-    categories.find(
-      (category) => category.key === selectedCategory
-    )?.label || "Aerospace Challenges";
-
-  // =====================================================
-  // CHANGE CATEGORY
-  // =====================================================
-
-  const handleCategoryChange = (categoryKey) => {
-    setSelectedCategory(categoryKey);
-
-    window.history.replaceState(
-      {},
-      "",
-      `/events?category=${categoryKey}`
-    );
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
+  const allEvents = events;
+  
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#020817] text-white">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#f5f9ff] text-[#06152e]">
       {/* ================================================= */}
-      {/* NAVBAR */}
+      {/* AEROSPACE BACKGROUND */}
       {/* ================================================= */}
 
-      <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#020817]/85 backdrop-blur-xl">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-6">
-          {/* LOGO */}
-          <a
-            href="/"
-            className="flex items-center gap-3"
-          >
-            <img
-              src={technoWingsLogo}
-              alt="Techno Wings 2K26"
-              className="h-10 w-auto sm:h-11"
-            />
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute -left-40 top-40 h-[500px] w-[500px] rounded-full bg-blue-200/20 blur-3xl" />
 
-            <div className="hidden leading-tight sm:block">
-              <div className="text-lg font-extrabold tracking-wide text-white">
-                TECHNO WINGS
-              </div>
+        <div className="absolute -right-40 top-[35%] h-[500px] w-[500px] rounded-full bg-cyan-200/20 blur-3xl" />
 
-              <div className="text-sm font-bold tracking-[0.25em] text-cyan-400">
-                2K26
-              </div>
-            </div>
-          </a>
+        <div className="absolute bottom-0 left-[35%] h-[450px] w-[450px] rounded-full bg-indigo-200/15 blur-3xl" />
 
-          {/* NAVIGATION */}
-          <div className="hidden items-center gap-8 md:flex">
+        {/* TECHNICAL GRID */}
+        <div
+          className="absolute inset-0 opacity-[0.25]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px)",
+            backgroundSize: "70px 70px",
+          }}
+        />
+
+        {/* AERODYNAMIC LINES */}
+        <motion.div
+          animate={{
+            x: [0, 30, 0],
+            opacity: [0.15, 0.3, 0.15],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute left-[-10%] top-[28%] h-px w-[50%] bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
+        />
+
+        <motion.div
+          animate={{
+            x: [0, -35, 0],
+            opacity: [0.12, 0.25, 0.12],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute right-[-10%] top-[62%] h-px w-[55%] bg-gradient-to-r from-transparent via-blue-400 to-transparent"
+        />
+      </div>
+
+      {/* CONTENT LAYER */}
+      <div className="relative z-10">
+        {/* ================================================= */}
+        {/* NAVBAR */}
+        {/* ================================================= */}
+
+        <nav className="fixed top-0 z-50 w-full border-b border-slate-200/80 bg-white/85 shadow-[0_4px_25px_rgba(15,23,42,0.05)] backdrop-blur-xl">
+          <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-6">
+            {/* LOGO */}
             <a
               href="/"
-              className="text-sm text-white/70 transition hover:text-cyan-400"
+              className="group flex items-center gap-3"
             >
-              Home
+              <img
+                src={technoWingsLogo}
+                alt="Techno Wings 2K26"
+                className="h-16 w-auto transition duration-300 group-hover:scale-105 sm:h-20"
+              />
+
+              <div className="hidden leading-tight sm:block">
+                <div className="text-lg font-black tracking-wide text-[#06152e]">
+                  TECHNO WINGS
+                </div>
+
+                <div className="text-sm font-extrabold tracking-[0.25em] text-blue-600">
+                  2K26
+                </div>
+              </div>
             </a>
 
-            <a
-              href="/#about"
-              className="text-sm text-white/70 transition hover:text-cyan-400"
-            >
-              About Fest
-            </a>
+            {/* NAVIGATION */}
+            <div className="hidden items-center gap-8 md:flex">
+              <a
+                href="/"
+                className="text-sm font-medium text-slate-500 transition hover:text-blue-600"
+              >
+                Home
+              </a>
 
-            <a
-              href="/events"
-              className="text-sm font-semibold text-cyan-400"
-            >
-              Events
-            </a>
+              <a
+                href="/#about"
+                className="text-sm font-medium text-slate-500 transition hover:text-blue-600"
+              >
+                About Fest
+              </a>
 
-            <a
-              href="/contact"
-              className="text-sm text-white/70 transition hover:text-cyan-400"
-            >
-              Contact
-            </a>
-          </div>
+              <a
+                href="/events"
+                className="relative text-sm font-bold text-blue-600"
+              >
+                Events
 
-          {/* RIGHT SIDE */}
-          <div className="hidden items-center gap-3 md:flex">
-            <a
-              href="/verify"
-              className="rounded-full border border-cyan-400/40 px-5 py-2.5 text-sm font-semibold text-cyan-300 transition hover:bg-cyan-400/10"
-            >
-              Verify Registration
-            </a>
+                <span className="absolute -bottom-7 left-0 h-0.5 w-full rounded-full bg-blue-600" />
+              </a>
 
+              <a
+                href="/contact"
+                className="text-sm font-medium text-slate-500 transition hover:text-blue-600"
+              >
+                Contact
+              </a>
+            </div>
+
+            {/* RIGHT SIDE */}
+            <div className="hidden items-center gap-3 md:flex">
+              <a
+                href="/verify"
+                className="rounded-full border border-blue-200 bg-blue-50 px-5 py-2.5 text-sm font-bold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
+              >
+                Verify Registration
+              </a>
+
+              <a
+                href="/register"
+                className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2.5 text-sm font-bold text-white shadow-[0_5px_20px_rgba(37,99,235,0.18)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(37,99,235,0.28)]"
+              >
+                Register
+              </a>
+            </div>
+
+            {/* MOBILE */}
             <a
               href="/register"
-              className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2.5 text-sm font-bold text-white transition hover:-translate-y-0.5"
+              className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-sm md:hidden"
             >
               Register
             </a>
           </div>
+        </nav>
 
-          {/* MOBILE REGISTER */}
-          <a
-            href="/register"
-            className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-bold text-white md:hidden"
-          >
-            Register
-          </a>
-        </div>
-      </nav>
+        {/* ================================================= */}
+        {/* MAIN */}
+        {/* ================================================= */}
 
-      {/* ================================================= */}
-      {/* MAIN */}
-      {/* ================================================= */}
+        <main className="px-5 pb-28 pt-32 sm:px-6">
+          <div className="mx-auto max-w-7xl">
+            {/* PAGE HEADER */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 30,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.7,
+              }}
+              className="relative text-center"
+            >
+              {/* DECORATION */}
+              <div className="absolute left-1/2 top-[-35px] hidden -translate-x-1/2 items-center gap-3 sm:flex">
+                <span className="h-px w-16 bg-gradient-to-r from-transparent to-blue-400" />
 
-      <main className="px-5 pb-28 pt-32 sm:px-6">
-        <div className="mx-auto max-w-7xl">
-          {/* PAGE HEADER */}
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.6,
-            }}
-            className="text-center"
-          >
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-300">
-              <Sparkles size={16} />
-              Techno Wings 2K26
-            </div>
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
 
-            <h1 className="text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
-              Explore Events
-            </h1>
+                <span className="h-px w-16 bg-gradient-to-l from-transparent to-blue-400" />
+              </div>
 
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-white/50 sm:text-base">
-              Discover Techno Wings 2K26 competitions and
-              challenges designed for every innovator.
-            </p>
-          </motion.div>
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white px-4 py-2 text-xs font-bold uppercase tracking-wider text-blue-600 shadow-[0_5px_20px_rgba(37,99,235,0.08)]">
+                <Sparkles size={15} />
+                Techno Wings 2K26
+              </div>
 
-          {/* CATEGORY FILTER */}
-          <div className="mt-10 flex justify-center sm:mt-12">
-            <div className="flex max-w-full flex-wrap justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.025] p-2">
-              {categories.map((category) => {
-                const active =
-                  selectedCategory === category.key;
+              <h1 className="text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl lg:text-6xl">
+                Explore{" "}
+                <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 bg-clip-text text-transparent">
+                  Events
+                </span>
+              </h1>
 
-                return (
-                  <button
-                    key={category.key}
-                    onClick={() =>
-                      handleCategoryChange(category.key)
-                    }
-                    className={`rounded-xl px-4 py-2.5 text-xs font-semibold transition duration-300 sm:px-5 sm:py-3 sm:text-sm ${
-                      active
-                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_25px_rgba(37,99,235,0.25)]"
-                        : "text-white/55 hover:bg-white/[0.06] hover:text-cyan-300"
-                    }`}
-                  >
-                    {category.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* RESULT INDICATOR */}
-          <div className="mt-10 flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-wider text-white/35">
-                Showing Events
+              <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">
+                Discover Techno Wings 2K26 competitions
+                and challenges designed for every
+                innovator, designer and aerospace
+                enthusiast.
               </p>
 
-              <h2 className="mt-1 text-lg font-bold text-white sm:text-xl">
-                {selectedCategoryName}
-              </h2>
-            </div>
+              {/* TECHNICAL META */}
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-500 shadow-sm">
+                  <CalendarDays
+                    size={14}
+                    className="text-blue-600"
+                  />
+                  14th & 15th October 2026
+                </div>
 
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-cyan-400/15 bg-cyan-400/5 px-4 py-2 text-sm font-semibold text-cyan-400">
-              <CalendarDays size={16} />
-
-              {filteredEvents.length}
-
-              {" "}
-
-              {filteredEvents.length === 1
-                ? "Event"
-                : "Events"}
-            </div>
-          </div>
-
-          {/* EVENT GRID */}
-          <AnimatePresence mode="popLayout">
-            <motion.div
-              layout
-              className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-              {filteredEvents.map((event, index) => (
-                <EventCard
-                  key={event.title}
-                  event={event}
-                  index={index}
-                  onViewDetails={setSelectedEvent}
-                />
-              ))}
+                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-500 shadow-sm">
+                  <Trophy
+                    size={14}
+                    className="text-blue-600"
+                  />
+                  7 Events
+                </div>
+              </div>
             </motion.div>
-          </AnimatePresence>
 
-          {/* INFORMATION NOTE */}
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              delay: 0.3,
-            }}
-            className="mt-10 rounded-2xl border border-cyan-400/10 bg-cyan-400/[0.025] p-5"
-          >
-            <div className="flex items-start gap-3">
-              <CheckCircle2
-                size={20}
-                className="mt-0.5 shrink-0 text-cyan-400"
-              />
-
+            {/* RESULT INDICATOR */}
+            <motion.div
+              initial={{
+                opacity: 0,
+              }}
+              animate={{
+                opacity: 1,
+              }}
+              className="mt-10 flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between"
+            >
               <div>
-                <h3 className="text-sm font-bold text-white">
-                  Registration Information
-                </h3>
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
+                  Showing All Events
+                </p>
 
-                <p className="mt-1 text-xs leading-6 text-white/45 sm:text-sm">
-                  Individual participation is available for
-                  all events. Team participation is available
-                  where specified above. Paid event registration
-                  is ₹100 for an individual or ₹200 for a team.
-                  Drone Expo has free entry.
+                <h2 className="mt-1 text-lg font-black text-[#06152e] sm:text-xl">
+                  Techno Wings 2K26 Events
+                </h2>
+              </div>
+
+              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-bold text-blue-600">
+                <CalendarDays size={16} />
+
+                {allEvents.length} Events
+              </div>
+            </motion.div>
+
+            {/* EVENT GRID */}
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                layout
+                className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+              >
+                {allEvents.map(
+                  (event, index) => (
+                    <EventCard
+                      key={event.title}
+                      event={event}
+                      index={index}
+                      onViewDetails={
+                        setSelectedEvent
+                      }
+                    />
+                  )
+                )}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* INFORMATION NOTE */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 15,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                delay: 0.3,
+              }}
+              className="mt-10 overflow-hidden rounded-2xl border border-blue-100 bg-white p-5 shadow-[0_10px_35px_rgba(15,23,42,0.05)]"
+            >
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                  <CheckCircle2 size={20} />
+                </div>
+
+                <div>
+                  <h3 className="text-sm font-black text-[#06152e]">
+                    Registration Information
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-6 text-slate-500 sm:text-sm">
+                    Chuck Glider, Water Rocket, Paper
+                    Presentation, Reasoning Rumble and
+                    Drone Expo are team events requiring
+                    exactly 2 members. Flight Simulator and
+                    CAD Master are individual events.
+                    Paid team events are ₹200 per team,
+                    while individual events are ₹100.
+                    Drone Expo has free entry.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+          </div>
+        </main>
+
+        {/* ================================================= */}
+        {/* FOOTER */}
+        {/* ================================================= */}
+
+        <footer className="border-t border-slate-200 bg-[#06152e] px-5 py-12 text-white sm:px-6">
+          <div className="mx-auto max-w-7xl">
+            <div className="flex flex-col justify-between gap-10 md:flex-row">
+              {/* BRAND */}
+              <div>
+                <img
+                  src={technoWingsLogo}
+                  alt="Techno Wings 2K26"
+                  className="h-14 w-auto object-contain sm:h-16"
+                />
+
+                <p className="mt-4 max-w-md text-sm leading-6 text-white/55">
+                  A two-day technical and aerospace
+                  event celebrating innovation,
+                  engineering, creativity and competition.
+                </p>
+
+                <p className="mt-4 text-sm font-bold text-cyan-400">
+                  In Collaboration with ADATE Club
                 </p>
               </div>
-            </div>
-          </motion.div>
 
-          {/* NO EVENTS */}
-          {filteredEvents.length === 0 && (
-            <div className="py-20 text-center">
-              <Plane
-                size={42}
-                className="mx-auto text-cyan-400"
-              />
+              {/* ORGANIZER */}
+              <div className="max-w-md">
+                <div className="text-sm font-bold uppercase tracking-widest text-white/70">
+                  Organized By
+                </div>
 
-              <p className="mt-5 text-white/50">
-                No events found in this category.
-              </p>
-            </div>
-          )}
-        </div>
-      </main>
+                <div className="mt-3 flex items-start gap-4">
+                  <img
+                    src={collegeLogo}
+                    alt="College Symbol"
+                    className="mt-1 h-24 w-24 shrink-0 object-contain"
+                  />
 
-      {/* ================================================= */}
-      {/* FOOTER */}
-      {/* ================================================= */}
-
-      <footer className="border-t border-white/10 bg-[#010611] px-5 py-12 sm:px-6">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col justify-between gap-10 md:flex-row">
-            {/* BRAND */}
-            <div>
-              <img
-                src={technoWingsLogo}
-                alt="Techno Wings 2K26"
-                className="h-14 w-auto object-contain sm:h-16"
-              />
-
-              <p className="mt-4 max-w-md text-sm leading-6 text-white/40">
-                A two-day technical and aerospace event
-                celebrating innovation, engineering,
-                creativity and competition.
-              </p>
-
-              <p className="mt-4 text-sm font-semibold text-cyan-400">
-                In Collaboration with ADATE Club
-              </p>
-            </div>
-
-            {/* ORGANIZER */}
-            <div className="max-w-sm">
-              <div className="text-sm font-bold uppercase tracking-widest text-white/70">
-                Organized By
+                  <p className="text-sm leading-7 text-white/55">
+                    Department of Aeronautical
+                    Engineering
+                    <br />
+                    Annasaheb Dange College of
+                    Engineering &amp; Technology
+                    <br />
+                    Ashta, Taluka Walwa, District Sangli,
+                    <br />
+                    Maharashtra – 416301
+                  </p>
+                </div>
               </div>
+            </div>
 
-              <p className="mt-3 text-sm leading-6 text-white/40">
-                Department of Aeronautical Engineering
-                <br />
-                Annasaheb Dange College of Engineering &
-                Technology
-                <br />
-                Ashta, Taluka Walwa, District Sangli,
-                Maharashtra – 416301
-              </p>
+            <div className="mt-10 border-t border-white/10 pt-7 text-center text-xs text-white/35">
+              © 2026 Techno Wings 2K26 • All Rights
+              Reserved
             </div>
           </div>
+        </footer>
 
-          <div className="mt-10 border-t border-white/10 pt-7 text-center text-xs text-white/30">
-            © 2026 Techno Wings 2K26 • All Rights Reserved
-          </div>
-        </div>
-      </footer>
-      {/* ================================================= */}
-      {/* EVENT DETAILS MODAL */}
-      {/* ================================================= */}
+        {/* ================================================= */}
+        {/* EVENT DETAILS MODAL */}
+        {/* ================================================= */}
 
-      <EventDetailsModal
-        event={selectedEvent}
-        onClose={() => setSelectedEvent(null)}
-      />      
+        <EventDetailsModal
+          event={selectedEvent}
+          onClose={() =>
+            setSelectedEvent(null)
+          }
+        />
+      </div>
     </div>
   );
 }
