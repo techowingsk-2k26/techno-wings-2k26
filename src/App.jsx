@@ -1123,7 +1123,7 @@ function App() {
 
         <section
           id="home"
-          className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 pb-16 pt-28"
+          className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-5 pb-16 pt-28"
         >
 
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(0,184,255,0.15),transparent_30%),linear-gradient(180deg,#ffffff_0%,#edf7ff_58%,#f5f9ff_100%)]" />
@@ -1371,7 +1371,32 @@ function App() {
               </motion.div>
             </>
           )}
+          
+          {/* =================================================
+              MOBILE HERO LOGOS
+          ================================================= */}
 
+          <div className="relative z-10 mb-7 flex w-full items-center justify-center gap-5 lg:hidden">
+
+            {/* ADCET — FIRST */}
+            <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-blue-100 bg-white/80 p-2 shadow-[0_10px_30px_rgba(6,21,46,0.08)] backdrop-blur-sm">
+              <img
+                src={collegeLogo}
+                alt="Annasaheb Dange College of Engineering and Technology"
+                className="h-full w-full object-contain"
+              />
+            </div>
+
+            {/* AESI — SECOND */}
+            <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-blue-100 bg-white/80 p-2 shadow-[0_10px_30px_rgba(6,21,46,0.08)] backdrop-blur-sm">
+              <img
+                src={aesiLogo}
+                alt="The Aeronautical Society of India"
+                className="h-full w-full object-contain"
+              />
+            </div>
+
+          </div>
 
           {/* =================================================
               HERO CONTENT
@@ -1389,7 +1414,7 @@ function App() {
               }}
             >
               <SectionLabel icon={Sparkles}>
-                A 2-Day Technical & Aerospace Event
+                A 2-Day National-Level Technical Symposium
               </SectionLabel>
             </motion.div>
 
@@ -1492,7 +1517,7 @@ function App() {
               }}
               className="mx-auto mt-6 max-w-4xl text-lg font-medium text-[#3b5572] sm:text-2xl md:text-3xl"
             >
-              A 2-Day National Level Technical Fest
+              Two Days of Innovation, Technology & Aerospace Excellence
             </motion.p>
 
 
