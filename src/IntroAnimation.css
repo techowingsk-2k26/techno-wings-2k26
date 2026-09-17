@@ -8,9 +8,7 @@
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-
   overflow: hidden;
-
   z-index: 9999;
 
   display: flex;
@@ -18,12 +16,11 @@
   justify-content: center;
 
   background: #01040a;
-
   pointer-events: auto;
-
   isolation: isolate;
 
   contain: layout paint size;
+  transform: translateZ(0);
 }
 
 /* ============================================================
@@ -37,14 +34,44 @@
   backface-visibility: hidden;
 }
 
+/* Promote the intro layers to their own compositing layer */
+.intro-root svg,
+.intro-root img,
+.intro-root .intro-wing,
+.intro-root .intro-title,
+.intro-root .intro-energy {
+  transform: translateZ(0);
+}
+
 /* ============================================================
-   MOBILE
+   MOBILE PERFORMANCE
 ============================================================ */
 
 @media (max-width: 640px) {
+
   .intro-root {
     height: 100dvh;
   }
+
+  /* Reduce expensive visual effects on smaller devices */
+  .intro-root * {
+    will-change: auto;
+  }
+
+  /* Keep only important animated elements composited */
+  .intro-root svg,
+  .intro-root img {
+    transform: translateZ(0);
+  }
+
+  /*
+     Reduce expensive blur on mobile.
+     This does not remove the animation; it makes rendering lighter.
+  */
+  .intro-root [style*="blur"] {
+    filter: none !important;
+  }
+
 }
 
 /* ============================================================
@@ -52,9 +79,11 @@
 ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
+
   .intro-root *,
   .intro-root *::before,
   .intro-root *::after {
+
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

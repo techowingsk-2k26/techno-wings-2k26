@@ -59,6 +59,13 @@ function createParticles(count) {
 ============================================================ */
 
 function BackgroundParticles({ active }) {
+  /*
+    Reduced from 75 continuously animated particles.
+
+    CSS media query is used here so desktop keeps the richer
+    particle field while mobile uses fewer particles.
+  */
+
   const particles = useMemo(() => createParticles(75), []);
 
   return (
@@ -66,14 +73,17 @@ function BackgroundParticles({ active }) {
       {particles.map((particle) => (
         <motion.span
           key={particle.id}
-          className="absolute rounded-full bg-cyan-300"
+          className={`intro-particle particle-${particle.id} absolute rounded-full bg-cyan-300`}
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
             width: `${particle.size}px`,
             height: `${particle.size}px`,
           }}
-          initial={{ opacity: 0, scale: 0 }}
+          initial={{
+            opacity: 0,
+            scale: 0,
+          }}
           animate={
             active
               ? {
@@ -111,10 +121,12 @@ function SpeedLines({ active }) {
 
   return (
     <>
+      {/* LEFT SPEED LINES */}
+
       {lines.map((i) => (
         <motion.div
           key={`left-${i}`}
-          className="absolute h-px bg-gradient-to-r from-transparent via-cyan-300/80 to-transparent"
+          className={`intro-speed-line absolute h-px bg-gradient-to-r from-transparent via-cyan-300/80 to-transparent`}
           style={{
             top: `${28 + i * 3.5}%`,
             width: `${18 + (i % 5) * 7}vw`,
@@ -141,10 +153,12 @@ function SpeedLines({ active }) {
         />
       ))}
 
+      {/* RIGHT SPEED LINES */}
+
       {lines.map((i) => (
         <motion.div
           key={`right-${i}`}
-          className="absolute h-px bg-gradient-to-l from-transparent via-blue-300/80 to-transparent"
+          className="intro-speed-line absolute h-px bg-gradient-to-l from-transparent via-blue-300/80 to-transparent"
           style={{
             top: `${30 + i * 3.5}%`,
             width: `${18 + (i % 5) * 7}vw`,
@@ -182,11 +196,18 @@ function EnergyCore({ phase }) {
   return (
     <>
       {/* Large soft glow */}
+
       <motion.div
         className="absolute left-1/2 top-[40%] h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-[70px]"
         animate={{
-          scale: phase >= 2 ? [0.5, 1, 1.08] : 0.5,
-          opacity: phase >= 2 ? [0, 0.7, 0.3] : 0,
+          scale:
+            phase >= 2
+              ? [0.5, 1, 1.08]
+              : 0.5,
+          opacity:
+            phase >= 2
+              ? [0, 0.7, 0.3]
+              : 0,
         }}
         transition={{
           duration: 0.7,
@@ -194,6 +215,7 @@ function EnergyCore({ phase }) {
       />
 
       {/* Core */}
+
       <motion.div
         className="absolute left-1/2 top-[40%] h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white"
         initial={{
@@ -201,8 +223,14 @@ function EnergyCore({ phase }) {
           opacity: 0,
         }}
         animate={{
-          scale: phase >= 2 ? [0, 1.4, 1] : 0,
-          opacity: phase >= 2 ? [0, 1, 0.9] : 0,
+          scale:
+            phase >= 2
+              ? [0, 1.4, 1]
+              : 0,
+          opacity:
+            phase >= 2
+              ? [0, 1, 0.9]
+              : 0,
         }}
         transition={{
           duration: 0.45,
@@ -211,6 +239,7 @@ function EnergyCore({ phase }) {
       />
 
       {/* Core blue ring */}
+
       <motion.div
         className="absolute left-1/2 top-[40%] h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300"
         initial={{
@@ -218,8 +247,14 @@ function EnergyCore({ phase }) {
           opacity: 0,
         }}
         animate={{
-          scale: phase >= 2 ? [0, 1.5, 2.5] : 0,
-          opacity: phase >= 2 ? [0, 0.9, 0] : 0,
+          scale:
+            phase >= 2
+              ? [0, 1.5, 2.5]
+              : 0,
+          opacity:
+            phase >= 2
+              ? [0, 0.9, 0]
+              : 0,
         }}
         transition={{
           duration: 0.65,
@@ -227,6 +262,7 @@ function EnergyCore({ phase }) {
       />
 
       {/* Vertical beam */}
+
       <motion.div
         className="absolute left-1/2 top-[8%] h-[64%] w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-cyan-300 to-transparent"
         initial={{
@@ -257,7 +293,7 @@ function EnergyCore({ phase }) {
 function Wing({ side, phase }) {
   const isLeft = side === "left";
 
-  const transformOrigin = isLeft ? "600 210" : "600 210";
+  const transformOrigin = "600 210";
 
   return (
     <motion.g
@@ -301,7 +337,12 @@ function Wing({ side, phase }) {
                 ? -18
                 : 18,
 
-        scale: phase >= 2 ? 1 : phase >= 1 ? 0.9 : 0.65,
+        scale:
+          phase >= 2
+            ? 1
+            : phase >= 1
+              ? 0.9
+              : 0.65,
 
         opacity: phase >= 1 ? 1 : 0,
       }}
@@ -311,7 +352,13 @@ function Wing({ side, phase }) {
         ease: [0.16, 1, 0.3, 1],
       }}
     >
-      <g transform={isLeft ? "" : "translate(1200 0) scale(-1 1)"}>
+      <g
+        transform={
+          isLeft
+            ? ""
+            : "translate(1200 0) scale(-1 1)"
+        }
+      >
         {/* =====================================================
             PRIMARY WING ROOT
         ===================================================== */}
@@ -351,7 +398,7 @@ function Wing({ side, phase }) {
         />
 
         {/* =====================================================
-            FEATHER 1 — LONG UPPER
+            FEATHER 1
         ===================================================== */}
 
         <path
@@ -369,6 +416,7 @@ function Wing({ side, phase }) {
         />
 
         {/* Blue leading edge */}
+
         <path
           d="
             M151 45
@@ -447,6 +495,7 @@ function Wing({ side, phase }) {
         />
 
         {/* Blue lower edge */}
+
         <path
           d="
             M267 185
@@ -478,7 +527,7 @@ function Wing({ side, phase }) {
         />
 
         {/* =====================================================
-            FEATHER 6 — SHARP LOWER
+            FEATHER 6
         ===================================================== */}
 
         <path
@@ -608,6 +657,7 @@ function CenterAircraft({ phase }) {
       }}
     >
       {/* Main aircraft nose */}
+
       <path
         d="
           M600 62
@@ -624,6 +674,7 @@ function CenterAircraft({ phase }) {
       />
 
       {/* Dark center */}
+
       <path
         d="
           M600 76
@@ -636,6 +687,7 @@ function CenterAircraft({ phase }) {
       />
 
       {/* Central electric spine */}
+
       <path
         d="
           M600 78
@@ -649,6 +701,7 @@ function CenterAircraft({ phase }) {
       />
 
       {/* Left aerodynamic fin */}
+
       <path
         d="
           M585 177
@@ -662,6 +715,7 @@ function CenterAircraft({ phase }) {
       />
 
       {/* Right aerodynamic fin */}
+
       <path
         d="
           M615 177
@@ -675,6 +729,7 @@ function CenterAircraft({ phase }) {
       />
 
       {/* Lower fin */}
+
       <path
         d="
           M600 214
@@ -689,6 +744,7 @@ function CenterAircraft({ phase }) {
       />
 
       {/* Central white light */}
+
       <circle
         cx="600"
         cy="178"
@@ -698,6 +754,7 @@ function CenterAircraft({ phase }) {
       />
 
       {/* Nose highlight */}
+
       <path
         d="M600 64 L606 177"
         stroke="#ffffff"
@@ -732,13 +789,34 @@ function WingAssembly({ phase }) {
             x2="1"
             y2="1"
           >
-            <stop offset="0%" stopColor="#0f172a" />
-            <stop offset="14%" stopColor="#cbd5e1" />
-            <stop offset="27%" stopColor="#ffffff" />
-            <stop offset="43%" stopColor="#64748b" />
-            <stop offset="60%" stopColor="#f8fafc" />
-            <stop offset="78%" stopColor="#475569" />
-            <stop offset="100%" stopColor="#020617" />
+            <stop
+              offset="0%"
+              stopColor="#0f172a"
+            />
+            <stop
+              offset="14%"
+              stopColor="#cbd5e1"
+            />
+            <stop
+              offset="27%"
+              stopColor="#ffffff"
+            />
+            <stop
+              offset="43%"
+              stopColor="#64748b"
+            />
+            <stop
+              offset="60%"
+              stopColor="#f8fafc"
+            />
+            <stop
+              offset="78%"
+              stopColor="#475569"
+            />
+            <stop
+              offset="100%"
+              stopColor="#020617"
+            />
           </linearGradient>
 
           <linearGradient
@@ -748,12 +826,30 @@ function WingAssembly({ phase }) {
             x2="1"
             y2="0"
           >
-            <stop offset="0%" stopColor="#1e293b" />
-            <stop offset="20%" stopColor="#94a3b8" />
-            <stop offset="38%" stopColor="#ffffff" />
-            <stop offset="52%" stopColor="#f8fafc" />
-            <stop offset="68%" stopColor="#64748b" />
-            <stop offset="100%" stopColor="#0f172a" />
+            <stop
+              offset="0%"
+              stopColor="#1e293b"
+            />
+            <stop
+              offset="20%"
+              stopColor="#94a3b8"
+            />
+            <stop
+              offset="38%"
+              stopColor="#ffffff"
+            />
+            <stop
+              offset="52%"
+              stopColor="#f8fafc"
+            />
+            <stop
+              offset="68%"
+              stopColor="#64748b"
+            />
+            <stop
+              offset="100%"
+              stopColor="#0f172a"
+            />
           </linearGradient>
 
           <linearGradient
@@ -763,11 +859,26 @@ function WingAssembly({ phase }) {
             x2="1"
             y2="1"
           >
-            <stop offset="0%" stopColor="#020617" />
-            <stop offset="28%" stopColor="#334155" />
-            <stop offset="48%" stopColor="#0f172a" />
-            <stop offset="70%" stopColor="#64748b" />
-            <stop offset="100%" stopColor="#020617" />
+            <stop
+              offset="0%"
+              stopColor="#020617"
+            />
+            <stop
+              offset="28%"
+              stopColor="#334155"
+            />
+            <stop
+              offset="48%"
+              stopColor="#0f172a"
+            />
+            <stop
+              offset="70%"
+              stopColor="#64748b"
+            />
+            <stop
+              offset="100%"
+              stopColor="#020617"
+            />
           </linearGradient>
 
           {/* ==================================================
@@ -781,10 +892,22 @@ function WingAssembly({ phase }) {
             x2="0"
             y2="1"
           >
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="25%" stopColor="#67e8f9" />
-            <stop offset="60%" stopColor="#0ea5e9" />
-            <stop offset="100%" stopColor="#1d4ed8" />
+            <stop
+              offset="0%"
+              stopColor="#ffffff"
+            />
+            <stop
+              offset="25%"
+              stopColor="#67e8f9"
+            />
+            <stop
+              offset="60%"
+              stopColor="#0ea5e9"
+            />
+            <stop
+              offset="100%"
+              stopColor="#1d4ed8"
+            />
           </linearGradient>
 
           {/* ==================================================
@@ -802,6 +925,7 @@ function WingAssembly({ phase }) {
               stdDeviation="3"
               result="blur"
             />
+
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -819,6 +943,7 @@ function WingAssembly({ phase }) {
               stdDeviation="5"
               result="blur"
             />
+
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -827,13 +952,24 @@ function WingAssembly({ phase }) {
         </defs>
 
         {/* LEFT */}
-        <Wing side="left" phase={phase} />
+
+        <Wing
+          side="left"
+          phase={phase}
+        />
 
         {/* RIGHT */}
-        <Wing side="right" phase={phase} />
+
+        <Wing
+          side="right"
+          phase={phase}
+        />
 
         {/* CENTER */}
-        <CenterAircraft phase={phase} />
+
+        <CenterAircraft
+          phase={phase}
+        />
       </svg>
 
       {/* ======================================================
@@ -841,23 +977,36 @@ function WingAssembly({ phase }) {
       ====================================================== */}
 
       <motion.div
-        className="absolute left-1/2 top-[49%] h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-400/20"
+        className="intro-hud-ring absolute left-1/2 top-[49%] h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-400/20"
         initial={{
           opacity: 0,
           scale: 0.5,
         }}
         animate={{
-          opacity: phase >= 2 ? 0.5 : 0,
-          scale: phase >= 2 ? 1 : 0.5,
-          rotate: phase >= 2 ? 360 : 0,
+          opacity:
+            phase >= 2
+              ? 0.5
+              : 0,
+
+          scale:
+            phase >= 2
+              ? 1
+              : 0.5,
+
+          rotate:
+            phase >= 2
+              ? 360
+              : 0,
         }}
         transition={{
           opacity: {
             duration: 0.5,
           },
+
           scale: {
             duration: 0.55,
           },
+
           rotate: {
             duration: 12,
             repeat: Infinity,
@@ -866,24 +1015,35 @@ function WingAssembly({ phase }) {
         }}
       >
         <div className="absolute left-1/2 top-0 h-2 w-px -translate-x-1/2 bg-cyan-300" />
+
         <div className="absolute bottom-0 left-1/2 h-2 w-px -translate-x-1/2 bg-cyan-300" />
+
         <div className="absolute left-0 top-1/2 h-px w-2 -translate-y-1/2 bg-cyan-300" />
+
         <div className="absolute right-0 top-1/2 h-px w-2 -translate-y-1/2 bg-cyan-300" />
       </motion.div>
 
       <motion.div
-        className="absolute left-1/2 top-[49%] h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-blue-400/20"
+        className="intro-hud-ring absolute left-1/2 top-[49%] h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-blue-400/20"
         initial={{
           opacity: 0,
         }}
         animate={{
-          opacity: phase >= 2 ? 0.35 : 0,
-          rotate: phase >= 2 ? -360 : 0,
+          opacity:
+            phase >= 2
+              ? 0.35
+              : 0,
+
+          rotate:
+            phase >= 2
+              ? -360
+              : 0,
         }}
         transition={{
           opacity: {
             duration: 0.5,
           },
+
           rotate: {
             duration: 18,
             repeat: Infinity,
@@ -903,6 +1063,7 @@ function EnergyBurst({ phase }) {
   return (
     <>
       {/* Shockwave */}
+
       <motion.div
         className="absolute left-1/2 top-[38%] h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300"
         initial={{
@@ -910,8 +1071,15 @@ function EnergyBurst({ phase }) {
           opacity: 0,
         }}
         animate={{
-          scale: phase >= 3 ? [0, 2.5, 5] : 0,
-          opacity: phase >= 3 ? [0, 0.9, 0] : 0,
+          scale:
+            phase >= 3
+              ? [0, 2.5, 5]
+              : 0,
+
+          opacity:
+            phase >= 3
+              ? [0, 0.9, 0]
+              : 0,
         }}
         transition={{
           duration: 0.65,
@@ -920,6 +1088,7 @@ function EnergyBurst({ phase }) {
       />
 
       {/* Horizontal energy flash */}
+
       <motion.div
         className="absolute left-1/2 top-[38%] h-px w-[80vw] -translate-x-1/2 bg-gradient-to-r from-transparent via-white to-transparent"
         initial={{
@@ -927,8 +1096,15 @@ function EnergyBurst({ phase }) {
           opacity: 0,
         }}
         animate={{
-          scaleX: phase >= 3 ? [0, 1, 0] : 0,
-          opacity: phase >= 3 ? [0, 1, 0] : 0,
+          scaleX:
+            phase >= 3
+              ? [0, 1, 0]
+              : 0,
+
+          opacity:
+            phase >= 3
+              ? [0, 1, 0]
+              : 0,
         }}
         transition={{
           duration: 0.5,
@@ -936,27 +1112,37 @@ function EnergyBurst({ phase }) {
       />
 
       {/* Radial rays */}
-      {[0, 45, 90, 135].map((rotation) => (
-        <motion.div
-          key={rotation}
-          className="absolute left-1/2 top-[38%] h-px w-[30vw] origin-left bg-gradient-to-r from-white via-cyan-300/70 to-transparent"
-          style={{
-            transform: `rotate(${rotation}deg)`,
-          }}
-          initial={{
-            scaleX: 0,
-            opacity: 0,
-          }}
-          animate={{
-            scaleX: phase >= 3 ? [0, 1, 0] : 0,
-            opacity: phase >= 3 ? [0, 0.8, 0] : 0,
-          }}
-          transition={{
-            duration: 0.5,
-            delay: rotation * 0.0005,
-          }}
-        />
-      ))}
+
+      {[0, 45, 90, 135].map(
+        (rotation) => (
+          <motion.div
+            key={rotation}
+            className="absolute left-1/2 top-[38%] h-px w-[30vw] origin-left bg-gradient-to-r from-white via-cyan-300/70 to-transparent"
+            style={{
+              transform: `rotate(${rotation}deg)`,
+            }}
+            initial={{
+              scaleX: 0,
+              opacity: 0,
+            }}
+            animate={{
+              scaleX:
+                phase >= 3
+                  ? [0, 1, 0]
+                  : 0,
+
+              opacity:
+                phase >= 3
+                  ? [0, 0.8, 0]
+                  : 0,
+            }}
+            transition={{
+              duration: 0.5,
+              delay: rotation * 0.0005,
+            }}
+          />
+        )
+      )}
     </>
   );
 }
@@ -969,6 +1155,7 @@ function EventTitle({ phase }) {
   return (
     <div className="absolute left-1/2 top-[61%] z-30 w-full -translate-x-1/2 px-5 text-center sm:top-[62%]">
       {/* Scan line */}
+
       <motion.div
         className="mx-auto mb-3 h-px w-[min(500px,70vw)] bg-gradient-to-r from-transparent via-cyan-300 to-transparent"
         initial={{
@@ -976,8 +1163,15 @@ function EventTitle({ phase }) {
           opacity: 0,
         }}
         animate={{
-          scaleX: phase >= 4 ? [0, 1, 0] : 0,
-          opacity: phase >= 4 ? [0, 1, 0] : 0,
+          scaleX:
+            phase >= 4
+              ? [0, 1, 0]
+              : 0,
+
+          opacity:
+            phase >= 4
+              ? [0, 1, 0]
+              : 0,
         }}
         transition={{
           duration: 0.55,
@@ -985,24 +1179,34 @@ function EventTitle({ phase }) {
       />
 
       {/* Department */}
+
       <motion.p
         initial={{
           opacity: 0,
           y: 12,
         }}
         animate={{
-          opacity: phase >= 4 ? 1 : 0,
-          y: phase >= 4 ? 0 : 12,
+          opacity:
+            phase >= 4
+              ? 1
+              : 0,
+
+          y:
+            phase >= 4
+              ? 0
+              : 12,
         }}
         transition={{
           duration: 0.35,
         }}
         className="mb-3 text-[7px] font-bold uppercase tracking-[0.45em] text-cyan-300 sm:text-xs"
       >
-        Department of Aeronautical Engineering
+        Department of Aeronautical
+        Engineering
       </motion.p>
 
       {/* Main title */}
+
       <motion.h1
         initial={{
           opacity: 0,
@@ -1011,10 +1215,25 @@ function EventTitle({ phase }) {
           filter: "blur(8px)",
         }}
         animate={{
-          opacity: phase >= 4 ? 1 : 0,
-          y: phase >= 4 ? 0 : 24,
-          scale: phase >= 4 ? 1 : 0.9,
-          filter: phase >= 4 ? "blur(0px)" : "blur(8px)",
+          opacity:
+            phase >= 4
+              ? 1
+              : 0,
+
+          y:
+            phase >= 4
+              ? 0
+              : 24,
+
+          scale:
+            phase >= 4
+              ? 1
+              : 0.9,
+
+          filter:
+            phase >= 4
+              ? "blur(0px)"
+              : "blur(8px)",
         }}
         transition={{
           duration: 0.55,
@@ -1023,14 +1242,12 @@ function EventTitle({ phase }) {
         className="whitespace-nowrap text-[clamp(2rem,7vw,6rem)] font-black leading-none tracking-[-0.05em]"
       >
         <span className="text-white">
-          TECHNO
-        </span>{" "}
-        <span className="bg-gradient-to-b from-white via-cyan-100 to-blue-500 bg-clip-text text-transparent">
-          WINGS
+          {EVENT_NAME}
         </span>
       </motion.h1>
 
       {/* Year */}
+
       <motion.div
         initial={{
           opacity: 0,
@@ -1038,9 +1255,20 @@ function EventTitle({ phase }) {
           scale: 0.7,
         }}
         animate={{
-          opacity: phase >= 4 ? 1 : 0,
-          y: phase >= 4 ? 0 : 15,
-          scale: phase >= 4 ? 1 : 0.7,
+          opacity:
+            phase >= 4
+              ? 1
+              : 0,
+
+          y:
+            phase >= 4
+              ? 0
+              : 15,
+
+          scale:
+            phase >= 4
+              ? 1
+              : 0.7,
         }}
         transition={{
           duration: 0.45,
@@ -1052,14 +1280,22 @@ function EventTitle({ phase }) {
       </motion.div>
 
       {/* Tagline */}
+
       <motion.div
         initial={{
           opacity: 0,
           y: 10,
         }}
         animate={{
-          opacity: phase >= 4 ? 1 : 0,
-          y: phase >= 4 ? 0 : 10,
+          opacity:
+            phase >= 4
+              ? 1
+              : 0,
+
+          y:
+            phase >= 4
+              ? 0
+              : 10,
         }}
         transition={{
           duration: 0.4,
@@ -1081,6 +1317,7 @@ function TransitionEffect({ phase }) {
   return (
     <>
       {/* Center flash */}
+
       <motion.div
         className="absolute left-1/2 top-[40%] z-50 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-200"
         initial={{
@@ -1088,8 +1325,15 @@ function TransitionEffect({ phase }) {
           opacity: 0,
         }}
         animate={{
-          scale: phase >= 5 ? [0, 3, 15] : 0,
-          opacity: phase >= 5 ? [0, 0.7, 0] : 0,
+          scale:
+            phase >= 5
+              ? [0, 3, 15]
+              : 0,
+
+          opacity:
+            phase >= 5
+              ? [0, 0.7, 0]
+              : 0,
         }}
         transition={{
           duration: 0.45,
@@ -1098,13 +1342,17 @@ function TransitionEffect({ phase }) {
       />
 
       {/* Final zoom */}
+
       <motion.div
         className="absolute inset-0 z-[60] bg-[#01040a]"
         initial={{
           opacity: 0,
         }}
         animate={{
-          opacity: phase >= 5 ? [0, 0.25, 1] : 0,
+          opacity:
+            phase >= 5
+              ? [0, 0.25, 1]
+              : 0,
         }}
         transition={{
           duration: 0.45,
@@ -1118,17 +1366,42 @@ function TransitionEffect({ phase }) {
    MAIN INTRO
 ============================================================ */
 
-export default function IntroAnimation({ onComplete }) {
+export default function IntroAnimation({
+  onComplete,
+}) {
   const [phase, setPhase] = useState(0);
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setPhase(1), TIMING.approach),
-      setTimeout(() => setPhase(2), TIMING.converge),
-      setTimeout(() => setPhase(3), TIMING.form),
-      setTimeout(() => setPhase(4), TIMING.title),
-      setTimeout(() => setPhase(5), TIMING.exit),
-      setTimeout(() => onComplete(), TIMING.complete),
+      setTimeout(
+        () => setPhase(1),
+        TIMING.approach
+      ),
+
+      setTimeout(
+        () => setPhase(2),
+        TIMING.converge
+      ),
+
+      setTimeout(
+        () => setPhase(3),
+        TIMING.form
+      ),
+
+      setTimeout(
+        () => setPhase(4),
+        TIMING.title
+      ),
+
+      setTimeout(
+        () => setPhase(5),
+        TIMING.exit
+      ),
+
+      setTimeout(
+        () => onComplete(),
+        TIMING.complete
+      ),
     ];
 
     return () => {
@@ -1144,8 +1417,15 @@ export default function IntroAnimation({ onComplete }) {
         scale: 1,
       }}
       animate={{
-        opacity: phase >= 5 ? 0 : 1,
-        scale: phase >= 5 ? 1.04 : 1,
+        opacity:
+          phase >= 5
+            ? 0
+            : 1,
+
+        scale:
+          phase >= 5
+            ? 1.04
+            : 1,
       }}
       transition={{
         duration: 0.4,
@@ -1162,39 +1442,57 @@ export default function IntroAnimation({ onComplete }) {
 
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.85)_100%)]" />
 
-      <BackgroundParticles active={phase >= 1} />
+      {/* PARTICLES */}
 
-      <SpeedLines active={phase >= 1} />
+      <BackgroundParticles
+        active={phase >= 1}
+      />
+
+      {/* SPEED LINES */}
+
+      <SpeedLines
+        active={phase >= 1}
+      />
 
       {/* ======================================================
           CENTRAL ENERGY
       ====================================================== */}
 
-      <EnergyCore phase={phase} />
+      <EnergyCore
+        phase={phase}
+      />
 
       {/* ======================================================
           WINGS
       ====================================================== */}
 
-      <WingAssembly phase={phase} />
+      <WingAssembly
+        phase={phase}
+      />
 
       {/* ======================================================
           ENERGY BURST
       ====================================================== */}
 
-      <EnergyBurst phase={phase} />
+      <EnergyBurst
+        phase={phase}
+      />
 
       {/* ======================================================
           TITLE
       ====================================================== */}
 
-      <EventTitle phase={phase} />
+      <EventTitle
+        phase={phase}
+      />
 
       {/* ======================================================
           FINAL TRANSITION
       ====================================================== */}
 
-      <TransitionEffect phase={phase} />
+      <TransitionEffect
+        phase={phase}
+      />
 
       {/* ======================================================
           HORIZON
@@ -1207,8 +1505,15 @@ export default function IntroAnimation({ onComplete }) {
           scale: 0.8,
         }}
         animate={{
-          opacity: phase >= 4 ? 0.7 : 0,
-          scale: phase >= 4 ? 1 : 0.8,
+          opacity:
+            phase >= 4
+              ? 0.7
+              : 0,
+
+          scale:
+            phase >= 4
+              ? 1
+              : 0.8,
         }}
         transition={{
           duration: 0.8,
@@ -1234,7 +1539,10 @@ export default function IntroAnimation({ onComplete }) {
       <motion.div
         className="absolute bottom-5 right-5 text-[7px] font-bold uppercase tracking-[0.35em] text-cyan-300/30"
         animate={{
-          opacity: phase >= 4 ? [0.2, 0.7, 0.3] : 0,
+          opacity:
+            phase >= 4
+              ? [0.2, 0.7, 0.3]
+              : 0,
         }}
         transition={{
           duration: 1,
