@@ -73,14 +73,6 @@ const events = {
     fee: 200,
   },
 
-  "drone-expo": {
-    name: "Drone Expo",
-    teamAllowed: true,
-    maxTeamSize: 2,
-    participationType: "Team",
-    fee: 0,
-    free: true,
-  },
 };
 
 /* ============================================================
@@ -270,7 +262,7 @@ function SectionHeader({ number, title, description }) {
         <div className="h-px flex-1 bg-gradient-to-r from-blue-200 to-transparent" />
       </div>
 
-      <h2 className="mt-4 text-2xl font-black text-[#06152e] md:text-3xl">
+      <h2 className="font-outfit mt-4 text-2xl font-black text-[#06152e] md:text-3xl">
         {title}
       </h2>
 
@@ -400,7 +392,7 @@ export default function Register() {
               Techno Wings 2K26
             </div>
 
-            <h1 className="mt-5 text-4xl font-black tracking-tight md:text-6xl">
+            <h1 className="font-outfit mt-5 text-4xl font-black tracking-tight md:text-6xl">
               Select Your Event
             </h1>
 
@@ -437,7 +429,7 @@ export default function Register() {
                         Technical Event
                       </p>
 
-                      <h2 className="mt-3 text-xl font-black text-[#06152e]">
+                      <h2 className="font-outfit mt-3 text-xl font-black text-[#06152e]">
                         {event.name}
                       </h2>
                     </div>
@@ -1007,7 +999,7 @@ export default function Register() {
               Registration Confirmed
             </div>
 
-            <h1 className="mt-5 text-4xl font-black tracking-tight md:text-6xl">
+            <h1 className="font-outfit mt-5 text-4xl font-black tracking-tight md:text-6xl">
               You're Officially Registered!
             </h1>
 
@@ -1179,7 +1171,7 @@ export default function Register() {
             Techno Wings 2K26
           </div>
 
-          <h1 className="mt-5 text-4xl font-black tracking-tight md:text-6xl">
+          <h1 className="font-outfit mt-5 text-4xl font-black tracking-tight md:text-6xl">
             Register for{" "}
             <span className="text-blue-600">
               Techno Wings 2K26
@@ -1257,7 +1249,7 @@ export default function Register() {
                 Selected Event
               </div>
 
-              <h2 className="mt-4 text-3xl font-black md:text-4xl">
+              <h2 className="font-outfit mt-4 text-3xl font-black md:text-4xl">
                 {selectedEvent.name}
               </h2>
 

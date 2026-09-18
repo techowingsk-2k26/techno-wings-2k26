@@ -47,9 +47,6 @@ const events = [
     registrationFee: "FREE ENTRY",
     prizePool: "Not Applicable",
 
-    facultyCoordinator: "Mr. Reju R.",
-    facultyPhone: "+91 90953 55087",
-
     studentCoordinator: "Prathmesh Patil",
     studentPhone: "+91 84849 84499",
 
@@ -70,9 +67,6 @@ const events = [
     teamSize: "Exactly 2 Members",
     registrationFee: "₹200 Per Team",
     prizePool: "₹6,000/-",
-
-    facultyCoordinator: "Dr. Sendhil Kumar S",
-    facultyPhone: "+91 94861 72845",
 
     studentCoordinator: "Chanchal Shelar",
     studentPhone: "+91 70570 04239",
@@ -118,9 +112,6 @@ const events = [
     teamSize: "Individual",
     registrationFee: "₹100",
     prizePool: "₹6,000/-",
-
-    facultyCoordinator: "Mr. Mohammed Hashim Y.",
-    facultyPhone: "+91 90612 93705",
 
     studentCoordinator: "Samarth Lomate",
     studentPhone: "+91 9022161641",
@@ -170,8 +161,6 @@ const events = [
     registrationFee: "₹100",
     prizePool: "₹6,000/-",
 
-    facultyCoordinator: "Mr. Arun Nema",
-    facultyPhone: "+91 70222 97404",
 
     studentCoordinator: "Mandar Ghodake",
     studentPhone: "+91 96995 32950",
@@ -224,8 +213,6 @@ const events = [
     registrationFee: "₹200 Per Team",
     prizePool: "₹6,000/-",
 
-    facultyCoordinator: "Mr. Sanoj P. Suresh",
-    facultyPhone: "+91 97866 79867",
 
     studentCoordinator: "Shivani Nangre",
     studentPhone: "+91 85912 55289",
@@ -286,9 +273,6 @@ const events = [
     registrationFee: "₹200 Per Team",
     prizePool: "₹6,000/-",
 
-    facultyCoordinator: "Dr. T. Anand",
-    facultyPhone: "+91 97862 92925",
-
     studentCoordinator: "Shweta Raut",
     studentPhone: "+91 78229 16824",
 
@@ -340,9 +324,6 @@ const events = [
     teamSize: "Exactly 2 Members",
     registrationFee: "₹200 Per Team",
     prizePool: "₹6,000/-",
-
-    facultyCoordinator: "Mr. Yogesh Kumbhar",
-    facultyPhone: "+91 70587 00724",
 
     studentCoordinator: "Aznaan Shaikh",
     studentPhone: "+91 87937 77579",
@@ -474,7 +455,7 @@ function EventCard({ event, index, onViewDetails }) {
           </motion.div>
 
           <div className="min-w-0">
-            <h3 className="text-xl font-black leading-tight tracking-tight text-[#06152e]">
+            <h3 className="font-outfit text-xl font-black leading-tight tracking-tight text-[#06152e]">
               {event.title}
             </h3>
 
@@ -558,16 +539,6 @@ function EventCard({ event, index, onViewDetails }) {
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
             <div className="text-[9px] font-extrabold uppercase tracking-[0.15em] text-blue-600">
-              Faculty Coordinator
-            </div>
-
-            <div className="mt-1 text-xs font-bold text-slate-700">
-              {event.facultyCoordinator}
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-            <div className="text-[9px] font-extrabold uppercase tracking-[0.15em] text-blue-600">
               Student Coordinator
             </div>
 
@@ -579,22 +550,24 @@ function EventCard({ event, index, onViewDetails }) {
 
         {/* BUTTONS */}
         <div className="mt-auto flex gap-3 pt-5">
-          <motion.a
-            href={`/register?event=${event.slug}`}
-            whileHover={{
-              scale: 1.02,
-            }}
-            whileTap={{
-              scale: 0.98,
-            }}
-            className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-3 text-xs font-extrabold tracking-wide text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] transition hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]"
-          >
-            REGISTER
-            <ArrowRight
-              size={15}
-              className="ml-2 transition-transform group-hover:translate-x-1"
-            />
-          </motion.a>
+          {event.slug === "drone-expo" ? (
+            <div className="flex flex-1 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-3 text-xs font-extrabold tracking-wide text-emerald-700">
+              NO REGISTRATION REQUIRED
+            </div>
+          ) : (
+            <motion.a
+              href={`/register?event=${event.slug}`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-3 text-xs font-extrabold tracking-wide text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] transition hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]"
+            >
+              REGISTER
+              <ArrowRight
+                size={15}
+                className="ml-2 transition-transform group-hover:translate-x-1"
+              />
+            </motion.a>
+          )}
 
           <motion.button
             type="button"
@@ -751,7 +724,7 @@ function EventDetailsModal({ event, onClose }) {
                 {event.category}
               </div>
 
-              <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
+              <h2 className="font-outfit text-3xl font-black tracking-tight text-white sm:text-4xl">
                 {event.title}
               </h2>
             </div>
@@ -849,34 +822,12 @@ function EventDetailsModal({ event, onClose }) {
               <div className="mb-4 flex items-center gap-3">
                 <div className="h-7 w-1 rounded-full bg-blue-600" />
 
-                <h3 className="text-lg font-black text-[#06152e]">
+                <h3 className="font-outfit text-lg font-black text-[#06152e]">
                   Event Coordinators
                 </h3>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
-                {/* FACULTY */}
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-blue-600">
-                    Faculty Coordinator
-                  </p>
-
-                  <p className="mt-2 font-extrabold text-[#06152e]">
-                    {event.facultyCoordinator}
-                  </p>
-
-                  <a
-                    href={`tel:${event.facultyPhone.replace(
-                      /\s/g,
-                      ""
-                    )}`}
-                    className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
-                  >
-                    <Phone size={14} />
-                    {event.facultyPhone}
-                  </a>
-                </div>
-
                 {/* STUDENT */}
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                   <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-blue-600">
@@ -907,7 +858,7 @@ function EventDetailsModal({ event, onClose }) {
                   <div className="h-7 w-1 rounded-full bg-blue-600" />
 
                   <div>
-                    <h3 className="text-lg font-black text-[#06152e]">
+                    <h3 className="font-outfit text-lg font-black text-[#06152e]">
                       Rules & Regulations
                     </h3>
 
@@ -1083,7 +1034,7 @@ function EventDetailsModal({ event, onClose }) {
                   />
 
                   <div>
-                    <h3 className="text-sm font-extrabold text-[#06152e]">
+                    <h3 className="font-outfit text-sm font-extrabold text-[#06152e]">
                       Rules & Regulations
                     </h3>
 
@@ -1098,22 +1049,21 @@ function EventDetailsModal({ event, onClose }) {
 
             {/* ACTIONS */}
             <div className="mt-7 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row">
-              <motion.a
-                href={`/register?event=${event.slug}`}
-                whileHover={{
-                  scale: 1.01,
-                }}
-                whileTap={{
-                  scale: 0.99,
-                }}
-                className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3.5 text-sm font-extrabold tracking-wide text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] transition hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]"
-              >
-                REGISTER NOW
-                <ArrowRight
-                  size={17}
-                  className="ml-2"
-                />
-              </motion.a>
+              {event.slug === "drone-expo" ? (
+                <div className="flex flex-1 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-extrabold text-emerald-700">
+                  NO REGISTRATION REQUIRED
+                </div>
+              ) : (
+                <motion.a
+                  href={`/register?event=${event.slug}`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-extrabold text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)]"
+                >
+                  REGISTER NOW
+                  <ArrowRight size={17} className="ml-2" />
+                </motion.a>
+              )}
 
               <button
                 type="button"
@@ -1316,7 +1266,7 @@ export default function Events() {
                 Techno Wings 2K26
               </div>
 
-              <h1 className="text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl lg:text-6xl">
+              <h1 className="font-outfit text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl lg:text-6xl">
                 Explore{" "}
                 <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 bg-clip-text text-transparent">
                   Events
@@ -1365,7 +1315,7 @@ export default function Events() {
                   Showing All Events
                 </p>
 
-                <h2 className="mt-1 text-lg font-black text-[#06152e] sm:text-xl">
+                <h2 className="font-outfit mt-1 text-lg font-black text-[#06152e] sm:text-xl">
                   Techno Wings 2K26 Events
                 </h2>
               </div>
@@ -1419,7 +1369,7 @@ export default function Events() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-black text-[#06152e]">
+                  <h3 className="font-outfit text-sm font-black text-[#06152e]">
                     Registration Information
                   </h3>
 

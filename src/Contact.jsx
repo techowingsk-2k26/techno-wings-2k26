@@ -40,7 +40,7 @@ function CoordinatorCard({ icon, title, coordinators }) {
             {icon}
           </motion.div>
 
-          <h3 className="text-lg font-black tracking-tight text-[#06152e]">
+          <h3 className="font-outfit text-lg font-black tracking-tight text-[#06152e]">
             {title}
           </h3>
         </div>
@@ -254,7 +254,7 @@ export default function Contact() {
               Get in Touch
             </motion.div>
 
-            <h1 className="text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl lg:text-6xl">
+            <h1 className="font-outfit text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl lg:text-6xl">
               Contact Us
             </h1>
 
@@ -268,7 +268,7 @@ export default function Contact() {
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">
               Have questions about Techno Wings 2K26?
               <br />
-              Connect directly with our faculty and student coordinators.
+              Connect directly with our student coordinators.
             </p>
 
           </motion.div>
@@ -301,7 +301,7 @@ export default function Contact() {
                   />
                 </div>
 
-                <h2 className="mt-7 text-xl font-black tracking-wide text-[#06152e]">
+                <h2 className="font-outfit mt-7 text-xl font-black tracking-wide text-[#06152e]">
                   OUR LOCATION
                 </h2>
 
@@ -402,7 +402,7 @@ export default function Contact() {
               Event Support
             </div>
 
-            <h2 className="text-3xl font-black tracking-tight text-[#06152e] sm:text-4xl">
+            <h2 className="font-outfit text-3xl font-black tracking-tight text-[#06152e] sm:text-4xl">
               EVENT COORDINATORS
             </h2>
 
@@ -415,7 +415,7 @@ export default function Contact() {
             />
 
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-6 text-slate-500">
-              Connect directly with the faculty and student coordinators
+              Connect directly with the student coordinators
               <br className="hidden sm:block" />
               for event-related assistance.
             </p>
@@ -435,11 +435,6 @@ export default function Contact() {
               title="DRONE EXPO"
               coordinators={[
                 {
-                  role: "Faculty Coordinator",
-                  name: "Mr. Reju R.",
-                  phone: "+91 90953 55087",
-                },
-                {
                   role: "Student Coordinator",
                   name: "Prathmesh Patil",
                   phone: "+91 84849 84499",
@@ -453,11 +448,6 @@ export default function Contact() {
               icon="💻"
               title="CAD MASTER"
               coordinators={[
-                {
-                  role: "Faculty Coordinator",
-                  name: "Mr. Arun Nema",
-                  phone: "+91 70222 97404",
-                },
                 {
                   role: "Student Coordinator",
                   name: "Mandar Ghodake",
@@ -473,11 +463,6 @@ export default function Contact() {
               title="PAPER PRESENTATION"
               coordinators={[
                 {
-                  role: "Faculty Coordinator",
-                  name: "Dr. T. Anand",
-                  phone: "+91 97862 92925",
-                },
-                {
                   role: "Student Coordinator",
                   name: "Shweta Raut",
                   phone: "+91 78229 16824",
@@ -491,11 +476,6 @@ export default function Contact() {
               icon="🚀"
               title="WATER ROCKET"
               coordinators={[
-                {
-                  role: "Faculty Coordinator",
-                  name: "Mr. Sanoj P. Suresh",
-                  phone: "+91 97866 79867",
-                },
                 {
                   role: "Student Coordinator",
                   name: "Shivani Nangre",
@@ -511,11 +491,6 @@ export default function Contact() {
               title="CHUCK GLIDER"
               coordinators={[
                 {
-                  role: "Faculty Coordinator",
-                  name: "Dr. Sendhil Kumar S",
-                  phone: "+91 94861 72845",
-                },
-                {
                   role: "Student Coordinator",
                   name: "Chanchal Shelar",
                   phone: "+91 70570 04239",
@@ -530,11 +505,6 @@ export default function Contact() {
               title="Flight SIMULATOR"
               coordinators={[
                 {
-                  role: "Faculty Coordinator",
-                  name: "Mr. Mohammed Hashim Y.",
-                  phone: "+91 90612 93705",
-                },
-                {
                   role: "Student Coordinator",
                   name: "Samarth Lomate",
                   phone: "+91 9022161641",
@@ -548,11 +518,6 @@ export default function Contact() {
               icon="🧠"
               title="REASONING RUMBLE"
               coordinators={[
-                {
-                  role: "Faculty Coordinator",
-                  name: "Mr. Yogesh Kumbhar",
-                  phone: "+91 70587 00724",
-                },
                 {
                   role: "Student Coordinator",
                   name: "Aznaan Shaikh",

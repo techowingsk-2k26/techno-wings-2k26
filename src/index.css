@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 /* =========================================================
@@ -5,16 +6,12 @@
    ========================================================= */
 
 :root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
   color: #ffffff;
   background: #020817;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 /* =========================================================
@@ -315,4 +312,11 @@ main {
   .site-scale {
     zoom: 0.75;
   }
+}
+.font-outfit {
+  font-family: "Outfit", sans-serif;
+}
+
+.font-jakarta {
+  font-family: "Plus Jakarta Sans", sans-serif;
 }

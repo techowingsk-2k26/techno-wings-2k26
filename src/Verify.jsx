@@ -251,7 +251,7 @@ export default function Verify() {
             Registration Verification System
           </div>
 
-          <h1 className="mt-6 text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl md:text-6xl">
+          <h1 className="font-outfit mt-6 text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl md:text-6xl">
             Verify Registration
           </h1>
 
@@ -317,7 +317,7 @@ export default function Verify() {
                 Registration Lookup
               </p>
 
-              <h2 className="mt-1 text-xl font-black text-[#06152e]">
+              <h2 className="font-outfit mt-1 text-xl font-black text-[#06152e]">
                 Enter Registration ID
               </h2>
 
@@ -430,7 +430,7 @@ export default function Verify() {
                       Verification Successful
                     </p>
 
-                    <h2 className="mt-2 text-3xl font-black text-[#06152e] sm:text-4xl">
+                    <h2 className="font-outfit mt-2 text-3xl font-black text-[#06152e] sm:text-4xl">
                       Registration Verified
                     </h2>
 
@@ -580,7 +580,7 @@ export default function Verify() {
                   Verification Failed
                 </p>
 
-                <h2 className="mt-2 text-3xl font-black text-[#06152e]">
+                <h2 className="font-outfit mt-2 text-3xl font-black text-[#06152e]">
                   Registration Not Found
                 </h2>
 

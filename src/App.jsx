@@ -31,6 +31,7 @@ import adateLogo from "./assets/adate-logo.png";
 import wingsBackground from "./assets/wings-background.png";
 import aesiLogo from "./assets/aesi-pune-logo.png";
 import collegeLogo from "./assets/college-logo.png";
+import heroTejas from "./assets/hero-tejas.png";
 
 /* =================================================
    EVENT SHOWCASE IMAGES
@@ -320,269 +321,6 @@ function MagneticLink({
    REALISTIC AIRCRAFT SVG
 ========================================================= */
 
-function AircraftVisual({
-  className = "",
-  flip = false,
-}) {
-  return (
-    <motion.svg
-      viewBox="0 0 720 300"
-      className={className}
-      style={{
-        transform: flip ? "scaleX(-1)" : undefined,
-      }}
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient
-          id="aircraftMetal"
-          x1="0"
-          y1="0"
-          x2="1"
-          y2="1"
-        >
-          <stop
-            offset="0%"
-            stopColor="#ffffff"
-          />
-
-          <stop
-            offset="42%"
-            stopColor="#d8e8f8"
-          />
-
-          <stop
-            offset="100%"
-            stopColor="#6f8eaa"
-          />
-        </linearGradient>
-
-        <linearGradient
-          id="aircraftBlue"
-          x1="0"
-          y1="0"
-          x2="1"
-          y2="0"
-        >
-          <stop
-            offset="0%"
-            stopColor="#38bdf8"
-          />
-
-          <stop
-            offset="50%"
-            stopColor="#2563eb"
-          />
-
-          <stop
-            offset="100%"
-            stopColor="#4f46e5"
-          />
-        </linearGradient>
-
-        <filter id="aircraftGlow">
-          <feGaussianBlur
-            stdDeviation="5"
-            result="blur"
-          />
-
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-
-      {/* AERODYNAMIC GLOW */}
-
-      <path
-        d="M65 153 C210 125 365 121 600 143"
-        fill="none"
-        stroke="#38bdf8"
-        strokeWidth="8"
-        opacity="0.12"
-        filter="url(#aircraftGlow)"
-      />
-
-      {/* MAIN FUSELAGE */}
-
-      <path
-        d="
-          M62 151
-          C100 142 137 134 187 128
-          L310 110
-          L432 96
-          L558 91
-          C594 90 626 101 651 119
-          L677 138
-          L651 151
-          C628 161 601 166 565 167
-          L437 164
-          L314 160
-          L188 157
-          C137 157 99 157 62 151
-          Z
-        "
-        fill="url(#aircraftMetal)"
-        stroke="#5b7691"
-        strokeWidth="2"
-      />
-
-      {/* COCKPIT */}
-
-      <path
-        d="
-          M492 101
-          C519 94 547 94 570 100
-          L592 112
-          L500 118
-          Z
-        "
-        fill="#123252"
-        opacity="0.95"
-      />
-
-      <path
-        d="
-          M501 104
-          C523 99 543 99 558 103
-          L570 109
-          L509 113
-          Z
-        "
-        fill="#7dd3fc"
-        opacity="0.75"
-      />
-
-      {/* UPPER MAIN WING */}
-
-      <path
-        d="
-          M395 112
-          L250 28
-          L226 32
-          L309 123
-          Z
-        "
-        fill="url(#aircraftMetal)"
-        stroke="#5b7691"
-        strokeWidth="2"
-      />
-
-      {/* LOWER MAIN WING */}
-
-      <path
-        d="
-          M388 153
-          L236 254
-          L268 260
-          L438 163
-          Z
-        "
-        fill="url(#aircraftMetal)"
-        stroke="#5b7691"
-        strokeWidth="2"
-      />
-
-      {/* VERTICAL STABILIZER */}
-
-      <path
-        d="
-          M276 116
-          L300 49
-          L322 46
-          L333 113
-          Z
-        "
-        fill="#a8bfd2"
-        stroke="#5b7691"
-        strokeWidth="2"
-      />
-
-      {/* HORIZONTAL TAIL */}
-
-      <path
-        d="
-          M147 137
-          L81 101
-          L69 105
-          L116 145
-          Z
-        "
-        fill="#b9cedd"
-        stroke="#5b7691"
-        strokeWidth="2"
-      />
-
-      <path
-        d="
-          M147 156
-          L77 194
-          L70 189
-          L116 150
-          Z
-        "
-        fill="#b9cedd"
-        stroke="#5b7691"
-        strokeWidth="2"
-      />
-
-      {/* ENGINES */}
-
-      <ellipse
-        cx="388"
-        cy="131"
-        rx="23"
-        ry="10"
-        fill="#304e69"
-      />
-
-      <ellipse
-        cx="388"
-        cy="131"
-        rx="14"
-        ry="6"
-        fill="#07192d"
-      />
-
-      <ellipse
-        cx="342"
-        cy="132"
-        rx="19"
-        ry="8"
-        fill="#304e69"
-      />
-
-      <ellipse
-        cx="342"
-        cy="132"
-        rx="11"
-        ry="5"
-        fill="#07192d"
-      />
-
-      {/* BLUE AEROSPACE ACCENT */}
-
-      <path
-        d="M93 148 C240 140 411 139 617 143"
-        fill="none"
-        stroke="url(#aircraftBlue)"
-        strokeWidth="4"
-        opacity="0.85"
-      />
-
-      {/* NOSE HIGHLIGHT */}
-
-      <path
-        d="M590 114 C618 115 640 124 658 138"
-        fill="none"
-        stroke="#ffffff"
-        strokeWidth="3"
-        opacity="0.65"
-      />
-    </motion.svg>
-  );
-}
 
 
 /* =========================================================
@@ -1160,217 +898,25 @@ function App() {
             </div>
           </div>
 
-
           {/* =================================================
-              ANIMATED FLIGHT PATH
+              STATIONARY TEJAS-STYLE AIRCRAFT
           ================================================= */}
 
-          {!reducedMotion && (
-            <svg
-              className="pointer-events-none absolute inset-0 z-[1] h-full w-full overflow-visible"
-              viewBox="0 0 1440 850"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
+          <div
+            className="pointer-events-none absolute right-[-5%] top-[22%] z-[3] hidden w-[68%] max-w-[1000px] lg:block"
+          >
+            <img
+              src={heroTejas}
+              alt=""
+              className="w-full object-contain drop-shadow-[0_20px_70px_rgba(0,174,255,0.35)]"
+            />
+          </div>
 
-              <motion.path
-                d="
-                  M -80 590
-                  C 180 470,
-                    310 650,
-                    520 505
-                  C 720 365,
-                    790 255,
-                    1010 330
-                  C 1170 385,
-                    1280 245,
-                    1530 150
-                "
-                fill="none"
-                stroke="#38bdf8"
-                strokeWidth="2"
-                strokeDasharray="10 12"
-                initial={{
-                  pathLength: 0,
-                  opacity: 0,
-                }}
-                animate={{
-                  pathLength: 1,
-                  opacity: 0.65,
-                }}
-                transition={{
-                  delay: 0.7,
-                  duration: 2.4,
-                  ease: "easeInOut",
-                }}
-              />
+          {/* ENGINE / EXHAUST GLOW */}
 
-              <motion.path
-                d="
-                  M -40 625
-                  C 190 520,
-                    350 690,
-                    555 540
-                  C 750 400,
-                    830 295,
-                    1035 365
-                  C 1200 420,
-                    1300 285,
-                    1490 205
-                "
-                fill="none"
-                stroke="#2563eb"
-                strokeWidth="1"
-                strokeDasharray="3 14"
-                initial={{
-                  pathLength: 0,
-                  opacity: 0,
-                }}
-                animate={{
-                  pathLength: 1,
-                  opacity: 0.35,
-                }}
-                transition={{
-                  delay: 1,
-                  duration: 2.8,
-                  ease: "easeInOut",
-                }}
-              />
-
-            </svg>
-          )}
-
-
-          {/* =================================================
-              REALISTIC AIRCRAFT FLIGHT
-          ================================================= */}
-
-          {!reducedMotion && (
-            <>
-              <motion.div
-                className="pointer-events-none absolute left-[7%] top-[62%] z-[3] hidden w-[250px] opacity-70 lg:block"
-                animate={{
-                  x: [0, 130, 280, 430],
-                  y: [
-                    0,
-                    -65,
-                    -135,
-                    -190,
-                  ],
-                  rotate: [
-                    -4,
-                    -8,
-                    -12,
-                    -16,
-                  ],
-                  opacity: [
-                    0,
-                    0.75,
-                    0.8,
-                    0,
-                  ],
-                }}
-                transition={{
-                  duration: 7,
-                  repeat: Infinity,
-                  repeatDelay: 2,
-                  ease: "easeInOut",
-                }}
-              >
-                <AircraftVisual />
-              </motion.div>
-
-
-              <motion.div
-                className="pointer-events-none absolute right-[7%] top-[28%] z-[3] hidden w-[190px] opacity-50 lg:block"
-                animate={{
-                  x: [
-                    0,
-                    -90,
-                    -210,
-                    -330,
-                  ],
-                  y: [
-                    0,
-                    35,
-                    80,
-                    120,
-                  ],
-                  rotate: [
-                    5,
-                    8,
-                    12,
-                    15,
-                  ],
-                  opacity: [
-                    0,
-                    0.5,
-                    0.55,
-                    0,
-                  ],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  repeatDelay: 3,
-                  delay: 2,
-                  ease: "easeInOut",
-                }}
-              >
-                <AircraftVisual flip />
-              </motion.div>
-            </>
-          )}
-
-
-          {/* =================================================
-              ORIGINAL FLOATING PLANES
-          ================================================= */}
-
-          {!reducedMotion && (
-            <>
-              <motion.div
-                aria-hidden="true"
-                className="absolute left-[5%] top-[35%] z-[2] text-blue-500/20"
-                animate={{
-                  x: [0, 55, 0],
-                  y: [0, -10, 0],
-                  rotate: [0, -3, 0],
-                }}
-                transition={{
-                  duration: 10,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <Plane
-                  size={70}
-                  strokeWidth={1}
-                />
-              </motion.div>
-
-
-              <motion.div
-                aria-hidden="true"
-                className="absolute bottom-[25%] right-[5%] z-[2] text-cyan-500/20"
-                animate={{
-                  x: [0, -45, 0],
-                  y: [0, 12, 0],
-                  rotate: [0, 3, 0],
-                }}
-                transition={{
-                  duration: 12,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <Plane
-                  size={56}
-                  strokeWidth={1}
-                />
-              </motion.div>
-            </>
-          )}
+          <div
+            className="pointer-events-none absolute right-[10%] top-[54%] z-[2] hidden h-32 w-52 rounded-full bg-cyan-400/30 blur-[55px] lg:block"
+          />
           
           {/* =================================================
               MOBILE HERO LOGOS
@@ -1865,7 +1411,7 @@ function App() {
 
                 {/* HEADING */}
 
-                <h2 className="mt-6 text-4xl font-black leading-[1.12] tracking-tight text-[#06152e] sm:text-5xl md:text-6xl">
+                <h2 className="font-outfit mt-6 text-4xl font-black leading-[1.12] tracking-tight text-[#06152e] sm:text-5xl md:text-6xl">
 
                   Welcome to the
 
@@ -2032,7 +1578,7 @@ function App() {
                           Techno Wings 2K26
                         </p>
 
-                        <h3 className="mt-2 text-2xl font-black text-white sm:text-3xl">
+                        <h3 className="font-outfit mt-2 text-2xl font-black text-white sm:text-3xl">
                           {
                             eventShowcaseImages[
                               activeEventSlide
@@ -2288,7 +1834,7 @@ function App() {
                 Explore Events
               </SectionLabel>
 
-              <h2 className="mt-5 text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl md:text-6xl">
+              <h2 className="font-outfit mt-5 text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl md:text-6xl">
                 Discover Exciting Events
               </h2>
 
@@ -2647,7 +2193,7 @@ function App() {
 
                       {/* TITLE */}
 
-                      <h3 className="mt-2 min-h-[58px] max-w-[300px] text-[26px] font-black leading-[1.05] tracking-tight text-[#06152e] sm:text-[28px]">
+                      <h3 className="font-outfit mt-2 min-h-[58px] max-w-[300px] text-[26px] font-black leading-[1.05] tracking-tight text-[#06152e] sm:text-[28px]">
                         {category.title}
                       </h3>
 
@@ -2903,7 +2449,7 @@ function App() {
                 In Association With
               </p>
 
-              <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
+              <h2 className="font-outfit mt-4 text-3xl font-black tracking-tight sm:text-5xl">
                 The Aeronautical Society of India
               </h2>
 
@@ -2953,7 +2499,7 @@ function App() {
               </motion.div>
 
 
-              <h3 className="mt-8 text-xl font-black sm:text-2xl">
+              <h3 className="font-outfit mt-8 text-xl font-black sm:text-2xl">
                 The Aeronautical Society of India
               </h3>
 
@@ -3000,7 +2546,7 @@ function App() {
                 Get in Touch
               </SectionLabel>
 
-              <h2 className="text-4xl font-black sm:text-5xl md:text-6xl">
+              <h2 className="font-outfit text-4xl font-black sm:text-5xl md:text-6xl">
                 Contact Us
               </h2>
 
@@ -3029,7 +2575,7 @@ function App() {
                   <Mail size={29} />
                 </div>
 
-                <h3 className="mt-6 text-lg font-black tracking-wide">
+                <h3 className="font-outfit mt-6 text-lg font-black tracking-wide">
                   EMAIL
                 </h3>
 
@@ -3055,7 +2601,7 @@ function App() {
                   <MapPin size={29} />
                 </div>
 
-                <h3 className="mt-6 text-lg font-black tracking-wide">
+                <h3 className="font-outfit mt-6 text-lg font-black tracking-wide">
                   LOCATION
                 </h3>
 
