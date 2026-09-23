@@ -214,8 +214,8 @@ const events = [
     prizePool: "₹6,000/-",
 
 
-    studentCoordinator: "Shivani Nangre",
-    studentPhone: "+91 85912 55289",
+    studentCoordinator: "Suraj Mali",
+    studentPhone: "+91 74994 80831",
 
     rules: {
       eligibility: [
@@ -325,8 +325,8 @@ const events = [
     registrationFee: "₹200 Per Team",
     prizePool: "₹6,000/-",
 
-    studentCoordinator: "Aznaan Shaikh",
-    studentPhone: "+91 87937 77579",
+    studentCoordinator: "Vadud Mujawar",
+    studentPhone: "+91 94238 52044",
 
     rules: {
       rounds: [

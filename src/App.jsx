@@ -32,6 +32,7 @@ import wingsBackground from "./assets/wings-background.png";
 import aesiLogo from "./assets/aesi-pune-logo.png";
 import collegeLogo from "./assets/college-logo.png";
 import heroTejas from "./assets/hero-tejas.png";
+import heroSkyBackground from "./assets/hero-sky-background.png";
 
 /* =================================================
    EVENT SHOWCASE IMAGES
@@ -867,17 +868,31 @@ function App() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(0,184,255,0.15),transparent_30%),linear-gradient(180deg,#ffffff_0%,#edf7ff_58%,#f5f9ff_100%)]" />
 
           <div className="absolute left-1/2 top-[42%] h-[620px] w-[820px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300/10 blur-[120px]" />
-
+          
+          {/* =================================================
+              HERO SKY / CLOUD BACKGROUND
+              BEHIND ALL HERO CONTENT & AIRCRAFT
+          ================================================= */}
+          <div
+            className="pointer-events-none absolute inset-0 z-[1] overflow-hidden"
+            aria-hidden="true"
+          >
+            <img
+              src={heroSkyBackground}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
+          </div>
 
           {/* =================================================
-              LEFT AESI LOGO
+              LEFT ADCET LOGO
           ================================================= */}
 
           <div className="pointer-events-none absolute left-[3%] top-[15%] z-[4] hidden lg:block">
-            <div className="flex h-[190px] w-[190px] items-center justify-center rounded-3xl border border-blue-100/80 bg-white/35 p-6 shadow-[0_15px_45px_rgba(6,21,46,0.04)] backdrop-blur-[2px]">
+            <div className="flex h-[190px] w-[190px] items-center justify-center rounded-3xl border border-blue-100/80 bg-white/100 p-6 shadow-[0_15px_45px_rgba(6,21,46,0.04)] backdrop-blur-[2px]">
               <img
-                src={aesiLogo}
-                alt="AESI Pune"
+                src={collegeLogo}
+                alt="Annasaheb Dange College of Engineering and Technology"
                 className="h-[145px] w-[145px] object-contain drop-shadow-[0_8px_18px_rgba(37,99,235,0.12)]"
               />
             </div>
@@ -885,14 +900,14 @@ function App() {
 
 
           {/* =================================================
-              RIGHT ADCET LOGO
+              RIGHT AESI LOGO
           ================================================= */}
 
           <div className="pointer-events-none absolute right-[3%] top-[13%] z-[4] hidden lg:block">
-            <div className="flex h-[190px] w-[190px] items-center justify-center rounded-3xl border border-blue-100/80 bg-white/35 p-6 shadow-[0_15px_45px_rgba(6,21,46,0.04)] backdrop-blur-[2px]">
+            <div className="flex h-[190px] w-[190px] items-center justify-center rounded-3xl border border-blue-100/80 bg-white/100 p-6 shadow-[0_15px_45px_rgba(6,21,46,0.04)] backdrop-blur-[2px]">
               <img
-                src={collegeLogo}
-                alt="Annasaheb Dange College of Engineering and Technology"
+                src={aesiLogo}
+                alt="AESI Pune"
                 className="h-[145px] w-[145px] object-contain drop-shadow-[0_8px_18px_rgba(37,99,235,0.12)]"
               />
             </div>
@@ -903,7 +918,7 @@ function App() {
           ================================================= */}
 
           <div
-            className="pointer-events-none absolute right-[-5%] top-[22%] z-[3] hidden w-[68%] max-w-[1000px] lg:block"
+            className="pointer-events-none absolute right-[-5%] top-[30%] z-[3] hidden w-[68%] max-w-[1000px] lg:block"
           >
             <img
               src={heroTejas}

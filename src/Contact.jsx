@@ -478,8 +478,8 @@ export default function Contact() {
               coordinators={[
                 {
                   role: "Student Coordinator",
-                  name: "Shivani Nangre",
-                  phone: "+91 85912 55289",
+                  name: "Suraj Mali",
+                  phone: "+91 74994 80831",
                 },
               ]}
             />
@@ -520,8 +520,8 @@ export default function Contact() {
               coordinators={[
                 {
                   role: "Student Coordinator",
-                  name: "Aznaan Shaikh",
-                  phone: "+91 87937 77579",
+                  name: "Vadud Mujawar",
+                  phone: "+91 94238 52044",
                 },
               ]}
             />
