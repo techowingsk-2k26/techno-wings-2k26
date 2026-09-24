@@ -989,7 +989,7 @@ function App() {
                 delay: 0.08,
                 duration: 0.65,
               }}
-              className="text-2xl font-semibold tracking-wide text-[#31506f] sm:text-4xl"
+              className="font-hero-script text-3xl text-blue-900 sm:text-4xl md:text-5xl"
             >
               Welcome to
             </motion.p>
@@ -999,15 +999,14 @@ function App() {
 
             <div className="mt-3 overflow-hidden">
 
-              <motion.h1
+              <motion.div
                 initial={
                   reducedMotion
                     ? false
                     : {
                         opacity: 0,
                         y: 70,
-                        filter:
-                          "blur(14px)",
+                        filter: "blur(14px)",
                       }
                 }
                 animate={
@@ -1018,27 +1017,54 @@ function App() {
                     : {
                         opacity: 1,
                         y: 0,
-                        filter:
-                          "blur(0px)",
+                        filter: "blur(0px)",
                       }
                 }
                 transition={{
                   delay: 0.16,
                   duration: 0.9,
-                  ease: [
-                    0.16,
-                    1,
-                    0.3,
-                    1,
-                  ],
+                  ease: [0.16, 1, 0.3, 1],
                 }}
-                className="text-[13vw] font-black leading-[0.92] tracking-[-0.055em] text-[#06152e] sm:text-[10vw] md:text-[clamp(4rem,7.2vw,7rem)]"
+                className="text-center"
               >
-                TECHNO WINGS{" "}
-                <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 bg-clip-text text-transparent">
+
+                {/* TECHNO WINGS */}
+                <h1
+                  className="
+                    font-hero-title
+                    text-[13vw]
+                    font-black
+                    uppercase
+                    italic
+                    leading-[0.78]
+                    tracking-[-0.065em]
+                    text-[#082b73]
+                    sm:text-[10vw]
+                    md:text-[clamp(4rem,7.2vw,7rem)]
+                  "
+                >
+                  TECHNO WINGS
+                </h1>
+
+                {/* 2K26 */}
+                <div
+                  className="
+                    font-hero-number
+                    mt-3
+                    text-[15vw]
+                    font-black
+                    italic
+                    leading-[0.68]
+                    tracking-[-0.04em]
+                    text-cyan-500
+                    sm:text-[12vw]
+                    md:text-[clamp(4.8rem,7.5vw,7.5rem)]
+                  "
+                >
                   2K26
-                </span>
-              </motion.h1>
+                </div>
+
+              </motion.div>
 
             </div>
 

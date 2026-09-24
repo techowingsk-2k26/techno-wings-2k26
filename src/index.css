@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Orbitron:wght@700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 /* =========================================================
@@ -319,4 +319,21 @@ main {
 
 .font-jakarta {
   font-family: "Plus Jakarta Sans", sans-serif;
+}
+/* =========================================================
+   HERO DISPLAY FONTS
+   ========================================================= */
+
+.font-hero-script {
+  font-family: "Kaushan Script", cursive;
+}
+
+.font-hero-title {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 900;
+}
+
+.font-hero-number {
+  font-family: "Kaushan Script", cursive;
+  font-weight: 700;
 }
