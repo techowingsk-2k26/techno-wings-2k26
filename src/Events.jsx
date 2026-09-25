@@ -42,21 +42,54 @@ const events = [
     image: droneExpoImage,
     slug: "drone-expo",
 
-    participation: "Team Only",
-    teamSize: "Exactly 2 Members",
-    registrationFee: "FREE ENTRY",
+    participation: "Open to All",
+    teamSize: "Maximum 2 Persons per Stall",
+    registrationFee: "Free for Audience",
     prizePool: "Not Applicable",
 
     studentCoordinator: "Prathmesh Patil",
     studentPhone: "+91 84849 84499",
 
-    rules: null,
+    rules: {
+      exhibitor: [
+        "The Drone Expo is a one-day exhibition.",
+        "Each approved exhibitor will be provided a standardized 6 × 6 feet stall area for technical displays and hardware.",
+        "Each exhibitor stall is limited to a maximum of 2 persons to avoid overcrowding.",
+        "A confirmed enrolment fee of ₹6,000 per stall must be paid before the event date.",
+        "Complimentary lunch will be provided exclusively to registered industry personnel operating the exhibits.",
+      ],
+
+      flightSafety: [
+        "All UAVs exceeding the Nano category (250 g) must visibly display a valid DGCA Unique Identification Number (UIN).",
+        "Pilots operating heavy-lift or agricultural spraying drones must possess and carry a valid Remote Pilot Certificate (RPC).",
+        "All live drone demonstrations must be conducted strictly within Visual Line of Sight (VLOS).",
+        "Flight demonstrations must remain below the maximum permitted altitude of 400 feet (120 metres) Above Ground Level (AGL).",
+        "Compliance with 'No Permission, No Takeoff' (NPNT) requirements is mandatory.",
+        "Drone demonstrations may only be conducted during the designated flight demonstration windows approved by the organizers.",
+      ],
+
+      studentAudience: [
+        "Students, farmers, representatives of Farmer Producer Organizations (FPOs), sugarcane industry delegates and other visitors are welcome to attend the expo.",
+        "All attendees must remain behind the designated safety cordons during active drone flight demonstrations.",
+        "Attendees must not enter the designated flight or demonstration area unless instructed by the organizers.",
+        "Visitors must follow all safety instructions provided by organizers, volunteers and authorized personnel.",
+        "Students and visitors must not touch, operate or interfere with any drone or technical equipment without permission from the respective exhibitor or organizer.",
+        "Photography and video recording must be carried out without entering restricted or safety zones.",
+      ],
+
+      conduct: [
+        "All exhibitors, pilots, students and visitors are expected to maintain discipline and follow the instructions of the organizers.",
+        "The organizers reserve the right to stop a flight demonstration whenever required for safety or event management.",
+        "Any violation of safety instructions or unauthorized operation of equipment may result in removal from the designated area.",
+        "The decision of the organizers regarding safety, stall management and flight demonstrations shall be final.",
+      ],
+    },
   },
 
   {
     title: "Chuck Glider",
     description:
-      "Test your understanding of flight, aerodynamics and aircraft design.",
+      "Design, build and fly a non-powered chuck glider while applying basic principles of aerodynamics, stability and aircraft design.",
     icon: "🛩",
     category: "Aerospace Challenges",
     categoryKey: "aerospace",
@@ -73,27 +106,63 @@ const events = [
 
     rules: {
       registration: [
-        "Each team must have exactly 2 members and both members must be registered.",
-        "Only registered teams may participate and participants must report on time.",
+        "Each team must consist of exactly 2 members. Individual participation is not allowed.",
+        "Both team members must provide their details during registration.",
+        "Only registered teams are eligible to participate.",
+        "Participants must report to the venue on time as instructed by the organizers.",
+      ],
+
+      materials: [
+        "Each team will be provided with a 30 cm × 60 cm foam sheet for glider construction.",
+        "Organizers will provide the required cutter, clay and glue.",
+        "A tutorial video and sample dimensions will be provided for guidance.",
+        "Participants may bring only basic stationery and measuring tools such as a ruler, pencil, eraser and marker.",
+        "No additional foam, paper, cardboard, plastic, wire, tape, thread, rubber bands or other construction materials are permitted.",
+      ],
+
+      construction: [
+        "The glider must be constructed only from the materials provided by the organizers.",
+        "The sample dimensions are for reference only; teams may develop their own glider design.",
+        "The glider must be completed within the allotted construction time.",
+        "The glider must be a non-powered, hand-launched chuck glider.",
+        "Each completed glider must pass technical inspection before participating in the flying competition.",
       ],
 
       competition: [
-        "The event includes a glider-making workshop followed by a flying competition.",
-        "Gliders must be non-powered, hand-launched chuck gliders made using thermocol and permitted materials.",
-        "Motors, batteries, propellers, rubber bands and external launching devices are not allowed.",
-        "Each team gets 3 attempts; the best valid flight distance will be considered.",
-        "Distance is measured from the launch line to the point where the glider first touches the ground.",
+        "The event consists of a glider-making and construction phase followed by a flying competition.",
+        "One practice attempt may be provided, subject to available time and field conditions.",
+        "Each team will receive 3 official flying attempts.",
+        "The glider must be hand-launched from behind the designated launch line.",
+        "Only one team member may launch the glider during an attempt.",
+        "No running launch, throwing assistance, mechanical launcher or external propulsion is permitted.",
+        "Motors, batteries, propellers, rubber bands, catapults and other external propulsion or launching mechanisms are strictly prohibited.",
+        "Flight distance is measured from the designated launch line to the point where the glider first touches the ground.",
+        "The longest valid flight distance among the 3 official attempts will be considered the team's final score.",
       ],
 
       disqualification: [
-        "Use of prohibited materials, propulsion or launching aids may result in disqualification.",
-        "Cheating, interference, unsafe behavior or disobeying officials may result in disqualification.",
+        "Use of prohibited or additional construction materials may result in disqualification.",
+        "Use of powered or external propulsion, mechanical launching devices or launching aids may result in disqualification.",
+        "Modifying the glider with prohibited materials after technical inspection may result in disqualification.",
+        "Deliberate interference with another team's flight may result in disqualification.",
+        "Cheating, attempting to manipulate the measurement or result, or violating safety instructions may result in disqualification.",
+        "Failure to follow instructions given by organizers, judges or volunteers may result in disqualification.",
       ],
 
       conduct: [
-        "Only the team whose turn it is may enter the flying area.",
-        "Repairs or modifications are allowed only in the designated area.",
-        "Judges' and organizers' decisions are final.",
+        "Participants must follow all safety instructions given by organizers and volunteers.",
+        "Cutting tools must be handled carefully and used only in the designated construction area.",
+        "Participants must not enter the flying area unless instructed by the organizers.",
+        "Only the team whose turn it is may enter the designated launch area.",
+        "Repairs or modifications are permitted only in the designated area and using permitted materials.",
+        "Participants are expected to maintain discipline, fair play and sportsmanship throughout the event.",
+        "The organizers may stop or modify an activity if required for safety or event management.",
+        "Judges' and organizers' decisions regarding flight validity, measurement and results shall be final and binding.",
+      ],
+
+      winnerCriteria: [
+        "The team achieving the maximum valid flight distance in the official attempts will be declared the winner.",
+        "In case of a tie, the organizers may conduct an additional tie-breaker flight.",
       ],
     },
   },
@@ -169,12 +238,12 @@ const events = [
       registration: [
         "Registration must be completed before the deadline. Late entries will not be accepted.",
         "CAD Master is an individual participation event.",
-        "Participants must mention their CAD software during registration.",
+        "Participants must use only one software i.e. Solidworks.",
       ],
 
       design: [
         "The design must be created live during the competition. Pre-existing models, templates or downloaded components are not allowed unless provided by the organizers.",
-        "Only the approved or provided CAD software and systems may be used.",
+        "Only the approved or provided CAD software and systems must be used.",
         "Internet access is strictly prohibited during the active designing round.",
         "Final submission must include the CAD part/assembly files and a 2D drafting sheet in PDF format with necessary views and dimensions.",
         "Rendering should be provided only if specifically required by the organizers.",
@@ -518,20 +587,26 @@ function EventCard({ event, index, onViewDetails }) {
         <div className="mt-4 flex items-center gap-2">
           <div
             className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider ${
-              isTeam
-                ? "bg-indigo-50 text-indigo-700"
-                : "bg-cyan-50 text-cyan-700"
+              event.slug === "drone-expo"
+                ? "bg-emerald-50 text-emerald-700"
+                : isTeam
+                  ? "bg-indigo-50 text-indigo-700"
+                  : "bg-cyan-50 text-cyan-700"
             }`}
           >
-            {isTeam ? (
+            {event.slug === "drone-expo" ? (
+              <Plane size={13} />
+            ) : isTeam ? (
               <Users size={13} />
             ) : (
               <Target size={13} />
             )}
 
-            {isTeam
-              ? "2 Member Team"
-              : "Individual Event"}
+            {event.slug === "drone-expo"
+              ? "Exhibition"
+              : isTeam
+                ? "2 Member Team"
+                : "Individual Event"}
           </div>
         </div>
 
@@ -987,6 +1062,27 @@ function EventDetailsModal({ event, onClose }) {
                       title: "Disqualification",
                       icon: <ShieldCheck size={17} />,
                       rules: event.rules.disqualification,
+                    },
+
+                    /* DRONE EXPO — EXHIBITOR */
+                    event.rules.exhibitor && {
+                      title: "Exhibitor Registration & Setup",
+                      icon: <Users size={17} />,
+                      rules: event.rules.exhibitor,
+                    },
+
+                    /* DRONE EXPO — FLIGHT SAFETY */
+                    event.rules.flightSafety && {
+                      title: "Flight Safety Requirements",
+                      icon: <ShieldCheck size={17} />,
+                      rules: event.rules.flightSafety,
+                    },
+
+                    /* DRONE EXPO — STUDENT & VISITOR */
+                    event.rules.studentAudience && {
+                      title: "Student & Visitor Guidelines",
+                      icon: <Users size={17} />,
+                      rules: event.rules.studentAudience,
                     },
 
                     /* CONDUCT */

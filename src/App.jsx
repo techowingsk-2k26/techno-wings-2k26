@@ -1027,7 +1027,7 @@ function App() {
                 <img
                   src={adateLogo}
                   alt="ADATE Club"
-                  className="h-20 w-auto object-contain sm:h-[68px]"
+                  className="h-24 w-auto object-contain sm:h-[90px]"
                 />
 
                 <div className="text-center sm:text-left">
