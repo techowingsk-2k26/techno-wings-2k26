@@ -8,7 +8,9 @@
   width: 100vw;
   height: 100vh;
   height: 100dvh;
+
   overflow: hidden;
+
   z-index: 9999;
 
   display: flex;
@@ -16,15 +18,30 @@
   justify-content: center;
 
   background: #01040a;
+
   pointer-events: auto;
   isolation: isolate;
 
+  /*
+   * Prevent the intro from affecting layout outside itself.
+   */
   contain: layout paint size;
-  transform: translateZ(0);
+
+  /*
+   * Only the root itself gets a compositing hint.
+   * Do NOT promote every child.
+   */
+  transform: translate3d(0, 0, 0);
+
+  /*
+   * Keep browser text/image rendering stable.
+   */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeSpeed;
 }
 
 /* ============================================================
-   GPU OPTIMIZATION
+   GLOBAL ANIMATION SAFETY
 ============================================================ */
 
 .intro-root *,
@@ -34,44 +51,546 @@
   backface-visibility: hidden;
 }
 
-/* Promote the intro layers to their own compositing layer */
-.intro-root svg,
-.intro-root img,
-.intro-root .intro-wing,
-.intro-root .intro-title,
-.intro-root .intro-energy {
-  transform: translateZ(0);
+/*
+ * SVG animation is isolated from the rest of the document.
+ */
+.intro-root svg {
+  contain: layout paint;
+}
+
+/*
+ * Only elements that actually move continuously receive
+ * compositor hints.
+ */
+.intro-particle,
+.intro-speed-line,
+.intro-hud-ring,
+.intro-system-ready {
+  will-change: transform, opacity;
 }
 
 /* ============================================================
-   MOBILE PERFORMANCE
+   PARTICLES
+============================================================ */
+
+.intro-particles-layer {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  /*
+   * One compositing layer for the complete particle field
+   * instead of unnecessarily promoting every particle.
+   */
+  contain: strict;
+}
+
+.intro-particle {
+  position: absolute;
+
+  left: var(--particle-x);
+  top: var(--particle-y);
+
+  width: var(--particle-size);
+  height: var(--particle-size);
+
+  border-radius: 999px;
+
+  background: rgb(103 232 249);
+
+  opacity: 0;
+
+  transform: translate3d(0, 0, 0) scale(0.5);
+
+  /*
+   * Keep the particle visual identical while avoiding
+   * JavaScript animation work.
+   */
+  animation: intro-particle-float
+    var(--particle-duration)
+    linear
+    var(--particle-delay)
+    infinite;
+
+  animation-play-state: paused;
+
+  contain: strict;
+}
+
+.intro-particles-active .intro-particle {
+  animation-play-state: running;
+}
+
+@keyframes intro-particle-float {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.5);
+  }
+
+  20% {
+    opacity: var(--particle-opacity);
+    transform: translate3d(0, -4px, 0) scale(1);
+  }
+
+  65% {
+    opacity: calc(var(--particle-opacity) * 0.35);
+    transform: translate3d(0, -13px, 0) scale(0.8);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0) scale(0.8);
+  }
+}
+
+/* ============================================================
+   SPEED LINES
+============================================================ */
+
+.intro-speed-lines {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  contain: strict;
+}
+
+.intro-speed-lines-left,
+.intro-speed-lines-right {
+  position: absolute;
+  inset: 0;
+}
+
+.intro-speed-line {
+  position: absolute;
+
+  top: var(--line-top);
+
+  height: 1px;
+  width: var(--line-width);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  animation-duration: var(--line-duration);
+  animation-delay: var(--line-delay);
+  animation-t-timing-function: cubic-bezier(
+    0.16,
+    1,
+    0.3,
+    1
+  );
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  animation-play-state: paused;
+
+  /*
+   * Gradient is retained to preserve the original look.
+   */
+  background:
+    linear-gradient(
+      to right,
+      transparent,
+      rgb(103 232 249 / 0.8),
+      transparent
+    );
+}
+
+.intro-speed-line-right {
+  background:
+    linear-gradient(
+      to left,
+      transparent,
+      rgb(147 197 253 / 0.8),
+      transparent
+    );
+}
+
+/*
+ * Animation is deliberately triggered only once.
+ * This replaces 28 continuously managed Motion animations.
+ */
+
+.intro-speed-lines-active .intro-speed-line {
+  animation-play-state: running;
+}
+
+.intro-speed-line-left {
+  left: -35vw;
+
+  animation-name: intro-speed-left;
+}
+
+.intro-speed-line-right {
+  right: -35vw;
+
+  animation-name: intro-speed-right;
+}
+
+@keyframes intro-speed-left {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(73vw, 0, 0);
+  }
+}
+
+@keyframes intro-speed-right {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(-73vw, 0, 0);
+  }
+}
+
+/* ============================================================
+   ENERGY
+============================================================ */
+
+.intro-energy-glow {
+  will-change: transform, opacity;
+}
+
+.intro-energy-beam {
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+/* ============================================================
+   SVG
+============================================================ */
+
+.intro-wing,
+.intro-aircraft {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/*
+ * Keep SVG rendering stable.
+ */
+.intro-root svg {
+  shape-rendering: geometricPrecision;
+}
+
+/* ============================================================
+   HUD RINGS
+============================================================ */
+
+.intro-hud-ring {
+  position: absolute;
+
+  left: 50%;
+  top: 49%;
+
+  transform: translate3d(-50%, -50%, 0);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  contain: paint;
+}
+
+.intro-hud-ring-large {
+  width: 250px;
+  height: 250px;
+
+  border: 1px solid rgb(34 211 238 / 0.2);
+
+  animation:
+    intro-hud-large-in 0.55s
+      cubic-bezier(0.16, 1, 0.3, 1)
+      forwards paused,
+    intro-hud-large-spin 12s
+      linear
+      infinite paused;
+}
+
+.intro-hud-ring-small {
+  width: 180px;
+  height: 180px;
+
+  border: 1px dashed rgb(96 165 250 / 0.2);
+
+  animation:
+    intro-hud-small-in 0.5s
+      ease-out
+      forwards paused,
+    intro-hud-small-spin 18s
+      linear
+      infinite paused;
+}
+
+.intro-hud-active.intro-hud-ring-large {
+  animation-play-state: running, running;
+}
+
+.intro-hud-active.intro-hud-ring-small {
+  animation-play-state: running, running;
+}
+
+@keyframes intro-hud-large-in {
+  from {
+    opacity: 0;
+    transform:
+      translate3d(-50%, -50%, 0)
+      scale(0.5)
+      rotate(0deg);
+  }
+
+  to {
+    opacity: 0.5;
+    transform:
+      translate3d(-50%, -50%, 0)
+      scale(1)
+      rotate(0deg);
+  }
+}
+
+@keyframes intro-hud-large-spin {
+  from {
+    transform:
+      translate3d(-50%, -50%, 0)
+      scale(1)
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      translate3d(-50%, -50%, 0)
+      scale(1)
+      rotate(360deg);
+  }
+}
+
+@keyframes intro-hud-small-in {
+  from {
+    opacity: 0;
+    transform:
+      translate3d(-50%, -50%, 0)
+      scale(1);
+  }
+
+  to {
+    opacity: 0.35;
+    transform:
+      translate3d(-50%, -50%, 0)
+      scale(1);
+  }
+}
+
+@keyframes intro-hud-small-spin {
+  from {
+    transform:
+      translate3d(-50%, -50%, 0)
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      translate3d(-50%, -50%, 0)
+      rotate(-360deg);
+  }
+}
+
+/* ============================================================
+   HUD MARKERS
+============================================================ */
+
+.intro-hud-marker {
+  position: absolute;
+
+  display: block;
+
+  background: rgb(103 232 249);
+
+  pointer-events: none;
+}
+
+.intro-hud-marker-top,
+.intro-hud-marker-bottom {
+  left: 50%;
+
+  width: 1px;
+  height: 8px;
+
+  transform: translateX(-50%);
+}
+
+.intro-hud-marker-top {
+  top: 0;
+}
+
+.intro-hud-marker-bottom {
+  bottom: 0;
+}
+
+.intro-hud-marker-left,
+.intro-hud-marker-right {
+  top: 50%;
+
+  width: 8px;
+  height: 1px;
+
+  transform: translateY(-50%);
+}
+
+.intro-hud-marker-left {
+  left: 0;
+}
+
+.intro-hud-marker-right {
+  right: 0;
+}
+
+/* ============================================================
+   TITLE
+============================================================ */
+
+.intro-title {
+  /*
+   * The original title blur is retained.
+   * Isolate it so the blur does not affect the whole intro.
+   */
+  contain: paint;
+}
+
+/* ============================================================
+   SYSTEM READY
+============================================================ */
+
+.intro-system-ready {
+  position: absolute;
+
+  right: 1.25rem;
+  bottom: 1.25rem;
+
+  font-size: 7px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.35em;
+
+  color: rgb(103 232 249 / 0.3);
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.intro-system-ready-active {
+  animation:
+    intro-system-ready-pulse
+    1s
+    ease-in-out
+    infinite;
+}
+
+@keyframes intro-system-ready-pulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ============================================================
+   MOBILE OPTIMIZATION
 ============================================================ */
 
 @media (max-width: 640px) {
-
   .intro-root {
+    width: 100%;
     height: 100dvh;
-  }
 
-  /* Reduce expensive visual effects on smaller devices */
-  .intro-root * {
-    will-change: auto;
-  }
-
-  /* Keep only important animated elements composited */
-  .intro-root svg,
-  .intro-root img {
-    transform: translateZ(0);
+    /*
+     * Avoid unnecessary full-page compositing.
+     */
+    contain: strict;
   }
 
   /*
-     Reduce expensive blur on mobile.
-     This does not remove the animation; it makes rendering lighter.
-  */
-  .intro-root [style*="blur"] {
-    filter: none !important;
+   * Keep mobile animations compositor-friendly.
+   */
+  .intro-particle,
+  .intro-speed-line,
+  .intro-hud-ring,
+  .intro-system-ready,
+  .intro-wing,
+  .intro-aircraft {
+    backface-visibility: hidden;
   }
 
+  /*
+   * Do not apply will-change to every SVG path.
+   * Only the animated group receives it.
+   */
+
+  /*
+   * Smaller blur radius on the large ambient energy glow.
+   * The glow itself remains visually present.
+   */
+  .intro-energy-glow {
+    filter: blur(55px);
+  }
+
+  /*
+   * Keep title blur, but limit its paint area.
+   */
+  .intro-title {
+    contain: paint;
+  }
+}
+
+/* ============================================================
+   VERY SMALL DEVICES
+============================================================ */
+
+@media (max-width: 380px) {
+  .intro-hud-ring-large {
+    width: 220px;
+    height: 220px;
+  }
+
+  .intro-hud-ring-small {
+    width: 160px;
+    height: 160px;
+  }
+
+  .intro-energy-glow {
+    filter: blur(48px);
+  }
 }
 
 /* ============================================================
@@ -79,13 +598,36 @@
 ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-
   .intro-root *,
   .intro-root *::before,
   .intro-root *::after {
-
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  .intro-particle,
+  .intro-speed-line,
+  .intro-hud-ring,
+  .intro-system-ready {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   PERFORMANCE / ACCESSIBILITY
+============================================================ */
+
+.intro-root {
+  user-select: none;
+  -webkit-user-select: none;
+
+  -webkit-tap-highlight-color: transparent;
+
+  /*
+   * Prevent accidental browser gestures from interfering
+   * with the intro.
+   */
+  touch-action: none;
 }
