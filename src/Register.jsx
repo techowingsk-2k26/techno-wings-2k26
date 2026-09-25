@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Clipboard,
   CreditCard,
+  Download,
   Lock,
   Send,
   ShieldCheck,
@@ -326,6 +327,7 @@ export default function Register() {
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [receiptUrl, setReceiptUrl] = useState("");
 
   /* ==========================================================
      AUTOMATIC PARTICIPATION TYPE
@@ -764,6 +766,8 @@ export default function Register() {
          ------------------------------------------------------ */
 
       if (!data.paymentRequired) {
+        setReceiptUrl(data.receiptUrl || "");
+
         setResult({
           success: true,
           registrationId:
@@ -870,6 +874,8 @@ export default function Register() {
               );
             }
 
+            setReceiptUrl(verifyData.receiptUrl || "");
+
             setResult({
               success: true,
 
@@ -881,8 +887,10 @@ export default function Register() {
 
               registrationStatus:
                 "Confirmed",
+
               participationType:
                 form.participationType,
+
               teamSize,
             });
           } catch (error) {
@@ -1113,6 +1121,20 @@ export default function Register() {
               to verify your registration later.
             </p>
           </div>
+
+          {receiptUrl && (
+            <div className="mt-5 flex justify-center">
+              <a
+                href={receiptUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 font-black text-white shadow-lg shadow-emerald-600/20 transition hover:-translate-y-0.5 hover:bg-emerald-700"
+              >
+                <Download size={18} />
+                Download Registration Receipt
+              </a>
+            </div>
+          )}
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
