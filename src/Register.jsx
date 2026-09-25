@@ -60,9 +60,11 @@ const events = {
   "paper-presentation": {
     name: "Paper Presentation",
     teamAllowed: true,
+    individualAllowed: true,
     maxTeamSize: 2,
     participationType: "Team",
-    fee: 200,
+    feeIndividual: 100,
+    feeTeam: 200,
   },
 
   "reasoning-rumble": {
@@ -86,7 +88,6 @@ const emptyMember = {
   collegeName: "",
   department: "",
   year: "",
-  rollNumber: "",
 };
 
 /* ============================================================
@@ -235,13 +236,6 @@ function MemberFields({ number, member, onChange }) {
           placeholder="e.g. 2nd Year"
         />
 
-        <InputField
-          label="Roll Number / PRN"
-          name="rollNumber"
-          value={member.rollNumber}
-          onChange={onChange}
-          placeholder="Enter Roll No. / PRN"
-        />
       </div>
     </motion.div>
   );
@@ -315,7 +309,6 @@ export default function Register() {
     collegeName: "",
     department: "",
     year: "",
-    rollNumber: "",
     city: "",
 
     participationType:
@@ -362,11 +355,24 @@ export default function Register() {
      FEE
      ========================================================== */
 
+/* ==========================================================
+   FEE
+   ========================================================== */
+
   const fee = useMemo(() => {
     if (!selectedEvent) return 0;
 
+    // Paper Presentation:
+    // Individual = ₹100
+    // Team = ₹200
+    if (eventSlug === "paper-presentation") {
+      return form.participationType === "Individual"
+        ? 100
+        : 200;
+    }
+
     return selectedEvent.fee || 0;
-  }, [selectedEvent]);
+  }, [eventSlug, selectedEvent, form.participationType]);
 
   /* ==========================================================
      EVENT NOT FOUND
@@ -441,7 +447,11 @@ export default function Register() {
                           : "bg-blue-50 text-blue-600"
                       }`}
                     >
-                      {isFree ? "FREE" : `₹${event.fee}`}
+                      {isFree
+                        ? "FREE"
+                        : event.individualAllowed
+                          ? "₹100 / ₹200"
+                          : `₹${event.fee}`}
                     </span>
                   </div>
 
@@ -450,9 +460,11 @@ export default function Register() {
                       <span className="font-bold text-[#17345f]">
                         Participation:
                       </span>{" "}
-                      {event.teamAllowed
-                        ? "Team Only"
-                        : "Individual Only"}
+                      {event.individualAllowed
+                        ? "Team or Individual"
+                        : event.teamAllowed
+                          ? "Team Only"
+                          : "Individual Only"}
                     </p>
 
                     <p>
@@ -461,9 +473,11 @@ export default function Register() {
                           ? "Team Size:"
                           : "Participation:"}
                       </span>{" "}
-                      {event.teamAllowed
-                        ? "Exactly 2 Members"
-                        : "Individual"}
+                      {event.individualAllowed
+                        ? "Up to 2 Members"
+                        : event.teamAllowed
+                          ? "Exactly 2 Members"
+                          : "Individual"}
                     </p>
                   </div>
 
@@ -573,7 +587,7 @@ export default function Register() {
        TEAM VALIDATION
        -------------------------------------------------------- */
 
-    if (selectedEvent.teamAllowed) {
+    if (form.participationType === "Team") {
       if (!form.teamName.trim()) {
         setResult({
           success: false,
@@ -646,15 +660,6 @@ export default function Register() {
         return;
       }
 
-      if (!form.member2.rollNumber.trim()) {
-        setResult({
-          success: false,
-          message:
-            "Please enter Member 2 roll number / PRN.",
-        });
-
-        return;
-      }
     }
 
     /* --------------------------------------------------------
@@ -668,7 +673,7 @@ export default function Register() {
        TEAM SIZE
        -------------------------------------------------------- */
 
-    const teamSize = selectedEvent.teamAllowed
+    const teamSize = form.participationType === "Team"
       ? 2
       : 1;
 
@@ -684,47 +689,40 @@ export default function Register() {
       collegeName: form.collegeName,
       department: form.department,
       year: form.year,
-      rollNumber: form.rollNumber,
       city: form.city,
 
       event: selectedEvent.name,
 
-      participationType: selectedEvent.teamAllowed
-        ? "Team"
-        : "Individual",
+      participationType: form.participationType,
 
-      teamName: selectedEvent.teamAllowed
+      teamName: form.participationType === "Team"
         ? form.teamName
         : "",
 
       teamSize,
 
-      member2Name: selectedEvent.teamAllowed
+      member2Name: form.participationType === "Team"
         ? form.member2.fullName
         : "",
 
-      member2Email: selectedEvent.teamAllowed
+      member2Email: form.participationType === "Team"
         ? form.member2.email
         : "",
 
-      member2Mobile: selectedEvent.teamAllowed
+      member2Mobile: form.participationType === "Team"
         ? form.member2.mobile
         : "",
 
-      member2College: selectedEvent.teamAllowed
+      member2College: form.participationType === "Team"
         ? form.member2.collegeName
         : "",
 
-      member2Department: selectedEvent.teamAllowed
+      member2Department: form.participationType === "Team"
         ? form.member2.department
         : "",
 
-      member2Year: selectedEvent.teamAllowed
+      member2Year: form.participationType === "Team"
         ? form.member2.year
-        : "",
-
-      member2RollNumber: selectedEvent.teamAllowed
-        ? form.member2.rollNumber
         : "",
 
       registrationFee: fee,
@@ -774,6 +772,9 @@ export default function Register() {
             data.paymentStatus,
           registrationStatus:
             data.registrationStatus,
+          participationType:
+            form.participationType,
+          teamSize,
         });
 
         setSubmitting(false);
@@ -818,9 +819,7 @@ export default function Register() {
           event: selectedEvent.name,
 
           participationType:
-            selectedEvent.teamAllowed
-              ? "Team"
-              : "Individual",
+            form.participationType,
 
           teamSize: String(teamSize),
         },
@@ -882,6 +881,9 @@ export default function Register() {
 
               registrationStatus:
                 "Confirmed",
+              participationType:
+                form.participationType,
+              teamSize,
             });
           } catch (error) {
             setResult({
@@ -1064,9 +1066,7 @@ export default function Register() {
                   </p>
 
                   <p className="mt-2 font-black text-[#06152e]">
-                    {selectedEvent.teamAllowed
-                      ? "Team"
-                      : "Individual"}
+                    {result?.participationType || form.participationType}
                   </p>
                 </div>
 
@@ -1076,7 +1076,7 @@ export default function Register() {
                   </p>
 
                   <p className="mt-2 font-black text-[#06152e]">
-                    {selectedEvent.teamAllowed
+                    {result?.teamSize === 2 || form.participationType === "Team"
                       ? "2 Members"
                       : "1 Participant"}
                   </p>
@@ -1254,9 +1254,11 @@ export default function Register() {
               </h2>
 
               <p className="mt-2 text-sm text-blue-100/70">
-                {selectedEvent.teamAllowed
-                  ? "Team participation • Exactly 2 members"
-                  : "Individual participation only"}
+                {selectedEvent.individualAllowed
+                  ? "Team or Individual participation"
+                  : selectedEvent.teamAllowed
+                    ? "Team participation • Exactly 2 members"
+                    : "Individual participation only"}
               </p>
             </div>
 
@@ -1403,14 +1405,6 @@ export default function Register() {
               />
 
               <InputField
-                label="Roll Number / PRN"
-                name="rollNumber"
-                value={form.rollNumber}
-                onChange={updateMainField}
-                placeholder="Enter Roll No. / PRN"
-              />
-
-              <InputField
                 label="City"
                 name="city"
                 value={form.city}
@@ -1429,63 +1423,108 @@ export default function Register() {
               number="02"
               title="Participation"
               description={
-                selectedEvent.teamAllowed
-                  ? "This event requires a team of exactly 2 members."
-                  : "This event is for individual participants only."
+                selectedEvent.individualAllowed
+                  ? "Choose individual or team participation. Team entries require exactly 2 members."
+                  : selectedEvent.teamAllowed
+                    ? "This event requires a team of exactly 2 members."
+                    : "This event is for individual participants only."
               }
             />
 
-            {/* AUTOMATIC PARTICIPATION */}
-            <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50 p-6">
-              <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600/10">
-                  {selectedEvent.teamAllowed ? (
-                    <Users
-                      size={23}
-                      className="text-blue-600"
-                    />
-                  ) : (
-                    <User
-                      size={23}
-                      className="text-blue-600"
-                    />
-                  )}
-                </div>
-
-                <div className="flex-1">
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="font-black text-[#06152e]">
-                        {selectedEvent.teamAllowed
-                          ? "Team Participation"
-                          : "Individual Participation"}
-                      </p>
-
-                      <p className="mt-1 text-sm leading-6 text-slate-500">
-                        {selectedEvent.teamAllowed
-                          ? "This event requires exactly 2 members."
-                          : "You are registering individually for this event."}
-                      </p>
-                    </div>
-
-                    <span className="inline-flex w-fit rounded-full border border-blue-200 bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-blue-600">
-                      {selectedEvent.teamAllowed
-                        ? "TEAM"
-                        : "INDIVIDUAL"}
-                    </span>
+            {/* PARTICIPATION TYPE */}
+            {selectedEvent.individualAllowed ? (
+              <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50 p-6">
+                <div className="mb-5 flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600/10">
+                    <Users size={23} className="text-blue-600" />
                   </div>
 
-                  <p className="mt-4 font-black text-blue-600">
-                    {selectedEvent.free
-                      ? "FREE ENTRY"
-                      : `₹${fee}`}
-                  </p>
+                  <div className="flex-1">
+                    <p className="font-black text-[#06152e]">
+                      Select Participation Type
+                    </p>
+                    <p className="mt-1 text-sm leading-6 text-slate-500">
+                      Paper Presentation can be registered individually or as a team of exactly 2 members.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {["Individual", "Team"].map((type) => (
+                    <label
+                      key={type}
+                      className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition ${
+                        form.participationType === type
+                          ? "border-blue-500 bg-white shadow-sm"
+                          : "border-blue-100 bg-white/60 hover:border-blue-300"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="participationType"
+                        value={type}
+                        checked={form.participationType === type}
+                        onChange={(e) =>
+                          setForm((prev) => ({
+                            ...prev,
+                            participationType: e.target.value,
+                            teamName: e.target.value === "Team" ? prev.teamName : "",
+                            member2: e.target.value === "Team" ? prev.member2 : { ...emptyMember },
+                          }))
+                        }
+                        className="h-4 w-4 accent-blue-600"
+                      />
+                      <div>
+                        <p className="font-black text-[#06152e]">
+                          {type} Participation
+                        </p>
+                        <p className="text-xs text-slate-500">
+                          {type === "Team" ? "Exactly 2 members" : "1 participant"}
+                        </p>
+                      </div>
+                    </label>
+                  ))}
+                </div>
+
+                <p className="mt-4 font-black text-blue-600">
+                  {selectedEvent.free ? "FREE ENTRY" : `₹${fee}`}
+                </p>
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-cyan-50 p-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600/10">
+                    {selectedEvent.teamAllowed ? (
+                      <Users size={23} className="text-blue-600" />
+                    ) : (
+                      <User size={23} className="text-blue-600" />
+                    )}
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <p className="font-black text-[#06152e]">
+                          {selectedEvent.teamAllowed ? "Team Participation" : "Individual Participation"}
+                        </p>
+                        <p className="mt-1 text-sm leading-6 text-slate-500">
+                          {selectedEvent.teamAllowed ? "This event requires exactly 2 members." : "You are registering individually for this event."}
+                        </p>
+                      </div>
+                      <span className="inline-flex w-fit rounded-full border border-blue-200 bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-blue-600">
+                        {selectedEvent.teamAllowed ? "TEAM" : "INDIVIDUAL"}
+                      </span>
+                    </div>
+                    <p className="mt-4 font-black text-blue-600">
+                      {selectedEvent.free ? "FREE ENTRY" : `₹${fee}`}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* TEAM FIELDS */}
-            {selectedEvent.teamAllowed && (
+            {form.participationType === "Team" && (
               <div className="mt-7">
                 <InputField
                   label="Team Name"
@@ -1548,9 +1587,7 @@ export default function Register() {
 
                     <p className="mt-1 text-sm text-slate-500">
                       {selectedEvent.name} •{" "}
-                      {selectedEvent.teamAllowed
-                        ? "Team"
-                        : "Individual"}
+                      {form.participationType}
                     </p>
                   </div>
                 </div>

@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 import technoWingsLogo from "./assets/techno-wings-logo.png";
-import adateLogo from "./assets/adate-logo.png";
+import adateLogo from "./assets/adate-logo1.png";
 import collegeLogo from "./assets/college-logo.png";
 
 const GOOGLE_SCRIPT_URL =
