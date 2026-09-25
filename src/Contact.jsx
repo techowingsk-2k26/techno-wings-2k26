@@ -175,7 +175,7 @@ export default function Contact() {
     { icon: "🚀", eventName: "WATER ROCKET", name: "Suraj Mali", phone: "+91 74994 80831", image: surajImage },
     { icon: "✈️", eventName: "CHUCK GLIDER", name: "Chanchal Shelar", phone: "+91 70570 04239", image: chanchalImage },
     { icon: "🛫", eventName: "FLIGHT SIMULATOR", name: "Samarth Lomate", phone: "+91 90221 61641", image: samarthImage },
-    { icon: "🧠", eventName: "REASONING RUMBLE", name: "Aznan Shaikh", phone: "+91 94238 52044", image: aznanImage },
+    { icon: "🧠", eventName: "REASONING RUMBLE", name: "Aznan Shaikh", phone: "+91 87937 77579", image: aznanImage },
   ];
 
   // Replace these with your actual technical-support details.

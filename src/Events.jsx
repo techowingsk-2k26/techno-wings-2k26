@@ -325,8 +325,8 @@ const events = [
     registrationFee: "₹200 Per Team",
     prizePool: "₹6,000/-",
 
-    studentCoordinator: "Vadud Mujawar",
-    studentPhone: "+91 94238 52044",
+    studentCoordinator: "Aznan Shaikh",
+    studentPhone: "+91 87937 77579",
 
     rules: {
       rounds: [
