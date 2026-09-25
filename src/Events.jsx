@@ -338,7 +338,7 @@ const events = [
     slug: "paper-presentation",
 
     participation: "Team Only",
-    teamSize: "Exactly 2 Members",
+    teamSize: "Maximum 2 Members",
     registrationFee: "₹200 Per Team",
     prizePool: "₹6,000/-",
 
@@ -707,7 +707,7 @@ function RuleSection({
             {rules.map((rule, index) => (
               <li
                 key={index}
-                className="flex items-start gap-2.5 text-sm leading-6 text-slate-600"
+                className="flex items-start gap-2.5 text-base leading-7 text-slate-600"
               >
                 <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-500" />
                 <span>{rule}</span>
@@ -766,7 +766,7 @@ function EventDetailsModal({ event, onClose }) {
             ease: [0.22, 1, 0.36, 1],
           }}
           onClick={(e) => e.stopPropagation()}
-          className="relative max-h-[92vh] w-full max-w-4xl overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_35px_120px_rgba(2,8,23,0.4)]"
+          className="relative max-h-[95vh] w-[94vw] max-w-[85vw] overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_35px_120px_rgba(2,8,23,0.4)]"
         >
           {/* CLOSE */}
           <button
@@ -799,17 +799,17 @@ function EventDetailsModal({ event, onClose }) {
                 {event.category}
               </div>
 
-              <h2 className="font-outfit text-3xl font-black tracking-tight text-white sm:text-4xl">
+              <h2 className="font-outfit text-4xl font-black tracking-tight text-white sm:text-5xl">
                 {event.title}
               </h2>
             </div>
           </div>
 
           {/* MODAL CONTENT */}
-          <div className="max-h-[calc(92vh-18rem)] overflow-y-auto p-5 sm:p-7">
+          <div className="max-h-[calc(90vh-18rem)] overflow-y-auto p-5 sm:p-7">
             {/* DESCRIPTION */}
             <div className="rounded-2xl border border-blue-100 bg-blue-50/60 p-4 sm:p-5">
-              <p className="text-sm leading-7 text-slate-600 sm:text-base">
+              <p className="text-base leading-7 text-slate-600 sm:text-lg">
                 {event.description}
               </p>
             </div>
@@ -897,7 +897,7 @@ function EventDetailsModal({ event, onClose }) {
               <div className="mb-4 flex items-center gap-3">
                 <div className="h-7 w-1 rounded-full bg-blue-600" />
 
-                <h3 className="font-outfit text-lg font-black text-[#06152e]">
+                <h3 className="font-outfit text-xl font-black text-[#06152e]">
                   Event Coordinators
                 </h3>
               </div>
