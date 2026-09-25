@@ -1021,19 +1021,19 @@ function App() {
                 delay: 0.46,
                 duration: 0.7,
               }}
-              className="mx-auto mt-7 max-w-xl rounded-2xl border border-blue-200 bg-white/85 px-5 py-3 shadow-[0_15px_45px_rgba(6,21,46,0.08)] backdrop-blur-md sm:rounded-full"
+              className="mx-auto mt-7"
             >
               <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
                 <img
                   src={adateLogo}
                   alt="ADATE Club"
-                  className="h-24 w-auto object-contain sm:h-[90px]"
+                  className="h-32 w-auto object-contain sm:h-[115px]"
                 />
 
                 <div className="text-center sm:text-left">
-                  <span className="block text-sm font-semibold text-[#415a75] sm:text-base">
+                  <span className="block text-lg font-semibold text-[#415a75] sm:text-[22px]">
                     Organized by{" "}
-                    <span className="font-black text-blue-700">
+                    <span className="bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-700 bg-clip-text font-black text-transparent drop-shadow-[0_2px_8px_rgba(0,174,255,0.25)]">
                       ADATE CLUB
                     </span>
                   </span>
