@@ -9,6 +9,7 @@ import {
   XCircle,
   Plane,
   ScanLine,
+  Download,
 } from "lucide-react";
 
 import technoWingsLogo from "./assets/techno-wings-logo.png";
@@ -512,31 +513,44 @@ export default function Verify() {
 
                 </div>
 
-                {/* Bottom status */}
+
                 <div className="border-t border-slate-100 bg-slate-50 px-6 py-5 sm:px-8">
 
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
-                    <div className="flex items-center gap-3">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-100">
-                        <CheckCircle2
-                          size={19}
-                          className="text-cyan-600"
-                        />
-                      </div>
-
-                      <div>
-                        <p className="text-xs font-black uppercase tracking-wider text-slate-400">
-                          Verification Status
-                        </p>
-
-                        <p className="mt-0.5 text-sm font-black text-cyan-700">
-                          Registration Successfully Verified
-                        </p>
-                      </div>
-
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-100">
+                      <CheckCircle2
+                        size={19}
+                        className="text-cyan-600"
+                      />
                     </div>
+
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-wider text-slate-400">
+                        Verification Status
+                      </p>
+
+                      <p className="mt-0.5 text-sm font-black text-cyan-700">
+                        Registration Successfully Verified
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2 sm:flex-row">
+
+                    {result.data.receiptUrl && (
+                      <a
+                        href={result.data.receiptUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-emerald-600/20 transition hover:-translate-y-0.5 hover:bg-emerald-700"
+                      >
+                        <Download size={17} />
+                        Download Receipt
+                      </a>
+                    )}
 
                     <Link
                       to="/events"
@@ -547,8 +561,8 @@ export default function Verify() {
                     </Link>
 
                   </div>
-
                 </div>
+              </div>
 
               </div>
             ) : (
