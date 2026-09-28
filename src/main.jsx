@@ -14,6 +14,7 @@ import Contact from "./Contact.jsx";
 import Events from "./Events.jsx";
 import Register from "./Register.jsx";
 import Verify from "./Verify.jsx";
+import ChuckGliderTutorial from "./ChuckGliderTutorial.jsx";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -40,6 +41,12 @@ createRoot(document.getElementById("root")).render(
         <Route path="/contact" element={<Contact />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify" element={<Verify />} />
+
+        {/* Chuck Glider Tutorial */}
+        <Route
+          path="/chuck-glider-tutorial"
+          element={<ChuckGliderTutorial />}
+        />
       </Routes>
     </BrowserRouter>
   </StrictMode>

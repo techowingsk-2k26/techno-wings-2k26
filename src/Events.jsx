@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   CalendarDays,
@@ -14,6 +15,7 @@ import {
   Target,
   FileText,
   Rocket,
+  Play,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -725,6 +727,8 @@ function RuleSection({
 // =====================================================
 
 function EventDetailsModal({ event, onClose }) {
+  const navigate = useNavigate();
+
   if (!event) return null;
 
   const isFree = event.slug === "drone-expo";
@@ -891,6 +895,23 @@ function EventDetailsModal({ event, onClose }) {
                   : "Individual participation only"}
               </div>
             </div>
+
+            {/* CHUCK GLIDER TUTORIAL */}
+            {event.slug === "chuck-glider" && (
+              <div className="mt-5">
+                <button
+                  type="button"
+                  onClick={() => navigate("/chuck-glider-tutorial")}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-600 to-red-500 px-5 py-3.5 text-sm font-extrabold text-white shadow-[0_8px_25px_rgba(220,38,38,0.20)] transition hover:-translate-y-0.5 hover:from-red-700 hover:to-red-600 sm:w-auto"
+                >
+                  <Play
+                    size={17}
+                    fill="currentColor"
+                  />
+                  View Tutorial Video
+                </button>
+              </div>
+            )}
 
             {/* COORDINATORS */}
             <div className="mt-7">
