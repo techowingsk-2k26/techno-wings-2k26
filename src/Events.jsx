@@ -16,6 +16,8 @@ import {
   FileText,
   Rocket,
   Play,
+  Package,
+  Wrench,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -163,7 +165,7 @@ const events = [
       ],
 
       winnerCriteria: [
-        "The team achieving the maximum valid flight distance in the official attempts will be declared the winner.",
+        "The team achieving the maximum valid flight time, measured in seconds from the moment of launch until the model becomes no longer visible or the flight process terminates, will be declared the winner.",
         "In case of a tie, the organizers may conduct an additional tie-breaker flight.",
       ],
     },
@@ -332,14 +334,14 @@ const events = [
   {
     title: "Paper Presentation",
     description:
-      "Present innovative technical ideas and showcase your knowledge.",
+      "Present technical research, innovative ideas, project studies and emerging engineering solutions before a panel of judges.",
     icon: "◫",
     category: "Knowledge & Innovation",
     categoryKey: "knowledge",
     image: paperPresentationImage,
     slug: "paper-presentation",
 
-    participation: "Team Only",
+    participation: "Individual or Team",
     teamSize: "Maximum 2 Members",
     registrationFee: "₹200 Per Team",
     prizePool: "₹6,000/-",
@@ -348,35 +350,56 @@ const events = [
     studentPhone: "+91 78229 16824",
 
     rules: {
+      /* WHAT TOPIC CAN BE PRESENTED */
       eligibility: [
-        "The event is open to eligible students as specified by the organizing committee.",
-        "Participation is limited to a team of exactly 2 members.",
-        "Both team members must complete registration.",
+        "Participants may select a technical, engineering, research, innovation, project-based or emerging-technology topic.",
+        "Interdisciplinary topics are allowed provided they have clear technical relevance.",
+        "Topics may be related to Aeronautics, Mechanical, Civil, Electrical, AI & Data Science, IoT, Robotics, UAVs, Renewable Energy, Additive Manufacturing, Automation and other engineering fields.",
+        "The selected topic must be submitted to the organizing committee for approval before final paper submission.",
       ],
 
+      /* PAPER / CONTENT */
       paper: [
-        "The paper must cover a technical, engineering, research, innovation or emerging-technology topic.",
-        "Interdisciplinary topics are allowed when they have clear technical relevance.",
-        "The topic must be submitted for approval before final paper submission.",
-        "Plagiarism is strictly prohibited; proper references are required for external information, figures and data.",
+        "Participants may present a research-oriented paper, technical review, project-based paper or emerging-technology paper.",
+        "The presentation should cover the topic background, problem statement, objectives, methodology, results or analysis, applications, limitations, future scope and conclusion.",
+        "Proper references must be provided for information, figures, data and other material obtained from external sources.",
+        "Plagiarism is strictly prohibited.",
       ],
 
+      /* SUBMISSION */
       submission: [
-        "Submit the paper and presentation within the deadline given by the organizing committee.",
-        "Follow the prescribed paper format and page limit.",
-        "Prepare the presentation from the submitted paper and ensure the presentation file works correctly.",
+        "The paper and presentation must be submitted within the deadline specified by the organizing committee.",
+        "The paper must follow the prescribed format and page limit.",
+        "The presentation should be prepared based on the submitted paper.",
+        "Participants are responsible for ensuring that their presentation file works correctly before the event.",
       ],
 
+      /* PRESENTATION PROCEDURE */
       presentation: [
-        "Complete the presentation within the allotted time.",
-        "Exceeding the prescribed time may attract an evaluation penalty.",
-        "Be present at the venue before the allotted presentation slot.",
-        "Judges may ask questions about the topic, methodology, results, applications and technical concepts.",
+        "Each participant/team will get 7 minutes to present the paper.",
+        "A 3-minute Q&A session will follow immediately after the presentation.",
+        "Total time allotted per participant/team is 10 minutes.",
+        "A warning may be given before the completion of the presentation time.",
+        "Exceeding the allotted presentation time may result in marks deduction.",
+        "Judges may ask questions related to the topic, methodology, analysis, results, applications and technical concepts.",
       ],
 
+      /* EVALUATION */
+      evaluation: [
+        "Technical content and understanding of the topic.",
+        "Originality and innovation of the presented idea.",
+        "Methodology or technical approach.",
+        "Analysis and interpretation of results.",
+        "Presentation and communication skills.",
+        "Ability to answer questions asked by the judges.",
+      ],
+
+      /* RULES */
       conduct: [
-        "Maintain discipline and proper decorum throughout the event.",
-        "The judging panel's decision is final.",
+        "Participation may be individual or in a team of maximum 2 members.",
+        "Participants must be present at the venue before their allotted presentation slot.",
+        "Participants must maintain proper discipline and decorum throughout the event.",
+        "The judging panel's decision regarding evaluation and results shall be final.",
       ],
     },
   },
@@ -973,6 +996,20 @@ function EventDetailsModal({ event, onClose }) {
                       rules: event.rules.registration,
                     },
 
+                    /* CHUCK GLIDER — MATERIALS */
+                    event.rules.materials && {
+                      title: "Materials",
+                      icon: <Package size={17} />,
+                      rules: event.rules.materials,
+                    },
+
+                    /* CHUCK GLIDER — CONSTRUCTION */
+                    event.rules.construction && {
+                      title: "Construction",
+                      icon: <Wrench size={17} />,
+                      rules: event.rules.construction,
+                    },
+
                     /* ELIGIBILITY */
                     event.rules.eligibility && {
                       title: "Eligibility & Participation",
@@ -999,6 +1036,13 @@ function EventDetailsModal({ event, onClose }) {
                       title: "Competition & Flying Guidelines",
                       icon: <Plane size={17} />,
                       rules: event.rules.competition,
+                    },
+
+                    /* CHUCK GLIDER — WINNER CRITERIA */
+                    event.rules.winnerCriteria && {
+                      title: "Winner Criteria",
+                      icon: <Trophy size={17} />,
+                      rules: event.rules.winnerCriteria,
                     },
 
                     /* FLIGHT SIMULATOR — ROUND 1 */
@@ -1041,6 +1085,13 @@ function EventDetailsModal({ event, onClose }) {
                       title: "Presentation & Evaluation",
                       icon: <Target size={17} />,
                       rules: event.rules.presentation,
+                    },
+
+                    /* EVALUATION */
+                    event.rules.evaluation && {
+                      title: "Evaluation Criteria",
+                      icon: <Trophy size={17} />,
+                      rules: event.rules.evaluation,
                     },
 
                     /* WATER ROCKET — SPECIFICATIONS */
