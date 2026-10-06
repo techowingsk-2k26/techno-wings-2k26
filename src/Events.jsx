@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   CalendarDays,
@@ -343,11 +344,11 @@ const events = [
 
     participation: "Individual or Team",
     teamSize: "Maximum 2 Members",
-    registrationFee: "₹200 Per Team",
+    registrationFee: "₹100 Per Person",
     prizePool: "₹6,000/-",
 
-    studentCoordinator: "Shweta Raut",
-    studentPhone: "+91 78229 16824",
+    studentCoordinator: "Jatin Hansa",
+    studentPhone: "+91 91037 43266",
 
     rules: {
       /* WHAT TOPIC CAN BE PRESENTED */
@@ -419,8 +420,8 @@ const events = [
     registrationFee: "₹200 Per Team",
     prizePool: "₹6,000/-",
 
-    studentCoordinator: "Aznan Shaikh",
-    studentPhone: "+91 87937 77579",
+    studentCoordinator: "Vadud Mujawar",
+    studentPhone: "+91 94238 52044",
 
     rules: {
       rounds: [
@@ -614,13 +615,17 @@ function EventCard({ event, index, onViewDetails }) {
             className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider ${
               event.slug === "drone-expo"
                 ? "bg-emerald-50 text-emerald-700"
-                : isTeam
-                  ? "bg-indigo-50 text-indigo-700"
-                  : "bg-cyan-50 text-cyan-700"
+                : event.slug === "paper-presentation"
+                  ? "bg-violet-50 text-violet-700"
+                  : isTeam
+                    ? "bg-indigo-50 text-indigo-700"
+                    : "bg-cyan-50 text-cyan-700"
             }`}
           >
             {event.slug === "drone-expo" ? (
               <Plane size={13} />
+            ) : event.slug === "paper-presentation" ? (
+              <Users size={13} />
             ) : isTeam ? (
               <Users size={13} />
             ) : (
@@ -629,9 +634,11 @@ function EventCard({ event, index, onViewDetails }) {
 
             {event.slug === "drone-expo"
               ? "Exhibition"
-              : isTeam
-                ? "2 Member Team"
-                : "Individual Event"}
+              : event.slug === "paper-presentation"
+                ? "Individual / Team"
+                : isTeam
+                  ? "2 Member Team"
+                  : "Individual Event"}
           </div>
         </div>
 
@@ -1311,91 +1318,195 @@ export default function Events() {
 
       {/* CONTENT LAYER */}
       <div className="relative z-10">
-        {/* ================================================= */}
-        {/* NAVBAR */}
-        {/* ================================================= */}
+        {/* =========================================================
+            FLOATING AEROSPACE NAVBAR
+        ========================================================= */}
 
-        <nav className="fixed top-0 z-50 w-full border-b border-slate-200/80 bg-white/85 shadow-[0_4px_25px_rgba(15,23,42,0.05)] backdrop-blur-xl">
-          <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-6">
-            {/* LOGO */}
-            <a
-              href="/"
-              className="group flex items-center gap-3"
-            >
-              <img
-                src={technoWingsLogo}
-                alt="Techno Wings 2K26"
-                className="h-16 w-auto transition duration-300 group-hover:scale-105 sm:h-20"
+        <nav className="fixed left-3 right-3 top-4 z-[70] sm:left-5 sm:right-5 sm:top-5 lg:left-8 lg:right-8">
+          <div className="relative mx-auto max-w-[1450px]">
+
+            {/* Outer floating frame */}
+            <div className="relative overflow-hidden rounded-[22px] border border-blue-200/80 bg-white/90 shadow-[0_18px_55px_rgba(6,21,46,0.14)] backdrop-blur-2xl">
+
+              {/* Subtle aerospace grid */}
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.035]"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(rgba(37,99,235,0.8) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(37,99,235,0.8) 1px, transparent 1px)
+                  `,
+                  backgroundSize: "24px 24px",
+                }}
               />
 
-              <div className="hidden leading-tight sm:block">
-                <div className="text-lg font-black tracking-wide text-[#06152e]">
-                  TECHNO WINGS
-                </div>
+              {/* Top glowing flight-line */}
+              <div className="pointer-events-none absolute left-[8%] right-[8%] top-0 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
 
-                <div className="text-sm font-extrabold tracking-[0.25em] text-blue-600">
-                  2K26
-                </div>
+              {/* Left cockpit accent */}
+              <div className="pointer-events-none absolute left-0 top-0 h-full w-16">
+                <div className="absolute left-0 top-0 h-7 w-px bg-blue-500" />
+                <div className="absolute left-0 top-0 h-px w-7 bg-blue-500" />
               </div>
-            </a>
 
-            {/* NAVIGATION */}
-            <div className="hidden items-center gap-8 md:flex">
-              <a
-                href="/"
-                className="text-sm font-medium text-slate-500 transition hover:text-blue-600"
-              >
-                Home
-              </a>
+              {/* Right cockpit accent */}
+              <div className="pointer-events-none absolute right-0 bottom-0 h-full w-16">
+                <div className="absolute bottom-0 right-0 h-7 w-px bg-cyan-500" />
+                <div className="absolute bottom-0 right-0 h-px w-7 bg-cyan-500" />
+              </div>
 
-              <a
-                href="/#about"
-                className="text-sm font-medium text-slate-500 transition hover:text-blue-600"
-              >
-                About Fest
-              </a>
+              {/* Navbar content */}
+              <div className="relative flex h-[72px] items-center justify-between px-4 sm:h-[76px] sm:px-6 lg:px-10">
 
-              <a
-                href="/events"
-                className="relative text-sm font-bold text-blue-600"
-              >
-                Events
+                {/* =================================================
+                    LOGO / BRAND
+                ================================================= */}
 
-                <span className="absolute -bottom-7 left-0 h-0.5 w-full rounded-full bg-blue-600" />
-              </a>
+                <Link
+                  to="/"
+                  className="group flex items-center gap-3"
+                >
+                  <div className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 shadow-sm transition duration-300 group-hover:border-blue-400 group-hover:bg-blue-600 group-hover:text-white">
+                    <Plane size={21} />
 
-              <a
-                href="/contact"
-                className="text-sm font-medium text-slate-500 transition hover:text-blue-600"
-              >
-                Contact
-              </a>
+                    {/* Radar dot */}
+                    <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full border-2 border-white bg-cyan-400" />
+                  </div>
+
+                  <div className="hidden sm:block">
+                    <p className="font-outfit text-sm font-black tracking-tight text-[#06152e]">
+                      TECHNOWINGS
+                      <span className="text-blue-600"> 2K26</span>
+                    </p>
+
+                    <div className="mt-0.5 flex items-center gap-2">
+                      <span className="h-px w-5 bg-cyan-400" />
+
+                      <p className="text-[8px] font-black uppercase tracking-[0.22em] text-slate-400">
+                        Aerospace Symposium
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+
+                {/* =================================================
+                    DESKTOP NAVIGATION
+                ================================================= */}
+
+                <div className="hidden items-center gap-1 lg:flex">
+
+                  {/* Home */}
+                  <Link
+                    to="/"
+                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    Home
+
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                  </Link>
+
+                  {/* About Fest */}
+                  <Link
+                    to="/#about"
+                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    About Fest
+
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                  </Link>
+
+                  {/* Events - ACTIVE */}
+                  <Link
+                    to="/events"
+                    className="group relative rounded-xl bg-blue-50 px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-blue-600 transition duration-300"
+                  >
+                    Events
+
+                    <span className="absolute bottom-1 left-1/2 h-px w-5/6 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400" />
+                  </Link>
+
+                  {/* Contact */}
+                  <Link
+                    to="/contact"
+                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    Contact
+
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                  </Link>
+
+                </div>
+
+                {/* =================================================
+                    DESKTOP CTA
+                ================================================= */}
+
+                <div className="hidden items-center gap-2 sm:flex">
+
+                  {/* Verify */}
+                  <Link
+                    to="/verify"
+                    className="group relative flex items-center gap-2 overflow-hidden rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-[9px] font-black uppercase tracking-[0.13em] text-blue-700 transition duration-300 hover:border-blue-300 hover:bg-blue-100"
+                  >
+                    <span className="relative z-10">
+                      Verify Registration
+                    </span>
+                  </Link>
+
+                  {/* Register */}
+                  <Link
+                    to="/register"
+                    className="group relative flex items-center gap-2 overflow-hidden rounded-xl border border-blue-600 bg-blue-600 px-5 py-3 text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-[0_8px_25px_rgba(37,99,235,0.22)] transition duration-300 hover:bg-blue-700 hover:shadow-[0_12px_35px_rgba(37,99,235,0.30)]"
+                  >
+                    <span className="relative z-10">
+                      Register
+                    </span>
+
+                    <ArrowRight
+                      size={14}
+                      className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
+                    />
+
+                    {/* Moving scan effect */}
+                    <span className="absolute inset-y-0 -left-10 w-8 rotate-12 bg-white/20 transition-transform duration-700 group-hover:translate-x-[180px]" />
+                  </Link>
+
+                </div>
+
+                {/* =================================================
+                    MOBILE REGISTER
+                ================================================= */}
+
+                <Link
+                  to="/register"
+                  className="flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2.5 text-[9px] font-black uppercase tracking-[0.12em] text-white shadow-[0_6px_20px_rgba(37,99,235,0.2)] transition hover:bg-blue-700 lg:hidden"
+                >
+                  Register
+                  <ArrowRight size={13} />
+                </Link>
+
+              </div>
             </div>
 
-            {/* RIGHT SIDE */}
-            <div className="hidden items-center gap-3 md:flex">
-              <a
-                href="/verify"
-                className="rounded-full border border-blue-200 bg-blue-50 px-5 py-2.5 text-sm font-bold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
-              >
-                Verify Registration
-              </a>
+            {/* Floating shadow */}
+            <div className="pointer-events-none absolute -bottom-3 left-[8%] right-[8%] -z-10 h-5 rounded-full bg-blue-900/10 blur-xl" />
 
-              <a
-                href="/register"
-                className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2.5 text-sm font-bold text-white shadow-[0_5px_20px_rgba(37,99,235,0.18)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(37,99,235,0.28)]"
-              >
-                Register
-              </a>
+            {/* Status indicator */}
+            <div className="pointer-events-none absolute -bottom-2 left-8 hidden items-center gap-2 rounded-full border border-emerald-100 bg-white px-3 py-1 shadow-sm sm:flex">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+
+              <span className="text-[7px] font-black uppercase tracking-[0.2em] text-emerald-600">
+                Registrations Live
+              </span>
             </div>
 
-            {/* MOBILE */}
-            <a
-              href="/register"
-              className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-sm md:hidden"
-            >
-              Register
-            </a>
+            {/* Right status */}
+            <div className="pointer-events-none absolute -bottom-2 right-8 hidden items-center gap-2 rounded-full border border-blue-100 bg-white px-3 py-1 shadow-sm sm:flex">
+              <span className="text-[7px] font-black uppercase tracking-[0.2em] text-slate-400">
+                TW / 2K26
+              </span>
+            </div>
+
           </div>
         </nav>
 

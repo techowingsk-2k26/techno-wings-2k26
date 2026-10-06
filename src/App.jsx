@@ -7,7 +7,10 @@ import {
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
+  ArrowUpRight,
   CalendarDays,
+  Clock3,
+  Eye,
   Mail,
   MapPin,
   Menu,
@@ -15,6 +18,8 @@ import {
   Sparkles,
   Trophy,
   Users,
+  Wind,
+  Wrench,
   X,
 } from "lucide-react";
 import {
@@ -22,7 +27,10 @@ import {
   useMotionValue,
   useReducedMotion,
   useSpring,
+  AnimatePresence,
 } from "motion/react";
+
+
 
 import IntroAnimation from "./IntroAnimation";
 import technoWingsLogo from "./assets/techno-wings-logo.png";
@@ -31,6 +39,7 @@ import aesiLogo from "./assets/aesi-pune-logo.png";
 import collegeLogo from "./assets/college-logo.png";
 import heroTejas from "./assets/hero-tejas.png";
 import heroSkyBackground from "./assets/hero-sky-background.png";
+
 
 /* =================================================
    EVENT SHOWCASE IMAGES
@@ -44,6 +53,27 @@ import event5Image from "./assets/events/event-5.jpeg";
 import event6Image from "./assets/events/event-6.jpeg";
 import event7Image from "./assets/events/event-7.jpeg";
 
+
+/* =================================================
+   AEROMODELING IMAGES
+================================================= */
+import aeromodelling1 from "./assets/aeromodelling-1.jpeg";
+import aeromodelling2 from "./assets/aeromodelling-2.jpeg";
+
+/* =================================================
+   AEROMODELLING SLIDESHOW IMAGES
+================================================= */
+
+const aeromodellingImages = [
+  {
+    src: aeromodelling1,
+    alt: "Aeromodelling Exhibition and Hands-on Experience",
+  },
+  {
+    src: aeromodelling2,
+    alt: "Aeromodelling Hands-on Experience",
+  },
+];
 /* =================================================
    EVENT SHOWCASE DATA
 ================================================= */
@@ -372,6 +402,9 @@ function App() {
 
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
+  
+  const [aeromodellingSlide, setAeromodellingSlide] =
+    useState(0);
 
   const [showIntro, setShowIntro] = useState(() => {
     return (
@@ -393,6 +426,23 @@ function App() {
 
   const [activeEventSlide, setActiveEventSlide] =
     useState(0);
+
+  /* =================================================
+    AUTO AEROMODELLING SLIDESHOW
+  ================================================= */
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAeromodellingSlide((current) => {
+        return (
+          (current + 1) %
+          aeromodellingImages.length
+        );
+      });
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   /* =================================================
      AUTO EVENT SLIDESHOW
@@ -601,191 +651,220 @@ function App() {
           <div className="absolute left-0 right-0 top-[72%] h-px bg-gradient-to-r from-transparent via-cyan-300/15 to-transparent" />
         </div>
 
-        {/* =================================================
-            NAVBAR
-        ================================================= */}
+        {/* =========================================================
+            FLOATING AEROSPACE NAVBAR
+        ========================================================= */}
 
-        <nav className="fixed top-0 z-[70] w-full border-b border-blue-100/90 bg-white/90 shadow-[0_8px_35px_rgba(6,21,46,0.08)] backdrop-blur-xl">
-          <div className="mx-auto flex h-[76px] max-w-[1450px] items-center justify-between px-4 sm:px-6 lg:px-10">
+        <nav className="fixed left-3 right-3 top-4 z-[70] sm:left-5 sm:right-5 sm:top-5 lg:left-8 lg:right-8">
+          <div className="relative mx-auto max-w-[1450px]">
 
-            {/* LOGO */}
+            {/* Outer floating frame */}
+            <div className="relative overflow-hidden rounded-[22px] border border-blue-200/80 bg-white/90 shadow-[0_18px_55px_rgba(6,21,46,0.14)] backdrop-blur-2xl">
 
-            <a
-              href="#home"
-              onClick={() =>
-                setMobileMenuOpen(false)
-              }
-              className="flex items-center gap-3"
-            >
-              <img
-                src={technoWingsLogo}
-                alt="Techno Wings 2K26"
-                className="h-16 w-auto object-contain sm:h-20"
+              {/* Subtle aerospace grid */}
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.035]"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(rgba(37,99,235,0.8) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(37,99,235,0.8) 1px, transparent 1px)
+                  `,
+                  backgroundSize: "24px 24px",
+                }}
               />
 
-              <div className="hidden leading-none sm:block">
-                <div className="text-base font-black tracking-wide text-[#06152e] lg:text-lg">
-                  TECHNO WINGS
-                </div>
+              {/* Top glowing flight-line */}
+              <div className="pointer-events-none absolute left-[8%] right-[8%] top-0 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
 
-                <div className="mt-1 text-sm font-black tracking-[0.35em] text-blue-600">
-                  2K26
-                </div>
+              {/* Left cockpit accent */}
+              <div className="pointer-events-none absolute left-0 top-0 h-full w-16">
+                <div className="absolute left-0 top-0 h-7 w-px bg-blue-500" />
+                <div className="absolute left-0 top-0 h-px w-7 bg-blue-500" />
               </div>
-            </a>
 
-            {/* DESKTOP NAV */}
+              {/* Right cockpit accent */}
+              <div className="pointer-events-none absolute right-0 bottom-0 h-full w-16">
+                <div className="absolute bottom-0 right-0 h-7 w-px bg-cyan-500" />
+                <div className="absolute bottom-0 right-0 h-px w-7 bg-cyan-500" />
+              </div>
 
-            <div className="hidden items-center gap-1 md:flex">
-              {navItems.map(
-                ([label, href], index) =>
-                  href.startsWith("#") ? (
-                    <a
-                      key={label}
-                      href={href}
-                      className={`rounded-full px-5 py-3 text-sm font-bold transition ${
-                        index === 0
-                          ? "bg-blue-600 text-white shadow-[0_8px_24px_rgba(37,99,235,0.2)]"
-                          : "text-[#334b68] hover:bg-blue-50 hover:text-blue-700"
-                      }`}
-                    >
-                      {label}
-                    </a>
-                  ) : (
+              {/* Navbar content */}
+              <div className="relative flex h-[72px] items-center justify-between px-4 sm:h-[76px] sm:px-6 lg:px-10">
+
+                {/* Logo / Brand */}
+                <Link
+                  to="/"
+                  className="group flex items-center gap-3"
+                >
+                  <div className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-600 shadow-sm transition duration-300 group-hover:border-blue-400 group-hover:bg-blue-600 group-hover:text-white">
+                    <Plane size={21} />
+
+                    {/* Small radar dot */}
+                    <span className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full border-2 border-white bg-cyan-400" />
+                  </div>
+
+                  <div className="hidden sm:block">
+                    <p className="font-outfit text-sm font-black tracking-tight text-[#06152e]">
+                      TECHNOWINGS
+                      <span className="text-blue-600"> 2K26</span>
+                    </p>
+
+                    <div className="mt-0.5 flex items-center gap-2">
+                      <span className="h-px w-5 bg-cyan-400" />
+                      <p className="text-[8px] font-black uppercase tracking-[0.22em] text-slate-400">
+                        Aerospace Symposium
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Desktop navigation */}
+                <div className="hidden items-center gap-1 lg:flex">
+
+                  <Link
+                    to="/"
+                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    Home
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                  </Link>
+
+                  <a
+                    href="#events"
+                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    Events
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                  </a>
+
+                  <a
+                    href="#aeromodelling"
+                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    Aeromodelling
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                  </a>
+
+                  <a
+                    href="#association"
+                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    Associations
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                  </a>
+
+                  <Link
+                    to="/contact"
+                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    Contact
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                  </Link>
+                </div>
+
+                {/* CTA */}
+                <div className="hidden sm:block">
+                  <Link
+                    to="/events"
+                    className="group relative flex items-center gap-2 overflow-hidden rounded-xl border border-blue-600 bg-blue-600 px-5 py-3 text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-[0_8px_25px_rgba(37,99,235,0.22)] transition duration-300 hover:bg-blue-700 hover:shadow-[0_12px_35px_rgba(37,99,235,0.30)]"
+                  >
+                    <span className="relative z-10">Explore Events</span>
+                    <ArrowRight
+                      size={14}
+                      className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
+                    />
+
+                    {/* Moving scan effect */}
+                    <span className="absolute inset-y-0 -left-10 w-8 rotate-12 bg-white/20 transition-transform duration-700 group-hover:translate-x-[180px]" />
+                  </Link>
+                </div>
+
+                {/* Mobile menu button */}
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen((prev) => !prev)}
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-600 transition hover:border-blue-300 hover:bg-blue-100 lg:hidden"
+                  aria-label="Toggle navigation"
+                >
+                  {mobileMenuOpen ? <X size={21} /> : <Menu size={21} />}
+                </button>
+              </div>
+
+              {/* Mobile navigation */}
+              {mobileMenuOpen && (
+                <div className="relative border-t border-blue-100 bg-white/95 px-4 pb-4 pt-3 backdrop-blur-xl lg:hidden">
+                  <div className="grid gap-1">
                     <Link
-                      key={label}
-                      to={href}
-                      viewTransition
-                      className="rounded-full px-5 py-3 text-sm font-bold text-[#334b68] transition hover:bg-blue-50 hover:text-blue-700"
+                      to="/"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="rounded-xl px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#52657d] transition hover:bg-blue-50 hover:text-blue-600"
                     >
-                      {label}
+                      Home
                     </Link>
-                  )
+
+                    <a
+                      href="#events"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="rounded-xl px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#52657d] transition hover:bg-blue-50 hover:text-blue-600"
+                    >
+                      Events
+                    </a>
+
+                    <a
+                      href="#aeromodelling"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="rounded-xl px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#52657d] transition hover:bg-blue-50 hover:text-blue-600"
+                    >
+                      Aeromodelling
+                    </a>
+
+                    <a
+                      href="#association"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="rounded-xl px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#52657d] transition hover:bg-blue-50 hover:text-blue-600"
+                    >
+                      Associations
+                    </a>
+
+                    <Link
+                      to="/contact"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="rounded-xl px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#52657d] transition hover:bg-blue-50 hover:text-blue-600"
+                    >
+                      Contact
+                    </Link>
+
+                    <Link
+                      to="/events"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white"
+                    >
+                      Explore Events
+                      <ArrowRight size={15} />
+                    </Link>
+                  </div>
+                </div>
               )}
             </div>
 
-            {/* DESKTOP BUTTONS */}
+            {/* Floating shadow / separation from page */}
+            <div className="pointer-events-none absolute -bottom-3 left-[8%] right-[8%] -z-10 h-5 rounded-full bg-blue-900/10 blur-xl" />
 
-            <div className="hidden items-center gap-3 md:flex">
-              <Link
-                to="/verify"
-                viewTransition
-                className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-sm font-bold text-white shadow-[0_10px_30px_rgba(37,99,235,0.24)] transition hover:-translate-y-0.5"
-              >
-                Verify Registration
-              </Link>
+            {/* Tiny aerospace status indicators */}
+            <div className="pointer-events-none absolute -bottom-2 left-8 hidden items-center gap-2 rounded-full border border-blue-100 bg-white px-3 py-1 shadow-sm sm:flex">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+              <span className="text-[7px] font-black uppercase tracking-[0.2em] text-slate-400">
+                REGISTRATIONS LIVE
+              </span>
             </div>
 
-            {/* MOBILE MENU BUTTON */}
+            <div className="pointer-events-none absolute -bottom-2 right-8 hidden items-center gap-2 rounded-full border border-blue-100 bg-white px-3 py-1 shadow-sm sm:flex">
+              <span className="text-[7px] font-black uppercase tracking-[0.2em] text-slate-400">
+                TW / 2K26
+              </span>
+            </div>
 
-            <button
-              type="button"
-              onClick={() =>
-                setMobileMenuOpen(
-                  (value) => !value
-                )
-              }
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-700 md:hidden"
-              aria-label={
-                mobileMenuOpen
-                  ? "Close menu"
-                  : "Open menu"
-              }
-              aria-expanded={
-                mobileMenuOpen
-              }
-            >
-              {mobileMenuOpen ? (
-                <X size={24} />
-              ) : (
-                <Menu size={24} />
-              )}
-            </button>
           </div>
-
-          {/* MOBILE MENU */}
-
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{
-                opacity: 0,
-                height: 0,
-              }}
-              animate={{
-                opacity: 1,
-                height: "auto",
-              }}
-              className="border-t border-blue-100 bg-white px-4 pb-5 pt-3 shadow-xl md:hidden"
-            >
-              <div className="flex flex-col gap-2">
-
-                <a
-                  href="#home"
-                  onClick={() =>
-                    setMobileMenuOpen(false)
-                  }
-                  className="rounded-xl bg-blue-50 px-4 py-3 font-bold text-blue-700"
-                >
-                  Home
-                </a>
-
-                <a
-                  href="#about"
-                  onClick={() =>
-                    setMobileMenuOpen(false)
-                  }
-                  className="rounded-xl px-4 py-3 font-bold text-[#334b68] hover:bg-blue-50"
-                >
-                  About Fest
-                </a>
-
-                <Link
-                  to="/events?category=aerospace"
-                  viewTransition
-                  onClick={() =>
-                    setMobileMenuOpen(false)
-                  }
-                  className="rounded-xl px-4 py-3 font-bold text-[#334b68] hover:bg-blue-50"
-                >
-                  Events
-                </Link>
-
-                <Link
-                  to="/contact"
-                  viewTransition
-                  onClick={() =>
-                    setMobileMenuOpen(false)
-                  }
-                  className="rounded-xl px-4 py-3 font-bold text-[#334b68] hover:bg-blue-50"
-                >
-                  Contact
-                </Link>
-
-                <Link
-                  to="/register"
-                  viewTransition
-                  onClick={() =>
-                    setMobileMenuOpen(false)
-                  }
-                  className="mt-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-center font-bold text-white"
-                >
-                  Register
-                </Link>
-
-                <Link
-                  to="/verify"
-                  viewTransition
-                  onClick={() =>
-                    setMobileMenuOpen(false)
-                  }
-                  className="rounded-xl border border-blue-200 px-4 py-3 text-center font-bold text-blue-700"
-                >
-                  Verify Registration
-                </Link>
-
-              </div>
-            </motion.div>
-          )}
         </nav>
 
         {/* =================================================
@@ -2187,38 +2266,731 @@ function App() {
         ================================================= */}
 
         <section className="relative overflow-hidden bg-[#06152e] px-6 py-12 text-white">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(0,200,255,0.08),transparent)]" />
+          {/* subtle background glow */}
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(0,200,255,0.08),transparent)]" />
+
+          {/* rotating / moving event track */}
+          <div className="relative overflow-hidden">
+            <motion.div
+              animate={
+                reducedMotion
+                  ? {}
+                  : {
+                      x: ["0%", "-50%"],
+                    }
+              }
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              className="flex w-max items-center"
+            >
+              {/* FIRST SET */}
+              <div className="flex shrink-0 items-center gap-10 pr-10">
+                {events.map((event) => (
+                  <span
+                    key={`first-${event.name}`}
+                    className="whitespace-nowrap text-lg font-black uppercase tracking-[0.18em] text-white sm:text-xl lg:text-2xl"
+                  >
+                    {event.name}
+                  </span>
+                ))}
+              </div>
+
+              {/* SECOND SET — creates seamless loop */}
+              <div className="flex shrink-0 items-center gap-10 pr-10">
+                {events.map((event) => (
+                  <span
+                    key={`second-${event.name}`}
+                    className="whitespace-nowrap text-lg font-black uppercase tracking-[0.18em] text-white sm:text-xl lg:text-2xl"
+                  >
+                    {event.name}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+        {/* =========================================================
+            AEROMODELLING EXPERIENCE
+        ========================================================= */}
+
+        <section
+          id="aeromodelling"
+          className="relative overflow-hidden border-t border-blue-100 bg-white/80 px-6 py-24 sm:py-28 lg:py-32"
+        >
+          {/* =====================================================
+              BACKGROUND ATMOSPHERE
+          ===================================================== */}
+
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_8%_30%,rgba(37,99,235,0.08),transparent_28%),radial-gradient(circle_at_92%_65%,rgba(0,200,255,0.08),transparent_30%)]" />
+
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.035]"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(37,99,235,0.8) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(37,99,235,0.8) 1px, transparent 1px)
+              `,
+              backgroundSize: "42px 42px",
+            }}
+          />
+
+          {/* Decorative aerospace rings */}
 
           <motion.div
             animate={
               reducedMotion
                 ? {}
                 : {
-                    x: [
-                      "-5%",
-                      "5%",
-                      "-5%",
-                    ],
+                    rotate: 360,
                   }
             }
             transition={{
-              duration: 12,
+              duration: 35,
               repeat: Infinity,
-              ease: "easeInOut",
+              ease: "linear",
             }}
-            className="relative mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-8 gap-y-3 text-center"
-          >
-            {events.map((event) => (
-              <span
-                key={event.name}
-                className="text-xs font-bold uppercase tracking-[0.16em] text-white/70 sm:text-sm"
-              >
-                {event.name}
-              </span>
-            ))}
-          </motion.div>
-        </section>
+            className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full border border-blue-200/50"
+          />
 
+          <motion.div
+            animate={
+              reducedMotion
+                ? {}
+                : {
+                    rotate: -360,
+                  }
+            }
+            transition={{
+              duration: 45,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="pointer-events-none absolute -right-40 bottom-10 h-96 w-96 rounded-full border border-cyan-200/40"
+          />
+
+          <div className="relative mx-auto max-w-7xl">
+
+            {/* =====================================================
+                SECTION HEADER
+            ===================================================== */}
+
+            <motion.div
+              {...motionProps}
+              variants={reveal}
+              transition={{
+                duration: 0.7,
+              }}
+              className="mb-14 text-center"
+            >
+              <SectionLabel icon={Plane}>
+                Aero-Modelling Experience
+              </SectionLabel>
+
+              <h2 className="font-outfit text-4xl font-black tracking-tight text-[#06152e] sm:text-5xl md:text-6xl">
+                SEE IT.
+                <span className="text-blue-600"> BUILD IT.</span>
+                <span className="text-[#06152e]"> FLY IT.</span>
+              </h2>
+
+              <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#63778e] sm:text-base">
+                Explore aircraft models, understand the fundamentals of flight,
+                build your own model and experience the world of aeromodelling
+                through a hands-on aerospace experience.
+              </p>
+            </motion.div>
+
+
+            {/* =====================================================
+                MAIN GRID
+            ===================================================== */}
+
+            <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+
+
+              {/* ===================================================
+                  LEFT — UNIQUE AEROMODELLING SHOWCASE
+              =================================================== */}
+
+              <motion.div
+                {...motionProps}
+                variants={reveal}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.1,
+                }}
+                className="relative"
+              >
+
+                <div className="relative mx-auto w-full max-w-[610px]">
+
+
+                  {/* ===============================================
+                      DECORATIVE FLIGHT PATH
+                  =============================================== */}
+
+                  <div className="pointer-events-none absolute -inset-8 hidden sm:block">
+
+                    <motion.div
+                      animate={
+                        reducedMotion
+                          ? {}
+                          : {
+                              rotate: 360,
+                            }
+                      }
+                      transition={{
+                        duration: 28,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                      className="absolute inset-0 rounded-[3rem] border border-dashed border-blue-200/70"
+                    />
+
+                    <motion.div
+                      animate={
+                        reducedMotion
+                          ? {}
+                          : {
+                              rotate: -360,
+                            }
+                      }
+                      transition={{
+                        duration: 38,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                      className="absolute inset-8 rounded-[2.5rem] border border-cyan-200/50"
+                    />
+
+                  </div>
+
+
+                  {/* ===============================================
+                      IMAGE FRAME — AUTOMATIC SLIDESHOW
+                      
+                      ADD MORE IMAGES ONLY IN THE ARRAY BELOW.
+                      ALL IMAGES USE THIS SAME LOCATION.
+                  =============================================== */}
+
+                  <div className="relative z-10 overflow-hidden rounded-[2rem] border border-blue-100 bg-white p-2 shadow-[0_30px_80px_rgba(6,21,46,0.12)]">
+
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-[1.6rem] bg-[#edf6ff]">
+
+                      {/* =================================================
+                          SLIDESHOW IMAGES
+
+                          ADD FUTURE IMAGES HERE:
+
+                          {
+                            src: "/images/aeromodelling/your-image.jpg",
+                            alt: "Your image description",
+                          },
+
+                          The images will automatically rotate in the
+                          SAME frame. No additional location is created.
+                      ================================================= */}
+
+                      <div className="absolute inset-0 overflow-hidden rounded-[1.5rem]">
+                        <AnimatePresence initial={false} mode="sync">
+                          <motion.img
+                            key={aeromodellingSlide}
+                            src={aeromodellingImages[aeromodellingSlide].src}
+                            alt={aeromodellingImages[aeromodellingSlide].alt}
+                            initial={{
+                              opacity: 0,
+                              scale: 1.06,
+                            }}
+                            animate={{
+                              opacity: 1,
+                              scale: 1,
+                            }}
+                            exit={{
+                              opacity: 0,
+                              scale: 0.98,
+                            }}
+                            transition={{
+                              duration: 0.8,
+                              ease: "easeInOut",
+                            }}
+                            className="absolute inset-0 h-full w-full object-cover"
+                          />
+                        </AnimatePresence>
+                      </div>
+
+
+                      {/* =========================================
+                          SLIDESHOW ANIMATION
+                      ========================================= */}
+
+                      {!reducedMotion && (
+                        <style>
+                          {`
+                            @keyframes aeroModellingSlide {
+                              0% {
+                                opacity: 0;
+                              }
+
+                              3% {
+                                opacity: 1;
+                              }
+
+                              30% {
+                                opacity: 1;
+                              }
+
+                              34% {
+                                opacity: 0;
+                              }
+
+                              100% {
+                                opacity: 0;
+                              }
+                            }
+                          `}
+                        </style>
+                      )}
+
+
+                      {/* =========================================
+                          LIGHT IMAGE OVERLAY
+                      ========================================= */}
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#06152e]/70 via-transparent to-transparent" />
+
+
+                      {/* =========================================
+                          MOVING SCAN LINE
+                      ========================================= */}
+
+                      <motion.div
+                        animate={
+                          reducedMotion
+                            ? {}
+                            : {
+                                y: ["-120%", "220%"],
+                              }
+                        }
+                        transition={{
+                          duration: 5,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                        className="pointer-events-none absolute left-0 right-0 h-24 bg-gradient-to-b from-transparent via-cyan-300/15 to-transparent"
+                      />
+
+
+                      {/* =========================================
+                          TOP STATUS
+                      ========================================= */}
+
+                      <div className="absolute left-5 top-5">
+
+                        <div className="flex items-center gap-2 rounded-full border border-white/30 bg-[#06152e]/60 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white backdrop-blur-md">
+
+                          <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+
+                          Aero Experience
+
+                        </div>
+
+                      </div>
+
+
+                      {/* =========================================
+                          BOTTOM IMAGE INFORMATION
+                      ========================================= */}
+
+                      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
+
+                        <div className="flex items-end justify-between gap-4">
+
+                          <div>
+
+                            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-300">
+                              Techno Wings 2K26
+                            </p>
+
+                            <h3 className="font-outfit mt-2 text-2xl font-black text-white sm:text-3xl">
+                              Aero-Modelling
+                            </h3>
+
+                            <p className="mt-1 text-xs font-medium text-white/75 sm:text-sm">
+                              Explore • Build • Understand • Fly
+                            </p>
+
+                          </div>
+
+                          <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-white backdrop-blur-md sm:flex">
+                            <Plane size={22} />
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  {/* ===============================================
+                      FLOATING FLIGHT DATA
+                  =============================================== */}
+
+                  <motion.div
+                    animate={
+                      reducedMotion
+                        ? {}
+                        : {
+                            y: [0, -8, 0],
+                          }
+                    }
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="absolute -bottom-6 -left-2 z-20 rounded-2xl border border-blue-100 bg-white px-4 py-3 shadow-[0_15px_40px_rgba(6,21,46,0.12)] sm:-left-6"
+                  >
+
+                    <div className="flex items-center gap-3">
+
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                        <Wind size={19} />
+                      </div>
+
+                      <div>
+
+                        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+                          Experience
+                        </p>
+
+                        <p className="mt-0.5 text-sm font-black text-[#06152e]">
+                          Explore & Learn
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                  </motion.div>
+
+
+                  {/* ===============================================
+                      FLOATING AIRCRAFT
+                  =============================================== */}
+
+                  <motion.div
+                    animate={
+                      reducedMotion
+                        ? {}
+                        : {
+                            x: [-12, 12, -12],
+                            y: [0, -7, 0],
+                            rotate: [-4, 4, -4],
+                          }
+                    }
+                    transition={{
+                      duration: 5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="absolute -right-3 top-[38%] z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-cyan-200 bg-white text-blue-600 shadow-[0_12px_35px_rgba(6,21,46,0.12)] sm:flex"
+                  >
+                    <Plane size={20} />
+                  </motion.div>
+
+
+                  {/* ===============================================
+                      SMALL FLIGHT COORDINATES
+                  =============================================== */}
+
+                  <div className="absolute -right-2 -top-7 z-20 hidden rounded-xl border border-blue-100 bg-white px-4 py-2 shadow-sm sm:block">
+
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">
+                      Flight Deck
+                    </p>
+
+                    <p className="mt-0.5 font-mono text-xs font-bold text-blue-600">
+                      AERO / 2K26
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </motion.div>
+
+
+              {/* ===================================================
+                  RIGHT — EVENT INFORMATION
+              =================================================== */}
+
+              <div>
+
+
+                {/* ===============================================
+                    DATE / TIME
+                =============================================== */}
+
+                <div className="grid gap-4 sm:grid-cols-2">
+
+                  <motion.div
+                    {...motionProps}
+                    variants={reveal}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.12,
+                    }}
+                    whileHover={{
+                      y: -5,
+                    }}
+                    className="group relative overflow-hidden rounded-3xl border border-blue-100 bg-white p-5 shadow-[0_15px_45px_rgba(6,21,46,0.06)] transition hover:border-blue-200 hover:shadow-[0_20px_55px_rgba(37,99,235,0.10)]"
+                  >
+
+                    <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-blue-50 blur-2xl transition group-hover:bg-blue-100" />
+
+                    <div className="relative">
+
+                      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                        <CalendarDays size={21} />
+                      </div>
+
+                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
+                        Event Dates
+                      </p>
+
+                      <p className="mt-1 font-outfit text-2xl font-black text-[#06152e]">
+                        15 & 16
+                      </p>
+
+                      <p className="mt-1 text-xs font-medium text-slate-500">
+                        Two-day aeromodelling experience
+                      </p>
+
+                    </div>
+
+                  </motion.div>
+
+
+                  <motion.div
+                    {...motionProps}
+                    variants={reveal}
+                    transition={{
+                      duration: 0.6,
+                      delay: 0.18,
+                    }}
+                    whileHover={{
+                      y: -5,
+                    }}
+                    className="group relative overflow-hidden rounded-3xl border border-blue-100 bg-white p-5 shadow-[0_15px_45px_rgba(6,21,46,0.06)] transition hover:border-cyan-200 hover:shadow-[0_20px_55px_rgba(0,184,255,0.10)]"
+                  >
+
+                    <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-cyan-50 blur-2xl transition group-hover:bg-cyan-100" />
+
+                    <div className="relative">
+
+                      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600">
+                        <Clock3 size={21} />
+                      </div>
+
+                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
+                        Experience Time
+                      </p>
+
+                      <p className="mt-1 font-outfit text-2xl font-black text-[#06152e]">
+                        10 AM – 4 PM
+                      </p>
+
+                      <p className="mt-1 text-xs font-medium text-slate-500">
+                        Open experience hours
+                      </p>
+
+                    </div>
+
+                  </motion.div>
+
+                </div>
+
+
+                {/* ===============================================
+                    INTRODUCTION
+                =============================================== */}
+
+                <motion.div
+                  {...motionProps}
+                  variants={reveal}
+                  transition={{
+                    duration: 0.7,
+                    delay: 0.2,
+                  }}
+                  className="mt-8"
+                >
+
+                  <p className="text-xs font-black uppercase tracking-[0.25em] text-cyan-600">
+                    What awaits you
+                  </p>
+
+                  <h3 className="font-outfit mt-3 text-2xl font-black tracking-tight text-[#06152e] sm:text-3xl">
+                    Experience aircraft beyond the classroom.
+                  </h3>
+
+                  <p className="mt-4 text-sm leading-7 text-[#63778e] sm:text-base">
+                    Discover the principles of flight through real models,
+                    practical demonstrations and hands-on aeromodelling
+                    activities designed to connect engineering theory with
+                    the experience of building and flying an aircraft.
+                  </p>
+
+                </motion.div>
+
+
+                {/* ===============================================
+                    EXPERIENCE CARDS
+                =============================================== */}
+
+                <div className="mt-7 space-y-3">
+
+                  {[
+                    {
+                      icon: Eye,
+                      title: "Aircraft Models on Display",
+                      text: "Explore different aircraft models and understand their design, structure and flying principles.",
+                    },
+                    {
+                      icon: Wrench,
+                      title: "Hands-on Model Building",
+                      text: "Learn the fundamentals of constructing lightweight aircraft models using practical techniques.",
+                    },
+                    {
+                      icon: Wind,
+                      title: "Make & Fly",
+                      text: "Build a model aircraft and experience the fundamentals of flight through a practical flying activity.",
+                    },
+                    {
+                      icon: Sparkles,
+                      title: "Learn • Build • Fly",
+                      text: "Turn curiosity into practical aerospace learning through an engaging aeromodelling experience.",
+                    },
+                  ].map((item, index) => {
+
+                    const Icon = item.icon;
+
+                    return (
+                      <motion.div
+                        key={item.title}
+                        {...motionProps}
+                        variants={reveal}
+                        transition={{
+                          duration: 0.5,
+                          delay: 0.22 + index * 0.07,
+                        }}
+                        whileHover={{
+                          x: 5,
+                        }}
+                        className="group flex gap-4 rounded-2xl border border-blue-100 bg-white p-4 shadow-sm transition duration-300 hover:border-blue-200 hover:shadow-[0_12px_35px_rgba(37,99,235,0.08)]"
+                      >
+
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition duration-300 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white">
+                          <Icon size={19} />
+                        </div>
+
+                        <div>
+
+                          <h4 className="text-sm font-black text-[#06152e] sm:text-base">
+                            {item.title}
+                          </h4>
+
+                          <p className="mt-1 text-xs leading-6 text-[#708198] sm:text-sm">
+                            {item.text}
+                          </p>
+
+                        </div>
+
+                      </motion.div>
+                    );
+
+                  })}
+
+                </div>
+
+
+                {/* ===============================================
+                    RESOURCE PERSON
+                =============================================== */}
+
+                <motion.div
+                  {...motionProps}
+                  variants={reveal}
+                  transition={{
+                    duration: 0.7,
+                    delay: 0.5,
+                  }}
+                  className="mt-7 overflow-hidden rounded-3xl border border-cyan-100 bg-gradient-to-r from-cyan-50 via-white to-blue-50 p-5 shadow-sm"
+                >
+
+                  <div className="flex items-center justify-between gap-4">
+
+                    <div>
+
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-600">
+                        Special Hands-on Session
+                      </p>
+
+                      <p className="mt-1 font-outfit text-lg font-black text-[#06152e]">
+                        Shri. Madhav Khare
+                      </p>
+
+                      <p className="mt-1 text-xs font-medium text-[#708198]">
+                        Aero-Modeller & Key Resource Person
+                      </p>
+
+                    </div>
+
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-cyan-100 bg-white text-cyan-600 shadow-sm">
+                      <Plane size={21} />
+                    </div>
+
+                  </div>
+
+                </motion.div>
+
+
+                {/* ===============================================
+                    EXPERIENCE BADGE
+                =============================================== */}
+
+                <motion.div
+                  {...motionProps}
+                  variants={reveal}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.58,
+                  }}
+                  className="mt-6"
+                >
+
+                  <div className="inline-flex items-center gap-3 rounded-full border border-blue-100 bg-blue-50 px-5 py-3 text-xs font-black uppercase tracking-[0.15em] text-blue-700 shadow-sm">
+
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-blue-600" />
+
+                    Open for all curious minds
+
+                    <ArrowUpRight size={15} />
+
+                  </div>
+
+                </motion.div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </section>
         {/* =================================================
             SPONSOR
         ================================================= */}

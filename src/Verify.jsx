@@ -148,55 +148,170 @@ export default function Verify() {
       </div>
 
       {/* ======================================================
-          NAVBAR
+          FLOATING AEROSPACE NAVBAR
           ====================================================== */}
 
-      <nav className="relative z-20 border-b border-blue-100/80 bg-white/90 shadow-sm backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
+      <nav className="fixed left-4 right-4 top-4 z-50">
+        <div className="relative mx-auto max-w-7xl">
 
-          {/* Logo */}
-          <Link
-            to="/"
-            className="flex items-center gap-3"
-          >
-            <img
-              src={technoWingsLogo}
-              alt="Techno Wings 2K26"
-              className="h-16 w-auto object-contain sm:h-20"
-            />
+          {/* Floating glass container */}
+          <div className="relative overflow-hidden rounded-2xl border border-cyan-200/70 bg-white/85 shadow-[0_12px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl">
 
-            <div className="hidden border-l border-blue-200 pl-3 sm:block">
-              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-500">
-                Aerospace Technical Fest
-              </p>
-
-              <p className="mt-0.5 text-xs font-bold text-[#06152e]">
-                Techno Wings 2K26
-              </p>
+            {/* Aerospace technical grid */}
+            <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(37,99,235,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.8) 1px, transparent 1px)",
+                  backgroundSize: "24px 24px",
+                }}
+              />
             </div>
-          </Link>
 
-          {/* Right actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Top cyan aerospace accent */}
+            <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
 
-            <Link
-              to="/register"
-              className="hidden rounded-xl border border-blue-200 bg-white px-4 py-2.5 text-sm font-black text-[#06152e] transition hover:border-blue-400 hover:bg-blue-50 sm:inline-flex"
-            >
-              Register
-            </Link>
+            {/* Navbar content */}
+            <div className="relative mx-auto flex h-[76px] items-center justify-between px-4 sm:px-6">
 
-            <Link
-              to="/events"
-              className="rounded-xl bg-[#06152e] px-4 py-2.5 text-sm font-black text-white transition hover:bg-blue-900"
-            >
-              Events
-            </Link>
+              {/* ==================================================
+                  LOGO
+                  ================================================== */}
+
+              <Link
+                to="/"
+                className="group flex items-center gap-3"
+              >
+                <div className="relative flex items-center justify-center">
+
+                  <img
+                    src={technoWingsLogo}
+                    alt="Techno Wings 2K26"
+                    className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03] sm:h-16"
+                  />
+
+                </div>
+
+                <div className="hidden leading-tight sm:block">
+
+                  <div className="text-sm font-extrabold tracking-[0.14em] text-[#06152e]">
+                    TECHNO WINGS
+                  </div>
+
+                  <div className="mt-0.5 text-[10px] font-bold tracking-[0.30em] text-cyan-600">
+                    2K26
+                  </div>
+
+                </div>
+              </Link>
+
+
+              {/* ==================================================
+                  DESKTOP NAVIGATION
+                  ================================================== */}
+
+              <div className="hidden items-center gap-7 md:flex">
+
+                {/* Home */}
+                <Link
+                  to="/"
+                  className="group relative text-sm font-semibold text-slate-500 transition hover:text-blue-600"
+                >
+                  Home
+
+                  <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-cyan-500 transition-all duration-300 group-hover:w-full" />
+                </Link>
+
+
+                {/* About */}
+                <Link
+                  to="/#about"
+                  className="group relative text-sm font-semibold text-slate-500 transition hover:text-blue-600"
+                >
+                  About
+
+                  <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-cyan-500 transition-all duration-300 group-hover:w-full" />
+                </Link>
+
+
+                {/* Events */}
+                <Link
+                  to="/events"
+                  className="group relative text-sm font-semibold text-slate-500 transition hover:text-blue-600"
+                >
+                  Events
+
+                  <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-cyan-500 transition-all duration-300 group-hover:w-full" />
+                </Link>
+
+
+                {/* Contact */}
+                <Link
+                  to="/contact"
+                  className="group relative text-sm font-semibold text-slate-500 transition hover:text-blue-600"
+                >
+                  Contact
+
+                  <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-cyan-500 transition-all duration-300 group-hover:w-full" />
+                </Link>
+
+              </div>
+
+              {/* ==================================================
+                  RIGHT SIDE ACTIONS
+                  ================================================== */}
+
+              <div className="hidden items-center gap-2.5 md:flex">
+
+                {/* Registration status */}
+                <div className="hidden items-center gap-2 lg:flex">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+
+                  <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">
+                    Registrations Live
+                  </span>
+                </div>
+
+                {/* Register */}
+                <Link
+                  to="/register"
+                  className="group flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-[0_8px_20px_rgba(37,99,235,0.20)] transition hover:-translate-y-0.5"
+                >
+                  Register
+
+                  <span className="transition-transform duration-300 group-hover:translate-x-0.5">
+                    →
+                  </span>
+                </Link>
+
+              </div>
+
+
+              {/* ==================================================
+                  MOBILE ACTIONS
+                  ================================================== */}
+
+              <div className="flex items-center gap-2 md:hidden">
+
+                <Link
+                  to="/register"
+                  className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3.5 py-2 text-xs font-bold text-white shadow-[0_6px_16px_rgba(37,99,235,0.18)]"
+                >
+                  Register
+                </Link>
+
+              </div>
+
+            </div>
 
           </div>
+
         </div>
       </nav>
-
       {/* ======================================================
           MAIN CONTENT
           ====================================================== */}

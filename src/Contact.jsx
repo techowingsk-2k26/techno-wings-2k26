@@ -6,19 +6,24 @@ import {
   Navigation,
   Sparkles,
   Headphones,
+  ArrowRight,
+  Menu,
+  Plane,
+  X,
 } from "lucide-react";
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 
 import technoWingsLogo from "./assets/techno-wings-logo.png";
 import collegeLogo from "./assets/college-logo.png";
 
 import prathmeshImage from "./assets/coordinators/prathmesh-patil.jpeg";
 import mandarImage from "./assets/coordinators/mandar-ghodake.jpeg";
-import shwetaImage from "./assets/coordinators/shweta-raut.jpeg";
+import jatinImage from "./assets/coordinators/jatin-hansa.jpeg";
 import surajImage from "./assets/coordinators/suraj-mali.jpeg";
 import chanchalImage from "./assets/coordinators/chanchal-shelar.jpeg";
 import samarthImage from "./assets/coordinators/samarth-lomate.jpeg";
-import aznanImage from "./assets/coordinators/aznan-shaikh.jpeg";
+import vadudImage from "./assets/coordinators/vadud-mujawar.jpeg";
 import technicalSupportImage from "./assets/coordinators/technical-support.jpeg";
 
 /*
@@ -214,9 +219,9 @@ export default function Contact() {
     },
     {
       eventName: "PAPER PRESENTATION",
-      name: "Shweta Raut",
-      phone: "+91 78229 16824",
-      image: shwetaImage,
+      name: "Jatin Hansa",
+      phone: "+91 91037 43266",
+      image: jatinImage,
     },
     {
       eventName: "WATER ROCKET",
@@ -238,9 +243,9 @@ export default function Contact() {
     },
     {
       eventName: "REASONING RUMBLE",
-      name: "Aznan Shaikh",
-      phone: "+91 87937 77579",
-      image: aznanImage,
+      name: "Vadud Mujawar",
+      phone: "+91 94238 52044",
+      image: vadudImage,
     },
   ];
 
@@ -261,61 +266,142 @@ export default function Contact() {
         <div className="absolute right-[5%] top-[60%] h-52 w-52 rounded-full border border-blue-200/20" />
       </div>
 
-      {/* Navbar */}
-      <nav className="fixed top-0 z-50 w-full border-b border-blue-100/80 bg-white/85 shadow-[0_4px_25px_rgba(15,23,42,0.05)] backdrop-blur-xl">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-6">
-          <a href="/" className="flex items-center gap-3">
-            <img
-              src={technoWingsLogo}
-              alt="Techno Wings 2K26"
-              className="h-16 w-auto sm:h-20"
-            />
-            <div className="hidden leading-tight sm:block">
-              <div className="text-lg font-extrabold tracking-wide text-[#06152e]">
-                TECHNO WINGS
+      {/* Floating Aerospace Navbar */}
+      <nav className="fixed left-4 right-4 top-4 z-50">
+        <div className="relative mx-auto max-w-7xl">
+
+          {/* Outer aerospace frame */}
+          <div className="relative overflow-hidden rounded-2xl border border-cyan-200/60 bg-white/85 shadow-[0_12px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl">
+
+            {/* Subtle aerospace grid */}
+            <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(37,99,235,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.8) 1px, transparent 1px)",
+                  backgroundSize: "24px 24px",
+                }}
+              />
+            </div>
+
+            {/* Top accent line */}
+            <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+
+            <div className="relative flex h-[72px] items-center justify-between px-4 sm:px-6">
+
+              {/* Logo */}
+              <Link to="/" className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-200 bg-white shadow-sm">
+                  <Plane
+                    size={22}
+                    className="text-blue-600"
+                  />
+                </div>
+
+                <div className="leading-tight">
+                  <div className="text-sm font-extrabold tracking-[0.16em] text-[#06152e]">
+                    TECHNO WINGS
+                  </div>
+
+                  <div className="text-[10px] font-bold tracking-[0.32em] text-cyan-600">
+                    2K26
+                  </div>
+                </div>
+              </Link>
+
+              {/* Desktop Navigation */}
+              <div className="hidden items-center gap-7 md:flex">
+
+                <Link
+                  to="/"
+                  className="group relative text-sm font-semibold text-slate-500 transition hover:text-blue-600"
+                >
+                  Home
+                  <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-cyan-500 transition-all duration-300 group-hover:w-full" />
+                </Link>
+
+                <Link
+                  to="/#about"
+                  className="group relative text-sm font-semibold text-slate-500 transition hover:text-blue-600"
+                >
+                  About
+                  <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-cyan-500 transition-all duration-300 group-hover:w-full" />
+                </Link>
+
+                <Link
+                  to="/events"
+                  className="group relative text-sm font-semibold text-slate-500 transition hover:text-blue-600"
+                >
+                  Events
+                  <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-cyan-500 transition-all duration-300 group-hover:w-full" />
+                </Link>
+
+                {/* Active Contact */}
+                <Link
+                  to="/contact"
+                  className="relative text-sm font-bold text-blue-600"
+                >
+                  Contact
+                  <span className="absolute -bottom-2 left-0 h-[2px] w-full bg-cyan-500" />
+                </Link>
               </div>
-              <div className="text-sm font-bold tracking-[0.25em] text-cyan-600">
-                2K26
+
+              {/* Desktop Actions */}
+              <div className="hidden items-center gap-2.5 md:flex">
+
+                {/* Status */}
+                <div className="hidden items-center gap-2 lg:flex">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+
+                  <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
+                    Registrations Live
+                  </span>
+                </div>
+
+                <Link
+                  to="/verify"
+                  className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
+                >
+                  Verify
+                </Link>
+
+                <Link
+                  to="/register"
+                  className="group flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-[0_8px_20px_rgba(37,99,235,0.20)] transition hover:-translate-y-0.5"
+                >
+                  Register
+                  <ArrowRight
+                    size={14}
+                    className="transition-transform group-hover:translate-x-0.5"
+                  />
+                </Link>
+              </div>
+
+              {/* Mobile Register + Menu */}
+              <div className="flex items-center gap-2 md:hidden">
+
+                <Link
+                  to="/register"
+                  className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3.5 py-2 text-xs font-bold text-white shadow-[0_6px_16px_rgba(37,99,235,0.18)]"
+                >
+                  Register
+                </Link>
+
+                <button
+                  type="button"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 text-blue-700 transition hover:bg-blue-100"
+                  aria-label="Open menu"
+                >
+                  <Menu size={20} />
+                </button>
+
               </div>
             </div>
-          </a>
-
-          <div className="hidden items-center gap-8 md:flex">
-            <a href="/" className="text-sm font-medium text-slate-500 transition hover:text-blue-600">
-              Home
-            </a>
-            <a href="/#about" className="text-sm font-medium text-slate-500 transition hover:text-blue-600">
-              About
-            </a>
-            <a href="/events" className="text-sm font-medium text-slate-500 transition hover:text-blue-600">
-              Events
-            </a>
-            <a href="/contact" className="text-sm font-bold text-blue-600">
-              Contact
-            </a>
           </div>
-
-          <div className="hidden items-center gap-3 md:flex">
-            <a
-              href="/verify"
-              className="rounded-full border border-blue-200 bg-blue-50 px-5 py-2.5 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
-            >
-              Verify Registration
-            </a>
-            <a
-              href="/register"
-              className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2.5 text-sm font-bold text-white shadow-[0_8px_20px_rgba(37,99,235,0.18)] transition hover:-translate-y-0.5"
-            >
-              Register
-            </a>
-          </div>
-
-          <a
-            href="/register"
-            className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-bold text-white md:hidden"
-          >
-            Register
-          </a>
         </div>
       </nav>
 
