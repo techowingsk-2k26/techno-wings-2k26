@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   Clipboard,
   CreditCard,
-  Download,
   Lock,
   Send,
   ShieldCheck,
@@ -64,8 +63,7 @@ const events = {
     individualAllowed: true,
     maxTeamSize: 2,
     participationType: "Team",
-    feeIndividual: 100,
-    feeTeam: 200,
+    fee: 200,
   },
 
   "reasoning-rumble": {
@@ -325,9 +323,9 @@ export default function Register() {
   });
 
   const [submitting, setSubmitting] = useState(false);
+  const [processingPayment, setProcessingPayment] = useState(false);
   const [result, setResult] = useState(null);
   const [copied, setCopied] = useState(false);
-  const [receiptUrl, setReceiptUrl] = useState("");
 
   /* ==========================================================
      AUTOMATIC PARTICIPATION TYPE
@@ -357,24 +355,11 @@ export default function Register() {
      FEE
      ========================================================== */
 
-/* ==========================================================
-   FEE
-   ========================================================== */
-
   const fee = useMemo(() => {
     if (!selectedEvent) return 0;
 
-    // Paper Presentation:
-    // Individual = ₹100
-    // Team = ₹200
-    if (eventSlug === "paper-presentation") {
-      return form.participationType === "Individual"
-        ? 100
-        : 200;
-    }
-
     return selectedEvent.fee || 0;
-  }, [eventSlug, selectedEvent, form.participationType]);
+  }, [selectedEvent]);
 
   /* ==========================================================
      EVENT NOT FOUND
@@ -449,11 +434,7 @@ export default function Register() {
                           : "bg-blue-50 text-blue-600"
                       }`}
                     >
-                      {isFree
-                        ? "FREE"
-                        : event.individualAllowed
-                          ? "₹100 / ₹200"
-                          : `₹${event.fee}`}
+                      {isFree ? "FREE" : `₹${event.fee}`}
                     </span>
                   </div>
 
@@ -766,8 +747,6 @@ export default function Register() {
          ------------------------------------------------------ */
 
       if (!data.paymentRequired) {
-        setReceiptUrl(data.receiptUrl || "");
-
         setResult({
           success: true,
           registrationId:
@@ -839,9 +818,19 @@ export default function Register() {
         handler: async function (
           paymentResponse
         ) {
-          try {
-            setSubmitting(true);
+          /* ----------------------------------------------------
+             PAYMENT SUCCESS
+             ----------------------------------------------------
+             Razorpay payment is complete. Keep the user on
+             this page while the backend verifies the payment,
+             confirms the registration, and prepares the receipt.
+          ---------------------------------------------------- */
 
+          setSubmitting(true);
+          setProcessingPayment(true);
+          setResult(null);
+
+          try {
             const verifyResponse =
               await fetch(
                 GOOGLE_SCRIPT_URL,
@@ -874,8 +863,6 @@ export default function Register() {
               );
             }
 
-            setReceiptUrl(verifyData.receiptUrl || "");
-
             setResult({
               success: true,
 
@@ -887,10 +874,8 @@ export default function Register() {
 
               registrationStatus:
                 "Confirmed",
-
               participationType:
                 form.participationType,
-
               teamSize,
             });
           } catch (error) {
@@ -902,6 +887,7 @@ export default function Register() {
                 "Payment verification failed.",
             });
           } finally {
+            setProcessingPayment(false);
             setSubmitting(false);
           }
         },
@@ -1122,20 +1108,6 @@ export default function Register() {
             </p>
           </div>
 
-          {receiptUrl && (
-            <div className="mt-5 flex justify-center">
-              <a
-                href={receiptUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 font-black text-white shadow-lg shadow-emerald-600/20 transition hover:-translate-y-0.5 hover:bg-emerald-700"
-              >
-                <Download size={18} />
-                Download Registration Receipt
-              </a>
-            </div>
-          )}
-
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               to="/verify"
@@ -1164,6 +1136,51 @@ export default function Register() {
   return (
     <main className="site-scale min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-8 text-[#06152e] md:px-8 md:py-12">
       <AerospaceBackground />
+
+      {/* ========================================================
+          PAYMENT PROCESSING OVERLAY
+          ======================================================== */}
+
+      {processingPayment && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#06152e]/65 px-5 backdrop-blur-md">
+          <div className="w-full max-w-md rounded-3xl border border-blue-100 bg-white p-8 text-center shadow-[0_30px_100px_rgba(0,30,80,0.3)]">
+
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-blue-50">
+              <div className="h-11 w-11 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600" />
+            </div>
+
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-emerald-600">
+              <CheckCircle2 size={15} />
+              Payment Successful
+            </div>
+
+            <h2 className="font-outfit mt-5 text-2xl font-black text-[#06152e] md:text-3xl">
+              Processing Your Registration
+            </h2>
+
+            <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-slate-500">
+              Your payment has been received successfully.
+              We are now confirming your registration and
+              preparing your receipt.
+            </p>
+
+            <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4">
+              <p className="text-sm font-black text-amber-700">
+                Please do not close, refresh, or go back from this page.
+              </p>
+
+              <p className="mt-1 text-xs leading-5 text-amber-600/80">
+                This process may take a few seconds.
+              </p>
+            </div>
+
+            <div className="mt-6 flex items-center justify-center gap-2 text-xs font-bold text-slate-400">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-blue-600" />
+              Securely confirming your registration...
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="relative z-10 mx-auto max-w-5xl">
         {/* ==================================================
