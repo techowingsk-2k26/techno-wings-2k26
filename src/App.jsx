@@ -21,6 +21,7 @@ import {
   Wind,
   Wrench,
   X,
+  ShieldCheck,
 } from "lucide-react";
 import {
   motion,
@@ -760,15 +761,35 @@ function App() {
                     Contact
                     <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
                   </Link>
+
                 </div>
 
-                {/* CTA */}
-                <div className="hidden sm:block">
+                {/* Desktop CTA buttons */}
+                <div className="hidden items-center gap-2 sm:flex">
+
+                  {/* Verify Registration */}
+                  <Link
+                    to="/verify"
+                    className="group relative flex items-center gap-2 overflow-hidden rounded-xl border border-blue-200 bg-white px-4 py-3 text-[10px] font-black uppercase tracking-[0.12em] text-blue-700 shadow-sm transition duration-300 hover:border-blue-400 hover:bg-blue-50 hover:shadow-md"
+                  >
+                    <ShieldCheck
+                      size={15}
+                      className="shrink-0 transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <span className="whitespace-nowrap">
+                      Verify Registration
+                    </span>
+                  </Link>
+
+                  {/* Explore Events */}
                   <Link
                     to="/events"
                     className="group relative flex items-center gap-2 overflow-hidden rounded-xl border border-blue-600 bg-blue-600 px-5 py-3 text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-[0_8px_25px_rgba(37,99,235,0.22)] transition duration-300 hover:bg-blue-700 hover:shadow-[0_12px_35px_rgba(37,99,235,0.30)]"
                   >
-                    <span className="relative z-10">Explore Events</span>
+                    <span className="relative z-10 whitespace-nowrap">
+                      Explore Events
+                    </span>
+
                     <ArrowRight
                       size={14}
                       className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
@@ -777,6 +798,7 @@ function App() {
                     {/* Moving scan effect */}
                     <span className="absolute inset-y-0 -left-10 w-8 rotate-12 bg-white/20 transition-transform duration-700 group-hover:translate-x-[180px]" />
                   </Link>
+
                 </div>
 
                 {/* Mobile menu button */}
@@ -785,15 +807,18 @@ function App() {
                   onClick={() => setMobileMenuOpen((prev) => !prev)}
                   className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-blue-600 transition hover:border-blue-300 hover:bg-blue-100 lg:hidden"
                   aria-label="Toggle navigation"
+                  aria-expanded={mobileMenuOpen}
                 >
                   {mobileMenuOpen ? <X size={21} /> : <Menu size={21} />}
                 </button>
+
               </div>
 
               {/* Mobile navigation */}
               {mobileMenuOpen && (
                 <div className="relative border-t border-blue-100 bg-white/95 px-4 pb-4 pt-3 backdrop-blur-xl lg:hidden">
                   <div className="grid gap-1">
+
                     <Link
                       to="/"
                       onClick={() => setMobileMenuOpen(false)}
@@ -834,17 +859,30 @@ function App() {
                       Contact
                     </Link>
 
+                    {/* Mobile Verify Registration */}
+                    <Link
+                      to="/verify"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="mt-2 flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-blue-700 transition hover:bg-blue-100"
+                    >
+                      <ShieldCheck size={16} />
+                      Verify Registration
+                    </Link>
+
+                    {/* Mobile Explore Events */}
                     <Link
                       to="/events"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white"
+                      className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-white transition hover:bg-blue-700"
                     >
                       Explore Events
                       <ArrowRight size={15} />
                     </Link>
+
                   </div>
                 </div>
               )}
+
             </div>
 
             {/* Floating shadow / separation from page */}
