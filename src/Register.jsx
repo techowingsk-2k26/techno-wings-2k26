@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Clipboard,
   CreditCard,
+  Download,
   Lock,
   Send,
   ShieldCheck,
@@ -755,6 +756,8 @@ export default function Register() {
             data.paymentStatus,
           registrationStatus:
             data.registrationStatus,
+          receiptUrl:
+            data.receiptUrl || "",
           participationType:
             form.participationType,
           teamSize,
@@ -873,7 +876,9 @@ export default function Register() {
               paymentStatus: "Paid",
 
               registrationStatus:
-                "Confirmed",
+                verifyData.registrationStatus || "Confirmed",
+              receiptUrl:
+                verifyData.receiptUrl || data.receiptUrl || "",
               participationType:
                 form.participationType,
               teamSize,
@@ -1107,6 +1112,26 @@ export default function Register() {
               to verify your registration later.
             </p>
           </div>
+
+          {/* Download receipt immediately after registration confirmation.
+              This only adds the receipt option; the existing registration
+              fields, validation, payment flow, and confirmation layout remain intact. */}
+          {result.receiptUrl && (
+            <div className="mt-6 flex flex-col items-center gap-2">
+              <a
+                href={result.receiptUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 font-black text-white shadow-lg shadow-emerald-600/20 transition hover:-translate-y-0.5 hover:bg-emerald-700 sm:w-auto"
+              >
+                <Download size={18} />
+                Download Registration Receipt
+              </a>
+              <p className="text-center text-xs text-slate-500">
+                Save a copy of your receipt for future reference.
+              </p>
+            </div>
+          )}
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
