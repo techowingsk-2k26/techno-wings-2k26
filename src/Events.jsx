@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import {
   ArrowRight,
   CalendarDays,
@@ -9,7 +7,6 @@ import {
   Plane,
   Sparkles,
   Users,
-  X,
   Trophy,
   ShieldCheck,
   Cpu,
@@ -19,6 +16,7 @@ import {
   Play,
   Package,
   Wrench,
+  MessageCircle,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -100,6 +98,7 @@ const events = [
     categoryKey: "aerospace",
     image: chuckGliderImage,
     slug: "chuck-glider",
+    whatsappGroup: "https://chat.whatsapp.com/CmPIWsXkq6zIISlp8bunJY?s=cl&p=a&mlu=4&ilr=4",
 
     participation: "Team Only",
     teamSize: "Exactly 2 Members",
@@ -181,6 +180,7 @@ const events = [
     categoryKey: "aerospace",
     image: simulatorImage,
     slug: "Flight-simulator",
+    whatsappGroup: "https://chat.whatsapp.com/DW1HWBKDme3HYUQ9z0WLDe?s=sh&p=a&mlu=4&ilr=4",
 
     participation: "Individual Only",
     teamSize: "Individual",
@@ -229,6 +229,7 @@ const events = [
     categoryKey: "design",
     image: cadMasterImage,
     slug: "cad-master",
+    whatsappGroup: "https://chat.whatsapp.com/FD837GSqc2X5VUMOx4Yh4T?s=sw&p=a&mlu=4&ilr=4",
 
     participation: "Individual Only",
     teamSize: "Individual",
@@ -281,6 +282,7 @@ const events = [
     categoryKey: "design",
     image: waterRocketImage,
     slug: "water-rocket",
+    whatsappGroup: "https://chat.whatsapp.com/E9XII7mFXlqJNHZ6xpxim7?s=sh&p=a&mlu=4&ilr=4",
 
     participation: "Team Only",
     teamSize: "Exactly 2 Members",
@@ -341,6 +343,7 @@ const events = [
     categoryKey: "knowledge",
     image: paperPresentationImage,
     slug: "paper-presentation",
+    whatsappGroup: "https://chat.whatsapp.com/HW5H5NlJrmFEyyq8lrFurq?s=cl&p=a&mlu=4&ilr=4",
 
     participation: "Individual or Team",
     teamSize: "Maximum 2 Members",
@@ -414,6 +417,7 @@ const events = [
     categoryKey: "knowledge",
     image: reasoningRumbleImage,
     slug: "reasoning-rumble",
+    whatsappGroup: "https://chat.whatsapp.com/Cgv33vN1pipIynT4vRngWI?s=cl&p=a&mlu=4&ilr=4",
 
     participation: "Team Only",
     teamSize: "Exactly 2 Members",
@@ -477,7 +481,7 @@ function InfoRow({ icon, label, children, last = false }) {
 // EVENT CARD
 // =====================================================
 
-function EventCard({ event, index, onViewDetails }) {
+function EventCard({ event, index }) {
   const isFree = event.slug === "drone-expo";
   const isTeam = event.participation === "Team Only";
 
@@ -655,40 +659,19 @@ function EventCard({ event, index, onViewDetails }) {
           </div>
         </div>
 
-        {/* BUTTONS */}
-        <div className="mt-auto flex gap-3 pt-5">
-          {event.slug === "drone-expo" ? (
-            <div className="flex flex-1 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-3 text-xs font-extrabold tracking-wide text-emerald-700">
-              NO REGISTRATION REQUIRED
-            </div>
-          ) : (
-            <motion.a
-              href={`/register?event=${event.slug}`}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-3 text-xs font-extrabold tracking-wide text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] transition hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]"
-            >
-              REGISTER
-              <ArrowRight
-                size={15}
-                className="ml-2 transition-transform group-hover:translate-x-1"
-              />
-            </motion.a>
-          )}
-
-          <motion.button
-            type="button"
-            onClick={() => onViewDetails(event)}
-            whileHover={{
-              scale: 1.02,
-            }}
-            whileTap={{
-              scale: 0.98,
-            }}
-            className="flex flex-1 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs font-extrabold tracking-wide text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+        {/* REGISTER OPENS THE EVENT DETAILS PAGE FIRST */}
+        <div className="mt-auto pt-5">
+          <Link
+            to={`/events?event=${encodeURIComponent(event.slug)}`}
+            className={`group flex w-full items-center justify-center rounded-xl px-4 py-3.5 text-xs font-extrabold tracking-wide transition hover:-translate-y-0.5 ${
+              isFree
+                ? "border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]"
+            }`}
           >
-            DETAILS
-          </motion.button>
+            {isFree ? "VIEW EVENT DETAILS" : "REGISTER / VIEW DETAILS"}
+            <ArrowRight size={15} className="ml-2 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
       </div>
     </motion.article>
@@ -753,505 +736,174 @@ function RuleSection({
 }
 
 // =====================================================
-// EVENT DETAILS MODAL
+// EVENT DETAILS PAGE
 // =====================================================
 
-function EventDetailsModal({ event, onClose }) {
-  const navigate = useNavigate();
-
-  if (!event) return null;
-
+function EventDetailsPage({ event, onBack }) {
   const isFree = event.slug === "drone-expo";
   const isTeam = event.participation === "Team Only";
 
+  const ruleSections = [
+    { key: "registration", title: "Registration", icon: <CheckCircle2 size={17} /> },
+    { key: "materials", title: "Materials", icon: <Package size={17} /> },
+    { key: "construction", title: "Construction", icon: <Wrench size={17} /> },
+    { key: "eligibility", title: "Eligibility & Participation", icon: <Users size={17} /> },
+    { key: "rounds", title: "Event Rounds", icon: <Target size={17} /> },
+    { key: "familiarization", title: "Participant Familiarization", icon: <Plane size={17} /> },
+    { key: "round1", title: "Round 1 — Basic Flight", icon: <Target size={17} /> },
+    { key: "round2", title: "Round 2 — Cockpit View & Aerobatics", icon: <Plane size={17} /> },
+    { key: "competition", title: "Competition & Flying Guidelines", icon: <Plane size={17} /> },
+    { key: "winnerCriteria", title: "Winner Criteria", icon: <Trophy size={17} /> },
+    { key: "tiebreaker", title: "Tie-Breaker", icon: <Trophy size={17} /> },
+    { key: "paper", title: "Paper & Topic Guidelines", icon: <FileText size={17} /> },
+    { key: "submission", title: "Submission & Presentation File", icon: <FileText size={17} /> },
+    { key: "presentation", title: "Presentation & Evaluation", icon: <Target size={17} /> },
+    { key: "evaluation", title: "Evaluation Criteria", icon: <Trophy size={17} /> },
+    { key: "specifications", title: "Rocket Specifications", icon: <Rocket size={17} /> },
+    { key: "safety", title: "Safety Rules", icon: <ShieldCheck size={17} /> },
+    { key: "attempts", title: "Attempts & Scoring", icon: <Target size={17} /> },
+    { key: "invalid", title: "Invalid Attempt & Disqualification", icon: <ShieldCheck size={17} /> },
+    { key: "design", title: "Design Guidelines", icon: <Cpu size={17} /> },
+    { key: "disqualification", title: "Disqualification", icon: <ShieldCheck size={17} /> },
+    { key: "exhibitor", title: "Exhibitor Registration & Setup", icon: <Users size={17} /> },
+    { key: "flightSafety", title: "Flight Safety Requirements", icon: <ShieldCheck size={17} /> },
+    { key: "studentAudience", title: "Student & Visitor Guidelines", icon: <Users size={17} /> },
+    { key: "conduct", title: "General Conduct", icon: <CheckCircle2 size={17} /> },
+    { key: "general", title: "General Rules & Regulations", icon: <ShieldCheck size={17} /> },
+    { key: "authority", title: "Final Authority", icon: <ShieldCheck size={17} /> },
+  ].filter((section) => event.rules?.[section.key]?.length);
+
   return (
-    <AnimatePresence>
-      <motion.div
-        className="fixed inset-0 z-[100] flex items-center justify-center bg-[#020817]/65 px-4 py-5 backdrop-blur-md sm:py-8"
-        initial={{
-          opacity: 0,
-        }}
-        animate={{
-          opacity: 1,
-        }}
-        exit={{
-          opacity: 0,
-        }}
-        onClick={onClose}
+    <motion.section
+      key={event.slug}
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="mx-auto max-w-7xl"
+    >
+      <button
+        type="button"
+        onClick={onBack}
+        className="mb-5 inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-600"
       >
-        <motion.div
-          initial={{
-            opacity: 0,
-            scale: 0.94,
-            y: 25,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            y: 0,
-          }}
-          exit={{
-            opacity: 0,
-            scale: 0.94,
-            y: 25,
-          }}
-          transition={{
-            duration: 0.3,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          onClick={(e) => e.stopPropagation()}
-          className="relative max-h-[95vh] w-[94vw] max-w-[85vw] overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_35px_120px_rgba(2,8,23,0.4)]"
+        <ArrowRight size={16} className="rotate-180" /> Back to all events
+      </button>
+
+      {/* Event hero */}
+      <div className="relative isolate min-h-[300px] overflow-hidden rounded-[1.75rem] bg-[#06152e] shadow-[0_25px_70px_rgba(15,23,42,0.18)] sm:min-h-[380px]">
+        <img src={event.image} alt={event.title} className="absolute inset-0 -z-20 h-full w-full object-cover" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#06152e]/95 via-[#06152e]/75 to-[#06152e]/20" />
+        <div className="absolute left-5 top-5 h-14 w-14 border-l border-t border-cyan-300/60 sm:left-8 sm:top-8 sm:h-20 sm:w-20" />
+        <div className="absolute bottom-5 right-5 h-14 w-14 border-b border-r border-cyan-300/60 sm:bottom-8 sm:right-8 sm:h-20 sm:w-20" />
+        <div className="flex min-h-[300px] flex-col justify-end p-6 sm:min-h-[380px] sm:p-10 lg:max-w-4xl">
+          <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.16em] text-cyan-200 backdrop-blur-md">
+            <Sparkles size={14} /> {event.category}
+          </div>
+          <h1 className="font-outfit text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">{event.title}</h1>
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-white/75 sm:text-base">{event.description}</p>
+        </div>
+      </div>
+
+      {/* Key information */}
+      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { label: "Participation", value: event.participation, icon: <Users size={17} /> },
+          { label: "Team Size", value: event.teamSize, icon: <Users size={17} /> },
+          { label: "Registration Fee", value: event.registrationFee, icon: <span className="font-bold">₹</span> },
+          { label: "Prize Pool", value: event.prizePool, icon: <Trophy size={17} /> },
+        ].map((item) => (
+          <div key={item.label} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+              <span className="text-blue-600">{item.icon}</span>{item.label}
+            </div>
+            <p className={`mt-2 text-sm font-extrabold ${item.label === "Registration Fee" && isFree ? "text-emerald-600" : "text-[#06152e]"}`}>{item.value}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Event format */}
+      {/* Event Tutorial Buttons */}
+      {event.slug === "chuck-glider" && (
+        <Link
+          to="/chuck-glider-tutorial"
+          className="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-xs font-extrabold text-white transition hover:bg-red-700"
         >
-          {/* CLOSE */}
-          <button
-            type="button"
-            onClick={onClose}
-            className="absolute right-4 top-4 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-[#06152e]/70 text-white backdrop-blur-md transition hover:bg-blue-600"
-            aria-label="Close event details"
-          >
-            <X size={20} />
-          </button>
+          <Play size={15} fill="currentColor" />
+          View Tutorial Video
+        </Link>
+      )}
 
-          {/* HERO IMAGE */}
-          <div className="relative h-56 overflow-hidden sm:h-72">
-            <img
-              src={event.image}
-              alt={event.title}
-              className="h-full w-full object-cover"
-            />
+      {event.slug === "water-rocket" && (
+        <Link
+          to="/water-rocket-tutorial"
+          className="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-xs font-extrabold text-white transition hover:bg-red-700"
+        >
+          <Play size={15} fill="currentColor" />
+          View Information & Demo
+        </Link>
+      )}
 
-            <div className="absolute inset-0 bg-gradient-to-t from-[#06152e] via-[#06152e]/35 to-transparent" />
+      {/* Coordinator */}
+      <div className="mt-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="mb-3 flex items-center gap-3">
+          <div className="h-7 w-1 rounded-full bg-blue-600" />
+          <h2 className="font-outfit text-xl font-black text-[#06152e]">Event Coordinator</h2>
+        </div>
+        <p className="font-extrabold text-[#06152e]">{event.studentCoordinator}</p>
+        <a href={`tel:${event.studentPhone.replace(/\s/g, "")}`} className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600">
+          <Phone size={15} /> {event.studentPhone}
+        </a>
+      </div>
 
-            {/* TECHNICAL LINES */}
-            <div className="absolute left-5 top-5 h-16 w-16 border-l border-t border-cyan-300/40" />
-
-            <div className="absolute bottom-5 right-5 h-16 w-16 border-b border-r border-cyan-300/40" />
-
-            <div className="absolute bottom-5 left-5 right-16 sm:left-7 sm:right-20">
-              <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-cyan-200 backdrop-blur-md">
-                <Sparkles size={13} />
-                {event.category}
-              </div>
-
-              <h2 className="font-outfit text-4xl font-black tracking-tight text-white sm:text-5xl">
-                {event.title}
-              </h2>
-            </div>
+      {/* Rules */}
+      <div className="mt-8">
+        <div className="mb-5 flex items-center gap-3">
+          <div className="h-7 w-1 rounded-full bg-blue-600" />
+          <div>
+            <h2 className="font-outfit text-2xl font-black text-[#06152e]">Rules & Regulations</h2>
+            <p className="mt-1 text-sm text-slate-500">Read the event guidelines carefully before registering.</p>
           </div>
-
-          {/* MODAL CONTENT */}
-          <div className="max-h-[calc(90vh-18rem)] overflow-y-auto p-5 sm:p-7">
-            {/* DESCRIPTION */}
-            <div className="rounded-2xl border border-blue-100 bg-blue-50/60 p-4 sm:p-5">
-              <p className="text-base leading-7 text-slate-600 sm:text-lg">
-                {event.description}
-              </p>
-            </div>
-
-            {/* QUICK INFORMATION */}
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                <div className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
-                  <Users
-                    size={15}
-                    className="text-blue-600"
-                  />
-                  Participation
-                </div>
-
-                <p className="mt-2 text-sm font-extrabold text-[#06152e]">
-                  {event.participation}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                <div className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
-                  <Users
-                    size={15}
-                    className="text-blue-600"
-                  />
-                  Team Size
-                </div>
-
-                <p className="mt-2 text-sm font-extrabold text-[#06152e]">
-                  {event.teamSize}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
-                  Registration Fee
-                </div>
-
-                <p
-                  className={`mt-2 text-sm font-extrabold ${
-                    isFree
-                      ? "text-emerald-600"
-                      : "text-blue-600"
-                  }`}
-                >
-                  {event.registrationFee}
-                </p>
-              </div>
-
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
-                  Prize Pool
-                </div>
-
-                <p className="mt-2 text-sm font-extrabold text-[#06152e]">
-                  {event.prizePool}
-                </p>
-              </div>
-            </div>
-
-            {/* EVENT TYPE */}
-            <div className="mt-4">
-              <div
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold ${
-                  isTeam
-                    ? "bg-indigo-50 text-indigo-700"
-                    : "bg-cyan-50 text-cyan-700"
-                }`}
-              >
-                {isTeam ? (
-                  <Users size={14} />
-                ) : (
-                  <Target size={14} />
-                )}
-
-                {isTeam
-                  ? "Team participation — exactly 2 members"
-                  : "Individual participation only"}
-              </div>
-            </div>
-
-            {/* CHUCK GLIDER TUTORIAL */}
-            {event.slug === "chuck-glider" && (
-              <div className="mt-5">
-                <button
-                  type="button"
-                  onClick={() => navigate("/chuck-glider-tutorial")}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-600 to-red-500 px-5 py-3.5 text-sm font-extrabold text-white shadow-[0_8px_25px_rgba(220,38,38,0.20)] transition hover:-translate-y-0.5 hover:from-red-700 hover:to-red-600 sm:w-auto"
-                >
-                  <Play
-                    size={17}
-                    fill="currentColor"
-                  />
-                  View Tutorial Video
-                </button>
-              </div>
-            )}
-
-            {/* COORDINATORS */}
-            <div className="mt-7">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="h-7 w-1 rounded-full bg-blue-600" />
-
-                <h3 className="font-outfit text-xl font-black text-[#06152e]">
-                  Event Coordinators
-                </h3>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                {/* STUDENT */}
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-blue-600">
-                    Student Coordinator
-                  </p>
-
-                  <p className="mt-2 font-extrabold text-[#06152e]">
-                    {event.studentCoordinator}
-                  </p>
-
-                  <a
-                    href={`tel:${event.studentPhone.replace(
-                      /\s/g,
-                      ""
-                    )}`}
-                    className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
-                  >
-                    <Phone size={14} />
-                    {event.studentPhone}
-                  </a>
-                </div>
-              </div>
-            </div>
-            {/* RULES */}
-            {event.rules && (
-              <div className="mt-8">
-                <div className="mb-5 flex items-center gap-3">
-                  <div className="h-7 w-1 rounded-full bg-blue-600" />
-
-                  <div>
-                    <h3 className="font-outfit text-lg font-black text-[#06152e]">
-                      Rules & Regulations
-                    </h3>
-
-                    <p className="mt-1 text-xs text-slate-400">
-                      Please read all event guidelines before participating.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  {[
-                    /* REGISTRATION */
-                    event.rules.registration && {
-                      title: "Registration",
-                      icon: <CheckCircle2 size={17} />,
-                      rules: event.rules.registration,
-                    },
-
-                    /* CHUCK GLIDER — MATERIALS */
-                    event.rules.materials && {
-                      title: "Materials",
-                      icon: <Package size={17} />,
-                      rules: event.rules.materials,
-                    },
-
-                    /* CHUCK GLIDER — CONSTRUCTION */
-                    event.rules.construction && {
-                      title: "Construction",
-                      icon: <Wrench size={17} />,
-                      rules: event.rules.construction,
-                    },
-
-                    /* ELIGIBILITY */
-                    event.rules.eligibility && {
-                      title: "Eligibility & Participation",
-                      icon: <Users size={17} />,
-                      rules: event.rules.eligibility,
-                    },
-
-                    /* REASONING RUMBLE — ROUNDS */
-                    event.rules.rounds && {
-                      title: "Event Rounds",
-                      icon: <Target size={17} />,
-                      rules: event.rules.rounds,
-                    },
-
-                    /* FAMILIARIZATION */
-                    event.rules.familiarization && {
-                      title: "Participant Familiarization",
-                      icon: <Plane size={17} />,
-                      rules: event.rules.familiarization,
-                    },
-
-                    /* CHUCK GLIDER — COMPETITION */
-                    event.rules.competition && {
-                      title: "Competition & Flying Guidelines",
-                      icon: <Plane size={17} />,
-                      rules: event.rules.competition,
-                    },
-
-                    /* CHUCK GLIDER — WINNER CRITERIA */
-                    event.rules.winnerCriteria && {
-                      title: "Winner Criteria",
-                      icon: <Trophy size={17} />,
-                      rules: event.rules.winnerCriteria,
-                    },
-
-                    /* FLIGHT SIMULATOR — ROUND 1 */
-                    event.rules.round1 && {
-                      title: "Round 1 — Basic Flight",
-                      icon: <Target size={17} />,
-                      rules: event.rules.round1,
-                    },
-
-                    /* FLIGHT SIMULATOR — ROUND 2 */
-                    event.rules.round2 && {
-                      title: "Round 2 — Cockpit View & Aerobatics",
-                      icon: <Plane size={17} />,
-                      rules: event.rules.round2,
-                    },
-
-                    /* TIE BREAKER */
-                    event.rules.tiebreaker && {
-                      title: "Tie-Breaker",
-                      icon: <Trophy size={17} />,
-                      rules: event.rules.tiebreaker,
-                    },
-
-                    /* PAPER */
-                    event.rules.paper && {
-                      title: "Paper & Topic Guidelines",
-                      icon: <FileText size={17} />,
-                      rules: event.rules.paper,
-                    },
-
-                    /* SUBMISSION */
-                    event.rules.submission && {
-                      title: "Submission & Presentation File",
-                      icon: <FileText size={17} />,
-                      rules: event.rules.submission,
-                    },
-
-                    /* PRESENTATION */
-                    event.rules.presentation && {
-                      title: "Presentation & Evaluation",
-                      icon: <Target size={17} />,
-                      rules: event.rules.presentation,
-                    },
-
-                    /* EVALUATION */
-                    event.rules.evaluation && {
-                      title: "Evaluation Criteria",
-                      icon: <Trophy size={17} />,
-                      rules: event.rules.evaluation,
-                    },
-
-                    /* WATER ROCKET — SPECIFICATIONS */
-                    event.rules.specifications && {
-                      title: "Rocket Specifications",
-                      icon: <Rocket size={17} />,
-                      rules: event.rules.specifications,
-                    },
-
-                    /* SAFETY */
-                    event.rules.safety && {
-                      title: "Safety Rules",
-                      icon: <ShieldCheck size={17} />,
-                      rules: event.rules.safety,
-                    },
-
-                    /* ATTEMPTS */
-                    event.rules.attempts && {
-                      title: "Attempts & Scoring",
-                      icon: <Target size={17} />,
-                      rules: event.rules.attempts,
-                    },
-
-                    /* INVALID */
-                    event.rules.invalid && {
-                      title: "Invalid Attempt & Disqualification",
-                      icon: <ShieldCheck size={17} />,
-                      rules: event.rules.invalid,
-                    },
-
-                    /* DESIGN */
-                    event.rules.design && {
-                      title: "Design Guidelines",
-                      icon: <Cpu size={17} />,
-                      rules: event.rules.design,
-                    },
-
-                    /* DISQUALIFICATION */
-                    event.rules.disqualification && {
-                      title: "Disqualification",
-                      icon: <ShieldCheck size={17} />,
-                      rules: event.rules.disqualification,
-                    },
-
-                    /* DRONE EXPO — EXHIBITOR */
-                    event.rules.exhibitor && {
-                      title: "Exhibitor Registration & Setup",
-                      icon: <Users size={17} />,
-                      rules: event.rules.exhibitor,
-                    },
-
-                    /* DRONE EXPO — FLIGHT SAFETY */
-                    event.rules.flightSafety && {
-                      title: "Flight Safety Requirements",
-                      icon: <ShieldCheck size={17} />,
-                      rules: event.rules.flightSafety,
-                    },
-
-                    /* DRONE EXPO — STUDENT & VISITOR */
-                    event.rules.studentAudience && {
-                      title: "Student & Visitor Guidelines",
-                      icon: <Users size={17} />,
-                      rules: event.rules.studentAudience,
-                    },
-
-                    /* CONDUCT */
-                    event.rules.conduct && {
-                      title: "General Conduct",
-                      icon: <CheckCircle2 size={17} />,
-                      rules: event.rules.conduct,
-                    },
-
-                    /* REASONING RUMBLE — GENERAL RULES */
-                    event.rules.general && {
-                      title: "General Rules & Regulations",
-                      icon: <ShieldCheck size={17} />,
-                      rules: event.rules.general,
-                    },
-
-                    /* AUTHORITY */
-                    event.rules.authority && {
-                      title: "Final Authority",
-                      icon: <ShieldCheck size={17} />,
-                      rules: event.rules.authority,
-                    },
-                  ]
-                    .filter(Boolean)
-                    .map((section, index) => (
-                      <RuleSection
-                        key={`${section.title}-${index}`}
-                        number={index + 1}
-                        title={section.title}
-                        icon={section.icon}
-                        rules={section.rules}
-                      />
-                    ))}
-                </div>
-              </div>
-            )}
-
-            {/* NO RULES */}
-            {!event.rules && (
-              <div className="mt-7 rounded-2xl border border-blue-100 bg-blue-50/60 p-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2
-                    size={19}
-                    className="mt-0.5 shrink-0 text-blue-600"
-                  />
-
-                  <div>
-                    <h3 className="font-outfit text-sm font-extrabold text-[#06152e]">
-                      Rules & Regulations
-                    </h3>
-
-                    <p className="mt-1 text-xs leading-6 text-slate-500 sm:text-sm">
-                      Event rules and participation guidelines
-                      will be added by the organizing committee.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ACTIONS */}
-            <div className="mt-7 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row">
-              {event.slug === "drone-expo" ? (
-                <div className="flex flex-1 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-extrabold text-emerald-700">
-                  NO REGISTRATION REQUIRED
-                </div>
-              ) : (
-                <motion.a
-                  href={`/register?event=${event.slug}`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-extrabold text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)]"
-                >
-                  REGISTER NOW
-                  <ArrowRight size={17} className="ml-2" />
-                </motion.a>
-              )}
-
-              <button
-                type="button"
-                onClick={onClose}
-                className="rounded-xl border border-slate-200 bg-slate-50 px-6 py-3.5 text-sm font-extrabold text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
-              >
-                CLOSE
-              </button>
-            </div>
+        </div>
+        {ruleSections.length ? (
+          <div className="space-y-3">
+            {ruleSections.map((section, index) => (
+              <RuleSection key={`${event.slug}-${section.key}`} number={index + 1} title={section.title} icon={section.icon} rules={event.rules[section.key]} />
+            ))}
           </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
+        ) : (
+          <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5 text-sm leading-6 text-slate-600">Detailed rules will be announced by the organizing committee.</div>
+        )}
+      </div>
+
+      {/* Registration action at the bottom of the detail page */}
+      <div className="mt-8 rounded-2xl border border-blue-100 bg-white p-5 shadow-[0_12px_40px_rgba(37,99,235,0.08)] sm:p-7">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="font-outfit text-xl font-black text-[#06152e]">{isFree ? "Visit the Drone Expo" : "Ready to participate?"}</h2>
+            <p className="mt-1 text-sm leading-6 text-slate-500">{isFree ? "The expo is open to visitors. Stall exhibitors must follow the exhibitor enrolment instructions above." : "After reviewing the event information and rules, continue to the registration form."}</p>
+          </div>
+          <div className="flex shrink-0 flex-wrap items-center gap-3">
+            {event.whatsappGroup && (
+              <a
+                href={event.whatsappGroup}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-xl bg-[#25D366] px-5 py-3.5 text-sm font-extrabold text-white shadow-[0_8px_25px_rgba(37,211,102,0.22)] transition hover:-translate-y-0.5 hover:bg-[#1fb957]"
+              >
+                <MessageCircle size={18} className="mr-2" /> JOIN WHATSAPP GROUP
+              </a>
+            )}
+            {isFree ? (
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3.5 text-center text-sm font-extrabold text-emerald-700">NO REGISTRATION REQUIRED FOR VISITORS</div>
+            ) : (
+              <Link to={`/register?event=${encodeURIComponent(event.slug)}`} className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3.5 text-sm font-extrabold text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]">
+                REGISTER NOW <ArrowRight size={17} className="ml-2" />
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </motion.section>
   );
 }
 
@@ -1260,10 +912,11 @@ function EventDetailsModal({ event, onClose }) {
 // =====================================================
 
 export default function Events() {
-  const [selectedEvent, setSelectedEvent] =
-    useState(null);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedSlug = searchParams.get("event");
+  const selectedEvent = events.find((event) => event.slug === selectedSlug);
   const allEvents = events;
+  const backToEvents = () => setSearchParams({});
   
   return (
     <div className="site-scale min-h-screen overflow-x-hidden bg-[#f5f9ff] text-[#06152e]">
@@ -1514,6 +1167,11 @@ export default function Events() {
         {/* MAIN */}
         {/* ================================================= */}
 
+        {selectedEvent ? (
+          <main className="px-5 pb-28 pt-32 sm:px-6">
+            <EventDetailsPage event={selectedEvent} onBack={backToEvents} />
+          </main>
+        ) : (
         <main className="px-5 pb-28 pt-32 sm:px-6">
           <div className="mx-auto max-w-7xl">
             {/* PAGE HEADER */}
@@ -1618,9 +1276,6 @@ export default function Events() {
                       key={event.title}
                       event={event}
                       index={index}
-                      onViewDetails={
-                        setSelectedEvent
-                      }
                     />
                   )
                 )}
@@ -1668,6 +1323,7 @@ export default function Events() {
 
           </div>
         </main>
+        )}
 
         {/* ================================================= */}
         {/* FOOTER */}
@@ -1727,16 +1383,6 @@ export default function Events() {
           </div>
         </footer>
 
-        {/* ================================================= */}
-        {/* EVENT DETAILS MODAL */}
-        {/* ================================================= */}
-
-        <EventDetailsModal
-          event={selectedEvent}
-          onClose={() =>
-            setSelectedEvent(null)
-          }
-        />
       </div>
     </div>
   );

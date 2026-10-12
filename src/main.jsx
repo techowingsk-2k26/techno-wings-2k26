@@ -15,6 +15,7 @@ import Events from "./Events.jsx";
 import Register from "./Register.jsx";
 import Verify from "./Verify.jsx";
 import ChuckGliderTutorial from "./ChuckGliderTutorial.jsx";
+import WaterRocketTutorial from "./WaterRocketTutorial";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -46,6 +47,10 @@ createRoot(document.getElementById("root")).render(
         <Route
           path="/chuck-glider-tutorial"
           element={<ChuckGliderTutorial />}
+        />
+        <Route
+          path="/water-rocket-tutorial"
+          element={<WaterRocketTutorial />}
         />
       </Routes>
     </BrowserRouter>
