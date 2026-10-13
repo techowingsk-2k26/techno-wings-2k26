@@ -32,7 +32,6 @@ import {
 } from "motion/react";
 
 
-
 import IntroAnimation from "./IntroAnimation";
 import technoWingsLogo from "./assets/techno-wings-logo.png";
 import adateLogo from "./assets/adate-logo1.png";
@@ -656,8 +655,8 @@ function App() {
             FLOATING AEROSPACE NAVBAR
         ========================================================= */}
 
-        <nav className="fixed left-3 right-3 top-4 z-[70] sm:left-5 sm:right-5 sm:top-5 lg:left-8 lg:right-8">
-          <div className="relative mx-auto max-w-[1450px]">
+        <nav className="fixed left-2 right-2 top-3 z-[70] sm:left-3 sm:right-3 sm:top-4 lg:left-4 lg:right-4">
+          <div className="relative mx-auto w-full max-w-[1800px]">
 
             {/* Outer floating frame */}
             <div className="relative overflow-hidden rounded-[22px] border border-blue-200/80 bg-white/90 shadow-[0_18px_55px_rgba(6,21,46,0.14)] backdrop-blur-2xl">
@@ -690,7 +689,7 @@ function App() {
               </div>
 
               {/* Navbar content */}
-              <div className="relative flex h-[72px] items-center justify-between px-4 sm:h-[76px] sm:px-6 lg:px-10">
+              <div className="relative flex h-[72px] items-center justify-between gap-3 px-3 sm:h-[76px] sm:px-4 lg:gap-4 lg:px-5">
 
                 {/* Logo / Brand */}
                 <Link
@@ -720,27 +719,29 @@ function App() {
                 </Link>
 
                 {/* Desktop navigation */}
-                <div className="hidden items-center gap-1 lg:flex">
+                <div className="hidden items-center gap-0.5 xl:gap-1 lg:flex">
 
-                  <Link
-                    to="/"
-                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
-                  >
-                    Home
-                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
-                  </Link>
+
 
                   <a
                     href="#events"
-                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                    className="group relative rounded-xl px-2.5 py-2.5 text-[10px] xl:px-3 xl:text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
                   >
                     Events
                     <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
                   </a>
 
+                  <Link
+                    to="/schedule"
+                    className="group relative rounded-xl px-2.5 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600 xl:px-3 xl:text-[11px]"
+                  >
+                    Schedule
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                  </Link>
+
                   <a
                     href="#aeromodelling"
-                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                    className="group relative rounded-xl px-2.5 py-2.5 text-[10px] xl:px-3 xl:text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
                   >
                     Aeromodelling
                     <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
@@ -748,7 +749,7 @@ function App() {
 
                   <a
                     href="#association"
-                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                    className="group relative rounded-xl px-2.5 py-2.5 text-[10px] xl:px-3 xl:text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
                   >
                     Associations
                     <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
@@ -756,7 +757,7 @@ function App() {
 
                   <Link
                     to="/contact"
-                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                    className="group relative rounded-xl px-2.5 py-2.5 text-[10px] xl:px-3 xl:text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
                   >
                     Contact
                     <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
@@ -770,7 +771,7 @@ function App() {
                   {/* Verify Registration */}
                   <Link
                     to="/verify"
-                    className="group relative flex items-center gap-2 overflow-hidden rounded-xl border border-blue-200 bg-white px-4 py-3 text-[10px] font-black uppercase tracking-[0.12em] text-blue-700 shadow-sm transition duration-300 hover:border-blue-400 hover:bg-blue-50 hover:shadow-md"
+                    className="group relative flex items-center gap-2 overflow-hidden rounded-xl border border-blue-200 bg-white px-2.5 py-3 text-[9px] xl:px-3 xl:text-[10px] font-black uppercase tracking-[0.12em] text-blue-700 shadow-sm transition duration-300 hover:border-blue-400 hover:bg-blue-50 hover:shadow-md"
                   >
                     <ShieldCheck
                       size={15}
@@ -784,7 +785,7 @@ function App() {
                   {/* Explore Events */}
                   <Link
                     to="/events"
-                    className="group relative flex items-center gap-2 overflow-hidden rounded-xl border border-blue-600 bg-blue-600 px-5 py-3 text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-[0_8px_25px_rgba(37,99,235,0.22)] transition duration-300 hover:bg-blue-700 hover:shadow-[0_12px_35px_rgba(37,99,235,0.30)]"
+                    className="group relative flex items-center gap-2 overflow-hidden rounded-xl border border-blue-600 bg-blue-600 px-3 py-3 text-[9px] xl:px-4 xl:text-[10px] font-black uppercase tracking-[0.15em] text-white shadow-[0_8px_25px_rgba(37,99,235,0.22)] transition duration-300 hover:bg-blue-700 hover:shadow-[0_12px_35px_rgba(37,99,235,0.30)]"
                   >
                     <span className="relative z-10 whitespace-nowrap">
                       Explore Events
@@ -819,13 +820,7 @@ function App() {
                 <div className="relative border-t border-blue-100 bg-white/95 px-4 pb-4 pt-3 backdrop-blur-xl lg:hidden">
                   <div className="grid gap-1">
 
-                    <Link
-                      to="/"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="rounded-xl px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#52657d] transition hover:bg-blue-50 hover:text-blue-600"
-                    >
-                      Home
-                    </Link>
+
 
                     <a
                       href="#events"
@@ -834,6 +829,14 @@ function App() {
                     >
                       Events
                     </a>
+
+                    <Link
+                      to="/schedule"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="rounded-xl px-4 py-3 text-xs font-black uppercase tracking-[0.12em] text-[#52657d] transition hover:bg-blue-50 hover:text-blue-600"
+                    >
+                      Event Schedule
+                    </Link>
 
                     <a
                       href="#aeromodelling"

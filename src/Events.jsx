@@ -976,7 +976,7 @@ export default function Events() {
         ========================================================= */}
 
         <nav className="fixed left-3 right-3 top-4 z-[70] sm:left-5 sm:right-5 sm:top-5 lg:left-8 lg:right-8">
-          <div className="relative mx-auto max-w-[1450px]">
+          <div className="relative mx-auto w-full max-w-[1800px]">
 
             {/* Outer floating frame */}
             <div className="relative overflow-hidden rounded-[22px] border border-blue-200/80 bg-white/90 shadow-[0_18px_55px_rgba(6,21,46,0.14)] backdrop-blur-2xl">
@@ -1076,6 +1076,16 @@ export default function Events() {
                     Events
 
                     <span className="absolute bottom-1 left-1/2 h-px w-5/6 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400" />
+                  </Link>
+
+                  {/* Schedule */}
+                  <Link
+                    to="/schedule"
+                    className="group relative rounded-xl px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-[#52657d] transition duration-300 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    Schedule
+
+                    <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
                   </Link>
 
                   {/* Contact */}

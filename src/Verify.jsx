@@ -245,6 +245,16 @@ export default function Verify() {
                   <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-cyan-500 transition-all duration-300 group-hover:w-full" />
                 </Link>
 
+                {/* Schedule */}
+                <Link
+                  to="/schedule"
+                  className="group relative text-sm font-semibold text-slate-500 transition hover:text-blue-600"
+                >
+                  Schedule
+
+                  <span className="absolute bottom-1 left-1/2 h-px w-0 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-5/6" />
+                </Link>
+
 
                 {/* Contact */}
                 <Link
