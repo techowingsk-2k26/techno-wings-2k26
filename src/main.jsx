@@ -17,6 +17,7 @@ import Verify from "./Verify.jsx";
 import ChuckGliderTutorial from "./ChuckGliderTutorial.jsx";
 import WaterRocketTutorial from "./WaterRocketTutorial";
 import Schedule from "./Schedule";
+import FlightSimulatorTutorial from "./FlightSimulatorTutorial";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -55,6 +56,11 @@ createRoot(document.getElementById("root")).render(
           element={<WaterRocketTutorial />}
         />
         <Route path="/schedule" element={<Schedule />} />
+        <Route
+          path="/flight-simulator-tutorial"
+          element={<FlightSimulatorTutorial />}
+        />
+
       </Routes>
     </BrowserRouter>
   </StrictMode>

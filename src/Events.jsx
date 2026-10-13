@@ -843,6 +843,15 @@ function EventDetailsPage({ event, onBack }) {
         </Link>
       )}
 
+      {event.slug === "Flight-simulator" && (
+        <Link
+          to="/flight-simulator-tutorial"
+          className="mt-5 inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-xs font-extrabold text-white transition hover:bg-red-700"
+        >
+          <Play size={15} fill="currentColor" />
+          Flight Simulator Information
+        </Link>
+      )}
       {/* Coordinator */}
       <div className="mt-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <div className="mb-3 flex items-center gap-3">

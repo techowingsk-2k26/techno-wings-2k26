@@ -9,6 +9,7 @@ const dayOne = [
   { time: "12:00 PM – 01:15 PM", event: "Aeromodelling", venue: "College Ground" },
   { time: "11:30 AM – 01:00 PM", event: "Water Rocket", venue: "College Ground" },
   { time: "10:00 AM – 01:00 PM", event: "Flight Simulator", venue: "UAV Lab" },
+  { time: "02:00 PM – 04:00 PM", event: "Paper Presentation", venue: "Collaborative Classroom" },
   { time: "01:15 PM – 02:00 PM", event: "Lunch Break", venue: "—" },
   { time: "02:00 PM – 04:00 PM", event: "Aero Expo", venue: "Aero Department" },
   { time: "02:00 PM – 04:30 PM", event: "Reasoning Rumble", venue: "Collaborative Classroom" },
