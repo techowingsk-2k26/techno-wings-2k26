@@ -65,6 +65,8 @@ const events = {
     maxTeamSize: 2,
     participationType: "Team",
     fee: 200,
+    individualFee: 100,
+    teamFee: 200,
   },
 
   "reasoning-rumble": {
@@ -359,8 +361,14 @@ export default function Register() {
   const fee = useMemo(() => {
     if (!selectedEvent) return 0;
 
+    if (selectedEvent.name === "Paper Presentation") {
+      return form.participationType === "Individual"
+        ? selectedEvent.individualFee
+        : selectedEvent.teamFee;
+    }
+
     return selectedEvent.fee || 0;
-  }, [selectedEvent]);
+  }, [selectedEvent, form.participationType]);
 
   /* ==========================================================
      EVENT NOT FOUND
