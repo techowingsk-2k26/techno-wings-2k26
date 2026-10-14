@@ -18,6 +18,7 @@ import ChuckGliderTutorial from "./ChuckGliderTutorial.jsx";
 import WaterRocketTutorial from "./WaterRocketTutorial";
 import Schedule from "./Schedule";
 import FlightSimulatorTutorial from "./FlightSimulatorTutorial";
+import RegistrationPopup from "./RegistrationPopup";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -39,7 +40,18 @@ createRoot(document.getElementById("root")).render(
       <ScrollToTop />
 
       <Routes>
-        <Route path="/" element={<App />} />
+        {/* Homepage with registration popup */}
+        <Route
+          path="/"
+          element={
+            <>
+              <RegistrationPopup />
+              <App />
+            </>
+          }
+        />
+
+        {/* Main pages */}
         <Route path="/events" element={<Events />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/register" element={<Register />} />
@@ -50,17 +62,21 @@ createRoot(document.getElementById("root")).render(
           path="/chuck-glider-tutorial"
           element={<ChuckGliderTutorial />}
         />
+
         {/* Water Rocket Tutorial */}
         <Route
           path="/water-rocket-tutorial"
           element={<WaterRocketTutorial />}
         />
+
+        {/* Schedule */}
         <Route path="/schedule" element={<Schedule />} />
+
+        {/* Flight Simulator Tutorial */}
         <Route
           path="/flight-simulator-tutorial"
           element={<FlightSimulatorTutorial />}
         />
-
       </Routes>
     </BrowserRouter>
   </StrictMode>
