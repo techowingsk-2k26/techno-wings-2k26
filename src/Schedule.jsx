@@ -2,10 +2,10 @@ import React from "react";
 import { CalendarDays, MapPin, Clock3, Plane, ArrowRight } from "lucide-react";
 
 const dayOne = [
-  { time: "09:00 AM – 09:30 AM", event: "Registration", venue: "Aero Seminar Hall" },
-  { time: "09:30 AM – 10:00 AM", event: "Inauguration & Opening Ceremony", venue: "Aero Seminar Hall" },
-  { time: "10:00 AM – 10:30 AM", event: "Aeronautical Society of India (AeSI) Inaugural – Guest Speaker", venue: "Aero Seminar Hall" },
-  { time: "10:30 AM – 12:00 PM", event: "DRDO Scientist – Invited Guest Speaker", venue: "Aero Seminar Hall" },
+  { time: "09:00 AM – 09:30 AM", event: "Registration", venue: "Ground Floor CSE Department" },
+  { time: "09:30 AM – 10:00 AM", event: "Inauguration & Opening Ceremony", venue: "Auditorium hall" },
+  { time: "10:00 AM – 10:30 AM", event: "Aeronautical Society of India (AeSI) Inaugural – Guest Speaker", venue: "Auditorium hall" },
+  { time: "10:30 AM – 12:00 PM", event: "DRDO Scientist – Invited Guest Speaker", venue: "Auditorium hall" },
   { time: "12:00 PM – 01:15 PM", event: "Aeromodelling", venue: "Aero Seminar Hall" },
   { time: "11:30 AM – 01:00 PM", event: "Water Rocket", venue: "College Ground" },
   { time: "10:00 AM – 01:00 PM", event: "Flight Simulator", venue: "UAV Lab" },
@@ -16,7 +16,7 @@ const dayOne = [
 ];
 
 const dayTwo = [
-  { time: "09:00 AM – 09:30 AM", event: "Registration", venue: "Aero Seminar Hall" },
+  { time: "09:00 AM – 09:30 AM", event: "Registration", venue: "Ground Floor CSE Department" },
   { time: "10:00 AM – 04:00 PM", event: "Aero Expo", venue: "Aero Department" },
   { time: "09:30 PM – 05:00 PM", event: "Aeromodelling", venue: "Aero Seminar Hall" },
   { time: "09:30 AM – 01:00 PM", event: "Paper Presentation", venue: "Collaborative Classroom" },
@@ -25,7 +25,7 @@ const dayTwo = [
   { time: "02:00 PM – 04:30 PM", event: "CAD Master", venue: "CAD Lab" },
   { time: "02:00 PM – 04:30 PM", event: "Reasoning Rumble", venue: "Collaborative Classroom" },
   { time: "04:30 PM – 05:00 PM", event: "Judges’ Evaluation and Finalization", venue: "—" },
-  { time: "05:00 PM – 06:00 PM", event: "Valedictory and Prize Distribution", venue: "Aero Seminar Hall" },
+  { time: "05:00 PM – 06:00 PM", event: "Valedictory and Prize Distribution", venue: "Auditorium hall" },
 ];
 
 function ScheduleTable({ rows }) {
