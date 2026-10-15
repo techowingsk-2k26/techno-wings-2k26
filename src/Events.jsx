@@ -98,6 +98,7 @@ const events = [
     categoryKey: "aerospace",
     image: chuckGliderImage,
     slug: "chuck-glider",
+    registrationClosed: true,
     whatsappGroup: "https://chat.whatsapp.com/CmPIWsXkq6zIISlp8bunJY?s=cl&p=a&mlu=4&ilr=4",
 
     participation: "Team Only",
@@ -669,7 +670,11 @@ function EventCard({ event, index }) {
                 : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]"
             }`}
           >
-            {isFree ? "VIEW EVENT DETAILS" : "REGISTER / VIEW DETAILS"}
+            {event.registrationClosed
+              ? "REGISTRATIONS CLOSED"
+              : isFree
+                ? "VIEW EVENT DETAILS"
+                : "REGISTER / VIEW DETAILS"}
             <ArrowRight size={15} className="ml-2 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
@@ -902,10 +907,19 @@ function EventDetailsPage({ event, onBack }) {
                 <MessageCircle size={18} className="mr-2" /> JOIN WHATSAPP GROUP
               </a>
             )}
-            {isFree ? (
-              <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3.5 text-center text-sm font-extrabold text-emerald-700">NO REGISTRATION REQUIRED FOR VISITORS</div>
+            {event.registrationClosed ? (
+              <div className="rounded-xl border border-red-200 bg-red-50 px-6 py-3.5 text-center text-sm font-extrabold text-red-700">
+                REGISTRATIONS CLOSED
+              </div>
+            ) : isFree ? (
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3.5 text-center text-sm font-extrabold text-emerald-700">
+                NO REGISTRATION REQUIRED FOR VISITORS
+              </div>
             ) : (
-              <Link to={`/register?event=${encodeURIComponent(event.slug)}`} className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3.5 text-sm font-extrabold text-white shadow-[0_8px_25px_rgba(37,99,235,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_35px_rgba(37,99,235,0.3)]">
+              <Link
+                to={`/register?event=${encodeURIComponent(event.slug)}`}
+                className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3.5 text-sm font-extrabold text-white"
+              >
                 REGISTER NOW <ArrowRight size={17} className="ml-2" />
               </Link>
             )}

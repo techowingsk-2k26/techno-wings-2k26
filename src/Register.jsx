@@ -32,6 +32,7 @@ const events = {
     maxTeamSize: 2,
     participationType: "Team",
     fee: 200,
+    registrationClosed: true,
   },
 
   "Flight-simulator": {
@@ -421,9 +422,15 @@ export default function Register() {
                   }}
                   whileHover={{ y: -6 }}
                   onClick={() => {
+                    if (event.registrationClosed) return;
                     window.location.href = `/register?event=${slug}`;
                   }}
-                  className="group rounded-3xl border border-[#dbe6f4] bg-white p-6 text-left shadow-[0_12px_35px_rgba(20,60,120,0.06)] transition hover:border-blue-300 hover:shadow-[0_20px_45px_rgba(20,80,180,0.12)]"
+                  disabled={event.registrationClosed === true}
+                  className={`group rounded-3xl border p-6 text-left shadow-[0_12px_35px_rgba(20,60,120,0.06)] transition ${
+                    event.registrationClosed
+                      ? "cursor-not-allowed border-red-200 bg-red-50/50 opacity-80"
+                      : "border-[#dbe6f4] bg-white hover:border-blue-300 hover:shadow-[0_20px_45px_rgba(20,80,180,0.12)]"
+                  }`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
@@ -443,7 +450,7 @@ export default function Register() {
                           : "bg-blue-50 text-blue-600"
                       }`}
                     >
-                      {isFree ? "FREE" : `₹${event.fee}`}
+                      {event.registrationClosed ? "CLOSED" : isFree ? "FREE" : `₹${event.fee}`}
                     </span>
                   </div>
 
@@ -474,16 +481,60 @@ export default function Register() {
                   </div>
 
                   <div className="mt-7 flex items-center gap-2 text-sm font-black text-blue-600">
-                    Select Event
-                    <ArrowRight
-                      size={16}
-                      className="transition group-hover:translate-x-1"
-                    />
+                    {event.registrationClosed ? "Registrations Closed" : "Select Event"}
+                    {event.registrationClosed ? (
+                      <XCircle size={16} className="ml-1 text-red-600" />
+                    ) : (
+                      <ArrowRight
+                        size={16}
+                        className="transition group-hover:translate-x-1"
+                      />
+                    )}
                   </div>
                 </motion.button>
               );
             })}
           </div>
+        </div>
+      </main>
+    );
+  }
+
+  /* ==========================================================
+     REGISTRATION CLOSED
+     ========================================================== */
+
+  if (selectedEvent.registrationClosed) {
+    return (
+      <main className="site-scale min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-12 text-[#06152e] md:px-8 md:py-20">
+        <AerospaceBackground />
+        <div className="relative z-10 mx-auto flex min-h-[65vh] max-w-3xl items-center justify-center">
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45 }}
+            className="w-full rounded-3xl border border-red-200 bg-white p-7 text-center shadow-[0_20px_60px_rgba(20,60,120,0.1)] sm:p-10"
+          >
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-red-200 bg-red-50">
+              <XCircle size={42} className="text-red-600" />
+            </div>
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-red-700">
+              Registration Closed
+            </div>
+            <h1 className="font-outfit mt-5 text-3xl font-black tracking-tight sm:text-4xl">
+              Chuck Glider Registration Is Closed
+            </h1>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
+              Registrations for the Chuck Glider event are no longer being accepted. Thank you for your interest in Techno Wings 2K26.
+            </p>
+            <Link
+              to="/events"
+              className="mt-8 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-black text-white transition hover:bg-blue-700"
+            >
+              <ArrowLeft size={17} />
+              Back to Events
+            </Link>
+          </motion.section>
         </div>
       </main>
     );
@@ -546,6 +597,15 @@ export default function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    // Safety guard: do not submit registrations for a closed event.
+    if (selectedEvent?.registrationClosed) {
+      setResult({
+        success: false,
+        message: "Registrations for Chuck Glider are closed.",
+      });
+      return;
+    }
 
     /* --------------------------------------------------------
        DECLARATION
