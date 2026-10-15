@@ -893,9 +893,9 @@ function App() {
 
             {/* Tiny aerospace status indicators */}
             <div className="pointer-events-none absolute -bottom-2 left-8 hidden items-center gap-2 rounded-full border border-blue-100 bg-white px-3 py-1 shadow-sm sm:flex">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
               <span className="text-[7px] font-black uppercase tracking-[0.2em] text-slate-400">
-                REGISTRATIONS LIVE
+                REGISTRATIONS closed
               </span>
             </div>
 

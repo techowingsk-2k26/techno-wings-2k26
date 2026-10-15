@@ -41,6 +41,7 @@ const events = {
     maxTeamSize: 1,
     participationType: "Individual",
     fee: 100,
+    registrationClosed: true,
   },
 
   "cad-master": {
@@ -49,6 +50,8 @@ const events = {
     maxTeamSize: 1,
     participationType: "Individual",
     fee: 100,
+    registrationClosed: true,
+    spotEntryOpen: true,
   },
 
   "water-rocket": {
@@ -57,6 +60,7 @@ const events = {
     maxTeamSize: 2,
     participationType: "Team",
     fee: 200,
+    registrationClosed: true,
   },
 
   "paper-presentation": {
@@ -68,6 +72,8 @@ const events = {
     fee: 200,
     individualFee: 100,
     teamFee: 200,
+    registrationClosed: true,
+    spotEntryOpen: true,
   },
 
   "reasoning-rumble": {
@@ -76,6 +82,8 @@ const events = {
     maxTeamSize: 2,
     participationType: "Team",
     fee: 200,
+    registrationClosed: true,
+    spotEntryOpen: true,
   },
 
 };
@@ -422,14 +430,16 @@ export default function Register() {
                   }}
                   whileHover={{ y: -6 }}
                   onClick={() => {
-                    if (event.registrationClosed) return;
+                    if (event.registrationClosed && !event.spotEntryOpen) return;
                     window.location.href = `/register?event=${slug}`;
                   }}
-                  disabled={event.registrationClosed === true}
+                  disabled={event.registrationClosed === true && !event.spotEntryOpen}
                   className={`group rounded-3xl border p-6 text-left shadow-[0_12px_35px_rgba(20,60,120,0.06)] transition ${
-                    event.registrationClosed
-                      ? "cursor-not-allowed border-red-200 bg-red-50/50 opacity-80"
-                      : "border-[#dbe6f4] bg-white hover:border-blue-300 hover:shadow-[0_20px_45px_rgba(20,80,180,0.12)]"
+                    event.spotEntryOpen
+                      ? "border-emerald-200 bg-emerald-50/60 hover:border-emerald-300 hover:shadow-[0_20px_45px_rgba(16,185,129,0.12)]"
+                      : event.registrationClosed
+                        ? "cursor-not-allowed border-red-200 bg-red-50/50 opacity-80"
+                        : "border-[#dbe6f4] bg-white hover:border-blue-300 hover:shadow-[0_20px_45px_rgba(20,80,180,0.12)]"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -445,12 +455,16 @@ export default function Register() {
 
                     <span
                       className={`shrink-0 rounded-full px-3 py-1 text-xs font-black ${
-                        isFree
-                          ? "bg-emerald-50 text-emerald-600"
-                          : "bg-blue-50 text-blue-600"
+                        event.spotEntryOpen
+                          ? "bg-emerald-100 text-emerald-700"
+                          : event.registrationClosed
+                            ? "bg-red-100 text-red-700"
+                            : isFree
+                              ? "bg-emerald-50 text-emerald-600"
+                              : "bg-blue-50 text-blue-600"
                       }`}
                     >
-                      {event.registrationClosed ? "CLOSED" : isFree ? "FREE" : `₹${event.fee}`}
+                      {event.spotEntryOpen ? "SPOT ENTRY" : event.registrationClosed ? "CLOSED" : isFree ? "FREE" : `₹${event.fee}`}
                     </span>
                   </div>
 
@@ -480,15 +494,18 @@ export default function Register() {
                     </p>
                   </div>
 
-                  <div className="mt-7 flex items-center gap-2 text-sm font-black text-blue-600">
-                    {event.registrationClosed ? "Registrations Closed" : "Select Event"}
-                    {event.registrationClosed ? (
+                  <div className={`mt-7 flex items-center gap-2 text-sm font-black ${event.spotEntryOpen ? "text-emerald-700" : "text-red-600"}`}>
+                    {event.spotEntryOpen
+                      ? "Spot Entry Open Until 10:00 AM"
+                      : event.registrationClosed
+                        ? "Online Registration Closed"
+                        : "Select Event"}
+                    {event.spotEntryOpen ? (
+                      <ArrowRight size={16} className="transition group-hover:translate-x-1" />
+                    ) : event.registrationClosed ? (
                       <XCircle size={16} className="ml-1 text-red-600" />
                     ) : (
-                      <ArrowRight
-                        size={16}
-                        className="transition group-hover:translate-x-1"
-                      />
+                      <ArrowRight size={16} className="transition group-hover:translate-x-1" />
                     )}
                   </div>
                 </motion.button>
@@ -505,6 +522,8 @@ export default function Register() {
      ========================================================== */
 
   if (selectedEvent.registrationClosed) {
+    const spotEntryOpen = selectedEvent.spotEntryOpen === true;
+
     return (
       <main className="site-scale min-h-screen overflow-hidden bg-[#f5f9ff] px-5 py-12 text-[#06152e] md:px-8 md:py-20">
         <AerospaceBackground />
@@ -513,19 +532,21 @@ export default function Register() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
-            className="w-full rounded-3xl border border-red-200 bg-white p-7 text-center shadow-[0_20px_60px_rgba(20,60,120,0.1)] sm:p-10"
+            className={`w-full rounded-3xl border bg-white p-7 text-center shadow-[0_20px_60px_rgba(20,60,120,0.1)] sm:p-10 ${spotEntryOpen ? "border-emerald-200" : "border-red-200"}`}
           >
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-red-200 bg-red-50">
-              <XCircle size={42} className="text-red-600" />
+            <div className={`mx-auto flex h-20 w-20 items-center justify-center rounded-full border ${spotEntryOpen ? "border-emerald-200 bg-emerald-50" : "border-red-200 bg-red-50"}`}>
+              {spotEntryOpen ? <CheckCircle2 size={42} className="text-emerald-600" /> : <XCircle size={42} className="text-red-600" />}
             </div>
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-red-700">
-              Registration Closed
+            <div className={`mt-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.2em] ${spotEntryOpen ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-red-200 bg-red-50 text-red-700"}`}>
+              {spotEntryOpen ? "Spot Entry Open" : "Registration Closed"}
             </div>
             <h1 className="font-outfit mt-5 text-3xl font-black tracking-tight sm:text-4xl">
-              Chuck Glider Registration Is Closed
+              {spotEntryOpen ? `Online Registration Closed — ${selectedEvent.name}` : `${selectedEvent.name} Registration Is Closed`}
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
-              Registrations for the Chuck Glider event are no longer being accepted. Thank you for your interest in Techno Wings 2K26.
+              {spotEntryOpen
+                ? `Online registrations are closed. Spot entry for ${selectedEvent.name} is open until 10:00 AM only. Please report to the event venue before the deadline. Spot entry is subject to on-site confirmation.`
+                : `Online registrations for ${selectedEvent.name} are now closed. Thank you for your interest in Techno Wings 2K26.`}
             </p>
             <Link
               to="/events"
@@ -602,7 +623,7 @@ export default function Register() {
     if (selectedEvent?.registrationClosed) {
       setResult({
         success: false,
-        message: "Registrations for Chuck Glider are closed.",
+        message: `Online registrations for ${selectedEvent.name} are closed. Please check the event page for spot-entry information.`,
       });
       return;
     }
