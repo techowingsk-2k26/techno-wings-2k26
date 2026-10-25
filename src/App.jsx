@@ -4,7 +4,9 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { Link } from "react-router-dom";
+
 import {
   ArrowRight,
   ArrowUpRight,
@@ -3324,6 +3326,8 @@ function App() {
           </div>
         </footer>
       </div>
+
+      <Analytics />
     </>
   );
 }
